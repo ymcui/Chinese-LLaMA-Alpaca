@@ -359,6 +359,8 @@ python quantize.py 7B -m zh-models
 - alpaca-lora by @tloen: https://github.com/tloen/alpaca-lora
 - llama.cpp by @ggerganov: https://github.com/ggerganov/llama.cpp
 
+Episode: Logo中的小羊驼是由[midjourney](http://midjourney.com)自动生成，并由Mac自带的预览工具自动抠出来的。
+
 ## 免责声明
 
 本项目相关资源仅供学术研究之用，严禁用于商业用途。使用涉及第三方代码的部分时，请严格遵循相应的开源协议。模型生成的内容受模型计算、随机性和量化精度损失等因素影响，本项目无法对其准确性作出保证。对于模型输出的任何内容，本项目不承担任何法律责任，亦不对因使用相关资源和输出结果而可能产生的任何损失承担责任。
