@@ -84,7 +84,7 @@ chinese_llama_lora_7b/
 
 ### 准备工作
 
-合并前务必确认基模型和LoRA模型补丁的SHA256是否和下表所列SHA256值一致，否则无法进行合并操作。
+合并前务必确认基模型和LoRA模型补丁的SHA256是否一致，否则无法进行合并操作。
 
 1. 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
 2. 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
