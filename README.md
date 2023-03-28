@@ -1,3 +1,5 @@
+[**中文**](./README.md) | [**English**](./README_EN.md)
+
 # Chinese-LLaMA-Alpaca
 
 
@@ -11,5 +13,4 @@
 ## 截图
 
 ![](./pics/screencast.gif)
-
 
