@@ -378,6 +378,7 @@ python quantize.py 7B -m zh-models
 - Stanford Alpaca: https://github.com/tatsu-lab/stanford_alpaca
 - alpaca-lora by @tloen: https://github.com/tloen/alpaca-lora
 - llama.cpp by @ggerganov: https://github.com/ggerganov/llama.cpp
+- pCLUE and translation data by @brightmart: https://github.com/brightmart/nlp_chinese_corpus
 
 Episode: Logo中的小羊驼是由[midjourney](http://midjourney.com)自动生成，并由Mac自带的预览工具自动抠出来的。
 
