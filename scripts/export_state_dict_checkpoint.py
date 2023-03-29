@@ -14,7 +14,6 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model',default=None,required=True,type=str,help="Please specify a base_model")
 parser.add_argument('--lora_model',default=None,required=True,type=str,help="Please specify a lora_model")
-parser.add_argument('--model_type',default='pretrained',choices=['pretrained','finetuned'],type=str)
 parser.add_argument('--output_dir',default='./',type=str)
 args = parser.parse_args()
 
@@ -49,20 +48,20 @@ lora_model = PeftModel.from_pretrained(
 )
 
 # merge weights
-if args.model_type == 'pretrained':
-    for layer in lora_model.base_model.model.model.layers:
+for layer in lora_model.base_model.model.model.layers:
+    if hasattr(layer.self_attn.q_proj,'merge_weights'):
         layer.self_attn.q_proj.merge_weights = True
+    if hasattr(layer.self_attn.v_proj,'merge_weights'):
         layer.self_attn.v_proj.merge_weights = True
+    if hasattr(layer.self_attn.k_proj,'merge_weights'):
         layer.self_attn.k_proj.merge_weights = True
+    if hasattr(layer.self_attn.o_proj,'merge_weights'):
         layer.self_attn.o_proj.merge_weights = True
-if args.model_type == 'finetuned':
-    for layer in lora_model.base_model.model.model.layers:
-        layer.self_attn.q_proj.merge_weights = True
-        layer.self_attn.v_proj.merge_weights = True
-        layer.self_attn.k_proj.merge_weights = True
-        layer.self_attn.o_proj.merge_weights = True
+    if hasattr(layer.mlp.gate_proj,'merge_weights'):
         layer.mlp.gate_proj.merge_weights = True
+    if hasattr(layer.mlp.down_proj,'merge_weights'):
         layer.mlp.down_proj.merge_weights = True
+    if hasattr(layer.mlp.up_proj,'merge_weights'):
         layer.mlp.up_proj.merge_weights = True
 
 lora_model.train(False)

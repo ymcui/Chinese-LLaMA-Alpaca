@@ -125,15 +125,13 @@ python scripts/extend_llama_with_zh_vocab.py \
 ```bash
 python scripts/export_state_dict_ckeckpoint.py \
     --base_model path_to_zh_vocab_extended_model_hf \
-    --lora_model path_to_chinese_lora \
-    --model_type pretrained
+    --lora_model path_to_chinese_lora
 ```
 
 其中：
 
 - `--base_model`参数：经过中文词表扩充的模型（Step 2生成）
 - `--lora_model`参数：在[上一节](#下载地址)里下载的LoRA模型压缩包解压后文件所在目录
-- `--model_type`参数：指定`pretrained`表示转换LLaMA，指定`finetuned`表示转换指令精调的Alpaca
 
 *（可选）如有需要，可自行按照Step 1中的脚本将`.pth`文件转换为HuggingFace格式。*
 
