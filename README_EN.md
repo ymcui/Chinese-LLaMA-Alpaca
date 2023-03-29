@@ -61,8 +61,8 @@ Note: The following models cannot be used directly and must be reconstructed fol
 
 | Model Name        |            Type             | Base Model Required for Reconstruction | Size<sup>[2]</sup> |                      LoRA Download Link                      | SHA256<sup>[3]</sup> |
 | :---------------- | :-------------------------: | :------------------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-LLaMA-7B  |           General           |    Original LLaMA-7B<sup>[1]</sup>     |        770M        | [[BaiduDisk (pw: 33hb)]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
-| Chinese-Alpaca-7B | Fine-tuned for Instructions |    Original LLaMA-7B<sup>[1]</sup>     |        790M        | [[BaiduDisk (pw: 923e)]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
+| Chinese-LLaMA-7B  |           General           |    Original LLaMA-7B<sup>[1]</sup>     |        770M        | [[BaiduDisk]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |  39b86b......fe0e60  |
+| Chinese-Alpaca-7B | Fine-tuned for Instructions |    Original LLaMA-7B<sup>[1]</sup>     |        790M        | [[BaiduDisk]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |  9bb5b6......ce2d87  |
 
 **[1]** The original LLaMA model needs to be applied for use in [Facebook-LLaMA](https://github.com/facebookresearch/llama) or refer to this [PR](https://github.com/facebookresearch/llama/pull/73/files). Due to copyright issues, this project cannot provide downloads, and we ask for your understanding.
 
@@ -316,7 +316,18 @@ The task format of the instruction fine-tuning phase is basically the same as th
 
 ### Training Data and Hyperparameters
 
-During the instruction fine-tuning phase, about 2 million pieces of data were used, including about 500,000 Chinese-English translation data, 300,000 cleaned pCLUE data, 100,000 original Stanford Alpaca data and its Chinese translation version, and self-instruct data crawled from various channels.
+During the instruction fine-tuning phase, about 2 million pieces of data were used. Details:
+| Dataset                   | Size |                             Source                             | Description                                                    |
+| ---------------------- | :--: | :----------------------------------------------------------: | ------------------------------------------------------- |
+| Chinese-English Translation            | 500K | [link](https://github.com/brightmart/nlp_chinese_corpus#5翻译语料translation2019zh) | sampled and cleaned from original dataset                 |
+| pCLUE              | 300K |        [link](https://github.com/CLUEbenchmark/pCLUE)        | sampled and cleaned from original dataset                  |
+| Stanford Alpaca data | 50K  |     [link](https://github.com/tatsu-lab/stanford_alpaca)     |  Original training data of Stanford Alpaca                               |
+| Stanford Alpaca data (Chinese) | 50K  |                 Provided in our proj => [link](./data)                 | We translate original data into Chinese using ChatGPT  |
+| Self-instruction data   | ~1M  |                         N/A                        | We use ChatGPT API to get these data                          |
+
+
+
+ including about 500,000 Chinese-English translation data, 300,000 cleaned pCLUE data, 100,000 original Stanford Alpaca data and its Chinese translation version, and self-instruct data crawled from various channels.
 
 The main hyperparameters of the training process are as follows:
 
