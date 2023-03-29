@@ -57,10 +57,12 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 注意：以下模型无法直接使用，必须按照本项目给出的[合并模型](#合并模型)步骤重构模型。
 
-| 模型名称          |   类型   |       重构所需基模型       | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
-| :---------------- | :------: | :------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-LLaMA-7B  |   通用   | 原版LLaMA-7B<sup>[1]</sup> |        770M        | [[百度网盘（密码: 33hb）]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
-| Chinese-Alpaca-7B | 指令精调 | 原版LLaMA-7B<sup>[1]</sup> |        790M        | [[百度网盘（密码：923e）]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
+| 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
+| :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
+| Chinese-LLaMA-7B   |   通用   | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
+| Chinese-Alpaca-7B  | 指令精调 | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
+| Chinese-LLaMA-13B  |   通用   | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
+| Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
 
 **[1]** 原版LLaMA模型需要在[Facebook-LLaMA](https://github.com/facebookresearch/llama)中申请使用，或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载，敬请谅解。
 
@@ -328,7 +330,15 @@ python quantize.py 7B -m zh-models
 
 ### 训练数据与超参
 
-在指令精调阶段使用了约200万条数据，其中包括约50万条中英翻译数据、30万条的经过清洗的pCLUE的数据、10万条的原版Stanford Alpaca数据与其中文翻译版本，以及从多种渠道爬取的self-instruct数据。
+指令精调阶段使用了约200万条数据，其基本构成如下：
+
+| 数据                   | 量级 |                             来源                             | 说明                                                    |
+| ---------------------- | :--: | :----------------------------------------------------------: | ------------------------------------------------------- |
+| 中英翻译数据           | 500K | [链接](https://github.com/brightmart/nlp_chinese_corpus#5翻译语料translation2019zh) | 在原数据集的基础上进行了采样+规则筛选                   |
+| pCLUE数据              | 300K |        [链接](https://github.com/CLUEbenchmark/pCLUE)        | 在原数据集的基础上进行了采样+规则筛选                   |
+| 斯坦福Alpaca数据（英） | 50K  |     [链接](https://github.com/tatsu-lab/stanford_alpaca)     | 斯坦福原版Alpaca训练数据                                |
+| 斯坦福Alpaca数据（中） | 50K  |                 本项目提供 => [链接](./data)                 | 本项目使用ChatGPT接口对英文版本进行翻译（丢弃了一部分） |
+| Self-instruction数据   | ~1M  |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取                           |
 
 训练过程的主要超参如下：
 
