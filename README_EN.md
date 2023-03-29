@@ -61,8 +61,8 @@ Note: The following models cannot be used directly and must be reconstructed fol
 
 | Model Name        |            Type             | Base Model Required for Reconstruction | Size<sup>[2]</sup> |                      LoRA Download Link                      | SHA256<sup>[3]</sup> |
 | :---------------- | :-------------------------: | :------------------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-LLaMA-7B  |           General           |    Original LLaMA-7B<sup>[1]</sup>     |        770M        | [[Cloud Disk Link\]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>（Password: 33hb） |  39b86b......fe0e60  |
-| Chinese-Alpaca-7B | Fine-tuned for Instructions |    Original LLaMA-7B<sup>[1]</sup>     |        790M        | [[Cloud Disk Link\]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>（Password：923e） |  9bb5b6......ce2d87  |
+| Chinese-LLaMA-7B  |           General           |    Original LLaMA-7B<sup>[1]</sup>     |        770M        | [[BaiduDisk (pw: 33hb)]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
+| Chinese-Alpaca-7B | Fine-tuned for Instructions |    Original LLaMA-7B<sup>[1]</sup>     |        790M        | [[BaiduDisk (pw: 923e)]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
 
 **[1]** The original LLaMA model needs to be applied for use in [Facebook-LLaMA](https://github.com/facebookresearch/llama) or refer to this [PR](https://github.com/facebookresearch/llama/pull/73/files). Due to copyright issues, this project cannot provide downloads, and we ask for your understanding.
 
