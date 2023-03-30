@@ -119,14 +119,14 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 ```bash
 python scripts/extend_llama_with_zh_vocab.py \
     --llama_model path_to_original_llama_hf_dir \ 
-    --tokenizer path_to_chinese_llama_or_alpaca/tokenizer.model \
+    --tokenizer path_to_chinese_llama_or_alpaca \
     --output_dir path_to_zh_vocab_extended_model_dir
 ```
 
 其中：
 
 - `--llama_model`参数：存放HF格式的LLaMA模型权重和配置文件的目录
-- `--tokenizer`参数：Chinese LLaMA或者Alpaca模型（下载后解压）的`tokenizer.model`文件路径
+- `--tokenizer`参数：Chinese LLaMA或者Alpaca模型下载后解压路径，目录中包含`tokenizer.model`
 - `--output_dir`参数：扩充词表后的模型存放目录
 
 
