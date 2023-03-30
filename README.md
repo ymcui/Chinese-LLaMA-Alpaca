@@ -88,22 +88,28 @@ chinese_llama_lora_7b/
 1. 合并前务必确认基模型和LoRA模型补丁的SHA256是否一致，否则无法进行合并操作。
    - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
    - 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
-
-2. ⚠️ **必须安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**。由于v4.27并不包含`LlamaModel`等实现，需要使用以下命令进行安装：
+2. 主要依赖库如下：
+   - ⚠️ 由于v4.27并不包含`LlamaModel`等实现，**必须从源码手动安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**。
+   - 使用`pip`安装`sentencepiece`、`peft`
 
 ```bash
 pip install git+https://github.com/huggingface/transformers
+pip install sentencepiece
+pip install peft
 ```
+
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
 请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。*本项目不对使用第三方（非Facebook官方）权重的合规性和正确性负责，例如HuggingFace模型库中的`decapoda-research/llama-7b-hf`（use at your own risk）。*
 
-⚠️ 请将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。
+请将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
 
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
-    --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
+    --input_dir path_to_original_llama_root_dir
+    --model_size 7B
+    --output_dir path_to_original_llama_hf_dir
 ```
 
 ### Step 2: 对模型进行中文词表扩充
@@ -112,32 +118,34 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 
 ```bash
 python scripts/extend_llama_with_zh_vocab.py \
-    --llama_model path_to_original_llama_model_hf \ 
-    --tokenizer path_to_chinese_tokenzier \
-    --output_dir output_dir
+    --llama_model path_to_original_llama_hf_dir \ 
+    --tokenizer path_to_chinese_llama_or_alpaca/tokenizer.model \
+    --output_dir path_to_zh_vocab_extended_model_dir
 ```
 
 其中：
 
 - `--llama_model`参数：存放HF格式的LLaMA模型权重和配置文件的目录
-- `--tokenizer`参数：Chinese LLaMA或者Alpaca模型的`tokenizer.model`文件所在目录，请指向在[上一节](#下载地址)里下载的LoRA模型压缩包解压后文件所在目录
-- `--output_dir`参数：扩充词表后的模型存放位置
+- `--tokenizer`参数：Chinese LLaMA或者Alpaca模型（下载后解压）的`tokenizer.model`文件路径
+- `--output_dir`参数：扩充词表后的模型存放目录
 
 
 ### Step 3: 合并LoRA权重，生成全量模型权重
 
-使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重（PTH格式）。请执行以下命令：
+使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`和配置文件`params.json`。请执行以下命令：
 
 ```bash
 python scripts/export_state_dict_ckeckpoint.py \
-    --base_model path_to_zh_vocab_extended_model_hf \
-    --lora_model path_to_chinese_lora
+    --base_model path_to_zh_vocab_extended_model_dir \
+    --lora_model path_to_chinese_lora_dir
+    --output_dir path_to_output_dir
 ```
 
 其中：
 
-- `--base_model`参数：经过中文词表扩充的模型（Step 2生成）
+- `--base_model`参数：经过中文词表扩充模型的所在目录（Step 2生成）
 - `--lora_model`参数：在[上一节](#下载地址)里下载的LoRA模型压缩包解压后文件所在目录
+- `--output_model`参数：指定保存全量模型权重的目录，默认为`./`
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
 
@@ -164,7 +172,7 @@ make
 
 ###  Step 2: 生成量化版本模型
 
-根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将本项目根目录中的`params.json`和[合并模型](#合并模型)中最后一步获取的`.pth`模型文件放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用。目录结构类似：
+根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidate.*.pth`和配置文件`params.json`（本项目根目录也有）放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用。目录结构类似：
 
 ```
 llama.cpp/zh-models/

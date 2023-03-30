@@ -91,10 +91,15 @@ chinese_llama_lora_7b/
 
    - The SHA256 of the weight file `consolidated.00.pth`: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
 
-2. ⚠️ **You MUST use the [latest 🤗Transformers library](https://huggingface.co/docs/transformers/installation#install-from-source)**. The current release v4.27 does not support LLaMA. You should manually install from source with the following command::
+2. Dependencies:
+   - ⚠️ **You MUST use the [latest 🤗Transformers library](https://huggingface.co/docs/transformers/installation#install-from-source)**. The current release v4.27 does not support LLaMA. 
+   - install `sentencepiece` and `peft` using `pip` command
+
 
  ```bash
  pip install git+https://github.com/huggingface/transformers
+ pip install sentencepiece
+ pip install peft
  ```
 
 ### Step 1: Convert the original LLaMA model to HF format
@@ -105,7 +110,9 @@ Use the script [convert_llama_weights_to_hf.py](https://github.com/huggingface/t
 
 ```
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
-    --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
+    --input_dir path_to_original_llama_root_dir
+    --model_size 7B
+    --output_dir path_to_original_llama_hf_dir
 ```
 
 ### Step 2: Extend the model with Chinese vocabulary
@@ -114,9 +121,9 @@ Use the `scripts/extend_llama_with_zh_vocab.py` in this project to extend the or
 
 ```
 python scripts/extend_llama_with_zh_vocab.py \
-    --llama_model path_to_original_llama_model_hf \ 
-    --tokenizer path_to_chinese_tokenzier \
-    --output_dir output_dir
+    --llama_model path_to_original_llama_hf_dir \ 
+    --tokenizer path_to_chinese_llama_or_alpaca/tokenizer.model \
+    --output_dir path_to_zh_vocab_extended_model_dir
 ```
 
 Where:
@@ -127,21 +134,20 @@ Where:
 
 ### Step 3: Merge LoRA weights to generate full model weights
 
-Use the `scripts/export_state_dict_checkpoint.py` script to merge the Chinese vocabulary-expanded model generated in Step 2 with the LoRA weights to generate the full model weights. Run the following command:
+Use the `scripts/export_state_dict_checkpoint.py` script to merge the Chinese vocabulary-expanded model generated in Step 2 with the LoRA weights to generate the full model weights (`consolidated.*.pth`) and config file (`params.json`). Run the following command:
 
 ```
-bashCopy code
 python scripts/export_state_dict_ckeckpoint.py \
-    --base_model path_to_zh_vocab_extended_model_hf \
-    --lora_model path_to_chinese_lora \
-    --model_type pretrained
+    --base_model path_to_zh_vocab_extended_model_dir \
+    --lora_model path_to_chinese_lora_dir
+    --output_dir path_to_output_dir
 ```
 
 Where:
 
 - `--base_model` parameter: Chinese vocabulary-expanded model (generated in Step 2)
 - `--lora_model` parameter: Directory where the LoRA model package downloaded in the [previous section](#Download) is unzipped
-- `--model_type` parameter: Specify `pretrained` to convert LLaMA, specify `finetuned` to convert the instruction fine-tuned Alpaca
+- `--output_dir` parameter: Specify the output directory, `./` by default.
 
 *(Optional) If needed, you can convert the `.pth` file to HuggingFace format according to the script in Step 1.*
 
@@ -168,7 +174,7 @@ make
 
 ### Step 2: Generate a quantized model
 
-Depending on the type of model you want to convert (LLaMA or Alpaca), place the `tokenizer.*` files from the downloaded LoRA model package into the `zh-models` directory, and place the `params.json` file from the project root directory and the `.pth` model file obtained in the last step of [Model Reconstruction](#Model-Reconstruction) into the `zh-models/7B` directory. Note that the `.pth` model file and `tokenizer.model` are corresponding, and the `tokenizer.model` for LLaMA and Alpaca should not be mixed. The directory structure should be similar to:
+Depending on the type of model you want to convert (LLaMA or Alpaca), place the `tokenizer.*` files from the downloaded LoRA model package into the `zh-models` directory, and place the `params.json`  and the `consolidate.*.pth` model file obtained in the last step of [Model Reconstruction](#Model-Reconstruction) into the `zh-models/7B` directory. Note that the `.pth` model file and `tokenizer.model` are corresponding, and the `tokenizer.model` for LLaMA and Alpaca should not be mixed. The directory structure should be similar to:
 
 ```
 llama.cpp/zh-models/
@@ -181,14 +187,12 @@ llama.cpp/zh-models/
 Convert the above `.pth` model weights to ggml's FP16 format, and generate a file with the path `zh-models/7B/ggml-model-f16.bin`.
 
 ```
-cssCopy code
 python convert-pth-to-ggml.py zh-models/7B/ 1
 ```
 
 Further quantize the FP16 model to Q4, and generate a quantized model file with the path `zh-models/7B/ggml-model-q4_0.bin`.
 
 ```
-Copy code
 python quantize.py 7B -m zh-models
 ```
 
@@ -197,8 +201,7 @@ python quantize.py 7B -m zh-models
 Run the `./main` binary file, with the `-m` command specifying the Q4 quantized model (or loading the ggml-FP16 model). Below is an example of decoding parameters:
 
 ```
-bashCopy code
-./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -
+./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
 ```
 
 ## System Performance
