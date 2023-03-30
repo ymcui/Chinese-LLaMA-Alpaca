@@ -132,7 +132,7 @@ python scripts/extend_llama_with_zh_vocab.py \
 
 ### Step 3: 合并LoRA权重，生成全量模型权重
 
-使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`和配置文件`params.json`。请执行以下命令：
+使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`（建议检查[SHA256值](./SHA256.md)）和配置文件`params.json`。请执行以下命令：
 
 ```bash
 python scripts/export_state_dict_ckeckpoint.py \
