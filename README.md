@@ -328,7 +328,8 @@ python quantize.py 7B -m zh-models
 
 ### 指令精调
 
-指令精调阶段的任务形式基本与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)相同。训练方案同样采用了LoRA进行高效精调，并进一步增加了可训练参数数量。
+1. 指令精调阶段的任务形式基本与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)相同。训练方案同样采用了LoRA进行高效精调，并进一步增加了可训练参数数量。
+2. 在prompt设计上，精调以及预测时采用的都是原版[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)不带input的模版。对于包含input字段的数据，采用`f"{instruction}+\n+{input}"`的形式进行拼接。
 
 ### 训练数据与实验配置
 
