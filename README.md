@@ -119,7 +119,7 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 ```bash
 python scripts/extend_llama_with_zh_vocab.py \
     --llama_model path_to_original_llama_hf_dir \ 
-    --tokenizer path_to_chinese_llama_or_alpaca \
+    --tokenizer path_to_chinese_llama_or_alpaca_lora \
     --output_dir path_to_zh_vocab_extended_model_dir
 ```
 
@@ -137,14 +137,14 @@ python scripts/extend_llama_with_zh_vocab.py \
 ```bash
 python scripts/export_state_dict_ckeckpoint.py \
     --base_model path_to_zh_vocab_extended_model_dir \
-    --lora_model path_to_chinese_lora_dir
+    --lora_model path_to_chinese_llama_or_alpaca_lora
     --output_dir path_to_output_dir
 ```
 
 其中：
 
 - `--base_model`参数：经过中文词表扩充模型的所在目录（Step 2生成）
-- `--lora_model`参数：在[上一节](#下载地址)里下载的LoRA模型压缩包解压后文件所在目录
+- `--lora_model`参数：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录
 - `--output_model`参数：指定保存全量模型权重的目录，默认为`./`
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
@@ -172,7 +172,7 @@ make
 
 ###  Step 2: 生成量化版本模型
 
-根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidate.*.pth`和配置文件`params.json`（本项目根目录也有）放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用。目录结构类似：
+根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidated.*.pth`和配置文件`params.json`（本项目根目录也有）放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用。目录结构类似：
 
 ```
 llama.cpp/zh-models/
