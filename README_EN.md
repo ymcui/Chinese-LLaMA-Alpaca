@@ -85,10 +85,17 @@ chinese_llama_lora_7b/
 
 ### Preparation
 
-Before merging, make sure that the SHA256 of the base model and the LoRA model patch are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
+1. Before merging, make sure that the SHA256 of the base model and the LoRA model patch are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
 
-1. The original LLaMA contains the following files: `tokenizer.model`, `tokenizer_checklist.chk`, `consolidated.00.pth`, `params.json`
-2. The SHA256 of the weight file `consolidated.00.pth`: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
+   - The original LLaMA contains the following files: `tokenizer.model`, `tokenizer_checklist.chk`, `consolidated.00.pth`, `params.json`
+
+   - The SHA256 of the weight file `consolidated.00.pth`: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
+
+2. ⚠️ **You MUST use the [latest 🤗Transformers library](https://huggingface.co/docs/transformers/installation#install-from-source)**. The current release v4.27 does not support LLaMA. You should manually install from source with the following command::
+
+ ```bash
+ pip install git+https://github.com/huggingface/transformers
+ ```
 
 ### Step 1: Convert the original LLaMA model to HF format
 
