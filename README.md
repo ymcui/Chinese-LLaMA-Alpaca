@@ -89,7 +89,7 @@ chinese_llama_lora_7b/
    - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
    - 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
 
-2. ⚠️ **必须安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**。由于4.27版本并不包含`LlamaModel`等相关实现，需要从按以下命令安装最新版本：
+2. ⚠️ **必须安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**。由于v4.27并不包含`LlamaModel`等实现，需要使用以下命令进行安装：
 
 ```bash
 pip install git+https://github.com/huggingface/transformers
