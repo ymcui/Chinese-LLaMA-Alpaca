@@ -101,6 +101,8 @@ chinese_llama_lora_7b/
 
 Use the script [convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py) provided by the [latest 🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source) to convert the original LLaMA model to HuggingFace format. *This project is not responsible for the compliance and correctness of using third-party (non-Facebook official) weights, such as the `decapoda-research/llama-7b-hf` in the HuggingFace model library (use at your own risk).*
 
+⚠️ Please put the original LLaMA's `tokenizer.model` file in`--input_dir`, and the other files in `${input_dir}/${model_size}`.
+
 ```
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
     --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
