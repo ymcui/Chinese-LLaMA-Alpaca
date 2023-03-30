@@ -90,6 +90,13 @@ chinese_llama_lora_7b/
 1. 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
 2. 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
 
+安装最新版🤗Transformers。注意，Transformers 4.27版本并不包含LlamaModel，需要从main branch安装最新版本：
+
+```bash
+git clone https://github.com/huggingface/transformers.git
+cd transformers
+pip install .
+```
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
