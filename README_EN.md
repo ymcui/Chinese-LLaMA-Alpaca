@@ -319,7 +319,8 @@ In the pre-training phase, the general Chinese corpora (consistent with the corp
 
 ### Instruction Fine-tuning
 
-The task format of the instruction fine-tuning phase is basically the same as that of [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca). The training scheme also used LoRA for efficient fine-tuning and further increased the number of trainable parameters.
+1. The task format of the instruction fine-tuning phase is basically the same as that of [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca). The training scheme also used LoRA for efficient fine-tuning and further increased the number of trainable parameters.
+2. We follow the original prompt by [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) that without "input". For the data that contains "input" values, we simply concatenate them in the for of`f"{instruction}+\n+{input}"`.
 
 ### Training Data and Experimental Setups
 
