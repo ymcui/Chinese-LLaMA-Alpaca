@@ -314,7 +314,7 @@ In the pre-training phase, the general Chinese corpora (consistent with the corp
 
 The task format of the instruction fine-tuning phase is basically the same as that of [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca). The training scheme also used LoRA for efficient fine-tuning and further increased the number of trainable parameters.
 
-### Training Data and Hyperparameters
+### Training Data and Experimental Setups
 
 During the instruction fine-tuning phase, about 2 million pieces of data were used. Details:
 | Dataset                   | Size |                             Source                             | Description                                                    |
@@ -325,19 +325,18 @@ During the instruction fine-tuning phase, about 2 million pieces of data were us
 | Stanford Alpaca data (Chinese) | 50K  |                 Provided in our proj => [link](./data)                 | We translate original data into Chinese using ChatGPT  |
 | Self-instruction data   | ~1M  |                         N/A                        | We use ChatGPT API to get these data                          |
 
+The main experimental setups of the training process are as follows:
 
-
- including about 500,000 Chinese-English translation data, 300,000 cleaned pCLUE data, 100,000 original Stanford Alpaca data and its Chinese translation version, and self-instruct data crawled from various channels.
-
-The main hyperparameters of the training process are as follows:
-
-| Hyperparameters          | Pre-training Stage One | Pre-training Stage Two | Instruction Fine-tuning |
+| Settings          | Pre-training Stage One | Pre-training Stage Two | Instruction Fine-tuning |
 | :----------------------- | :--------------------: | :--------------------: | :---------------------: |
 | Batch Size               |          1024          |          1024          |           512           |
 | Initial Learning Rate    |          2e-4          |          1e-4          |          1e-4           |
 | Training Steps           |           3K           |           6K           |         6K-10K          |
 | Max Length               |          512           |          512           |           512           |
 | Trainable Parameters (%) |         2.97%          |         6.06%          |          6.22%          |
+| Training Device          |    8 × A100     |    16 × A100     |     16 × A100     |
+| Distributed Training     | DeepSpeed Zero-2 | DeepSpeed Zero-2 | DeepSpeed Zero-2 |
+
 
 ## Limitations
 

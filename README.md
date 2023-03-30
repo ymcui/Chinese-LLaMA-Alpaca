@@ -102,7 +102,7 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 
 ### Step 2: 对模型进行中文词表扩充
 
-使用本项目中的`scripts/extend_llama_with_zh_vocab.py`对原版LLaMA模型扩充中文词表，请执行以下命令：
+使用本项目中的`scripts/extend_llama_with_zh_vocab.py`对原版LLaMA模型（HF格式）扩充中文词表，请执行以下命令：
 
 ```bash
 python scripts/extend_llama_with_zh_vocab.py \
@@ -120,7 +120,7 @@ python scripts/extend_llama_with_zh_vocab.py \
 
 ### Step 3: 合并LoRA权重，生成全量模型权重
 
-使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重。请执行以下命令：
+使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重（PTH格式）。请执行以下命令：
 
 ```bash
 python scripts/export_state_dict_ckeckpoint.py \
@@ -133,7 +133,7 @@ python scripts/export_state_dict_ckeckpoint.py \
 - `--base_model`参数：经过中文词表扩充的模型（Step 2生成）
 - `--lora_model`参数：在[上一节](#下载地址)里下载的LoRA模型压缩包解压后文件所在目录
 
-*（可选）如有需要，可自行按照Step 1中的脚本将`.pth`文件转换为HuggingFace格式。*
+*（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
 
 ## 本地快速部署
 
@@ -326,7 +326,7 @@ python quantize.py 7B -m zh-models
 
 指令精调阶段的任务形式基本与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)相同。训练方案同样采用了LoRA进行高效精调，并进一步增加了可训练参数数量。
 
-### 训练数据与超参
+### 训练数据与实验配置
 
 指令精调阶段使用了约200万条数据，其基本构成如下：
 
@@ -338,15 +338,18 @@ python quantize.py 7B -m zh-models
 | 斯坦福Alpaca数据（中） | 50K  |                 本项目提供 => [链接](./data)                 | 本项目使用ChatGPT接口对英文版本进行翻译（丢弃了一部分） |
 | Self-instruction数据   | ~1M  |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取                           |
 
-训练过程的主要超参如下：
+训练过程的主要实验配置如下：
 
-| Hyperparameters          | 预训练-第一阶段 | 预训练-第二阶段 | 指令精调 |
-| :----------------------- | :-------------: | :-------------: | :------: |
-| Batch Size               |      1024       |      1024       |   512    |
-| Initial Learning Rate    |      2e-4       |      1e-4       |   1e-4   |
-| Training Steps           |       3K        |       6K        |  6K-10K  |
-| Max Length               |       512       |       512       |   512    |
-| Trainable Parameters (%) |      2.97%      |      6.06%      |  6.22%   |
+| 实验设置                 | 预训练-第一阶段  | 预训练-第二阶段  |     指令精调     |
+| :----------------------- | :--------------: | :--------------: | :--------------: |
+| Batch Size               |       1024       |       1024       |       512        |
+| Initial Learning Rate    |       2e-4       |       1e-4       |       1e-4       |
+| Training Steps           |        3K        |        6K        |      6K-10K      |
+| Max Length               |       512        |       512        |       512        |
+| Trainable Parameters (%) |      2.97%       |      6.06%       |      6.22%       |
+| Training Device          |     8 × A100     |    16 × A100     |    16 × A100     |
+| Distributed Training     | DeepSpeed Zero-2 | DeepSpeed Zero-2 | DeepSpeed Zero-2 |
+
 
 ## 局限性
 
