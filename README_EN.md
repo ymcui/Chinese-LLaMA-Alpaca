@@ -85,18 +85,34 @@ chinese_llama_lora_7b/
 
 ### Preparation
 
-Before merging, make sure that the SHA256 of the base model and the LoRA model patch are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
+1. Before merging, make sure that the SHA256 of the base model and the LoRA model patch are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
 
-1. The original LLaMA contains the following files: `tokenizer.model`, `tokenizer_checklist.chk`, `consolidated.00.pth`, `params.json`
-2. The SHA256 of the weight file `consolidated.00.pth`: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
+   - The original LLaMA contains the following files: `tokenizer.model`, `tokenizer_checklist.chk`, `consolidated.00.pth`, `params.json`
+
+   - The SHA256 of the weight file `consolidated.00.pth`: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
+
+2. Dependencies:
+   - ⚠️ **You MUST use the [latest 🤗Transformers library](https://huggingface.co/docs/transformers/installation#install-from-source)**. The current release v4.27 does not support LLaMA. 
+   - install `sentencepiece` and `peft` using `pip` command
+
+
+ ```bash
+ pip install git+https://github.com/huggingface/transformers
+ pip install sentencepiece
+ pip install peft
+ ```
 
 ### Step 1: Convert the original LLaMA model to HF format
 
 Use the script [convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py) provided by the [latest 🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source) to convert the original LLaMA model to HuggingFace format. *This project is not responsible for the compliance and correctness of using third-party (non-Facebook official) weights, such as the `decapoda-research/llama-7b-hf` in the HuggingFace model library (use at your own risk).*
 
+⚠️ Please put the original LLaMA's `tokenizer.model` file in`--input_dir`, and the other files in `${input_dir}/${model_size}`.
+
 ```
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
-    --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
+    --input_dir path_to_original_llama_root_dir
+    --model_size 7B
+    --output_dir path_to_original_llama_hf_dir
 ```
 
 ### Step 2: Extend the model with Chinese vocabulary
@@ -105,9 +121,9 @@ Use the `scripts/extend_llama_with_zh_vocab.py` in this project to extend the or
 
 ```
 python scripts/extend_llama_with_zh_vocab.py \
-    --llama_model path_to_original_llama_model_hf \ 
-    --tokenizer path_to_chinese_tokenzier \
-    --output_dir output_dir
+    --llama_model path_to_original_llama_hf_dir \ 
+    --tokenizer path_to_chinese_llama_or_alpaca \
+    --output_dir path_to_zh_vocab_extended_model_dir
 ```
 
 Where:
@@ -118,21 +134,20 @@ Where:
 
 ### Step 3: Merge LoRA weights to generate full model weights
 
-Use the `scripts/export_state_dict_checkpoint.py` script to merge the Chinese vocabulary-expanded model generated in Step 2 with the LoRA weights to generate the full model weights. Run the following command:
+Use the `scripts/export_state_dict_checkpoint.py` script to merge the Chinese vocabulary-expanded model generated in Step 2 with the LoRA weights to generate the full model weights (`consolidated.*.pth`) and config file (`params.json`). Run the following command:
 
 ```
-bashCopy code
 python scripts/export_state_dict_ckeckpoint.py \
-    --base_model path_to_zh_vocab_extended_model_hf \
-    --lora_model path_to_chinese_lora \
-    --model_type pretrained
+    --base_model path_to_zh_vocab_extended_model_dir \
+    --lora_model path_to_chinese_lora_dir
+    --output_dir path_to_output_dir
 ```
 
 Where:
 
 - `--base_model` parameter: Chinese vocabulary-expanded model (generated in Step 2)
 - `--lora_model` parameter: Directory where the LoRA model package downloaded in the [previous section](#Download) is unzipped
-- `--model_type` parameter: Specify `pretrained` to convert LLaMA, specify `finetuned` to convert the instruction fine-tuned Alpaca
+- `--output_dir` parameter: Specify the output directory, `./` by default.
 
 *(Optional) If needed, you can convert the `.pth` file to HuggingFace format according to the script in Step 1.*
 
@@ -159,7 +174,7 @@ make
 
 ### Step 2: Generate a quantized model
 
-Depending on the type of model you want to convert (LLaMA or Alpaca), place the `tokenizer.*` files from the downloaded LoRA model package into the `zh-models` directory, and place the `params.json` file from the project root directory and the `.pth` model file obtained in the last step of [Model Reconstruction](#Model-Reconstruction) into the `zh-models/7B` directory. Note that the `.pth` model file and `tokenizer.model` are corresponding, and the `tokenizer.model` for LLaMA and Alpaca should not be mixed. The directory structure should be similar to:
+Depending on the type of model you want to convert (LLaMA or Alpaca), place the `tokenizer.*` files from the downloaded LoRA model package into the `zh-models` directory, and place the `params.json`  and the `consolidate.*.pth` model file obtained in the last step of [Model Reconstruction](#Model-Reconstruction) into the `zh-models/7B` directory. Note that the `.pth` model file and `tokenizer.model` are corresponding, and the `tokenizer.model` for LLaMA and Alpaca should not be mixed. The directory structure should be similar to:
 
 ```
 llama.cpp/zh-models/
@@ -172,14 +187,12 @@ llama.cpp/zh-models/
 Convert the above `.pth` model weights to ggml's FP16 format, and generate a file with the path `zh-models/7B/ggml-model-f16.bin`.
 
 ```
-cssCopy code
 python convert-pth-to-ggml.py zh-models/7B/ 1
 ```
 
 Further quantize the FP16 model to Q4, and generate a quantized model file with the path `zh-models/7B/ggml-model-q4_0.bin`.
 
 ```
-Copy code
 python quantize.py 7B -m zh-models
 ```
 
@@ -188,8 +201,7 @@ python quantize.py 7B -m zh-models
 Run the `./main` binary file, with the `-m` command specifying the Q4 quantized model (or loading the ggml-FP16 model). Below is an example of decoding parameters:
 
 ```
-bashCopy code
-./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -
+./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
 ```
 
 ## System Performance
@@ -312,9 +324,10 @@ In the pre-training phase, the general Chinese corpora (consistent with the corp
 
 ### Instruction Fine-tuning
 
-The task format of the instruction fine-tuning phase is basically the same as that of [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca). The training scheme also used LoRA for efficient fine-tuning and further increased the number of trainable parameters.
+1. The task format of the instruction fine-tuning phase is basically the same as that of [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca). The training scheme also used LoRA for efficient fine-tuning and further increased the number of trainable parameters.
+2. We follow the original prompt by [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) that without "input". For the data that contains "input" values, we simply concatenate them in the for of`f"{instruction}+\n+{input}"`.
 
-### Training Data and Hyperparameters
+### Training Data and Experimental Setups
 
 During the instruction fine-tuning phase, about 2 million pieces of data were used. Details:
 | Dataset                   | Size |                             Source                             | Description                                                    |
@@ -325,19 +338,18 @@ During the instruction fine-tuning phase, about 2 million pieces of data were us
 | Stanford Alpaca data (Chinese) | 50K  |                 Provided in our proj => [link](./data)                 | We translate original data into Chinese using ChatGPT  |
 | Self-instruction data   | ~1M  |                         N/A                        | We use ChatGPT API to get these data                          |
 
+The main experimental setups of the training process are as follows:
 
-
- including about 500,000 Chinese-English translation data, 300,000 cleaned pCLUE data, 100,000 original Stanford Alpaca data and its Chinese translation version, and self-instruct data crawled from various channels.
-
-The main hyperparameters of the training process are as follows:
-
-| Hyperparameters          | Pre-training Stage One | Pre-training Stage Two | Instruction Fine-tuning |
+| Settings          | Pre-training Stage One | Pre-training Stage Two | Instruction Fine-tuning |
 | :----------------------- | :--------------------: | :--------------------: | :---------------------: |
 | Batch Size               |          1024          |          1024          |           512           |
 | Initial Learning Rate    |          2e-4          |          1e-4          |          1e-4           |
 | Training Steps           |           3K           |           6K           |         6K-10K          |
 | Max Length               |          512           |          512           |           512           |
 | Trainable Parameters (%) |         2.97%          |         6.06%          |          6.22%          |
+| Training Device          |    8 × A100     |    16 × A100     |     16 × A100     |
+| Distributed Training     | DeepSpeed Zero-2 | DeepSpeed Zero-2 | DeepSpeed Zero-2 |
+
 
 ## Limitations
 
@@ -355,6 +367,7 @@ This project is based on the following open-source projects for secondary develo
 - Stanford Alpaca: https://github.com/tatsu-lab/stanford_alpaca
 - alpaca-lora by @tloen: https://github.com/tloen/alpaca-lora
 - llama.cpp by @ggerganov: https://github.com/ggerganov/llama.cpp
+- pCLUE and translation data by @brightmart: https://github.com/brightmart/nlp_chinese_corpus
 
 Episode: The Alpaca Logo is generated by [midjourney](http://midjourney.com) and is automatically extracted by Preview in MacOS.
 

@@ -85,55 +85,69 @@ chinese_llama_lora_7b/
 
 ### 准备工作
 
-合并前务必确认基模型和LoRA模型补丁的SHA256是否一致，否则无法进行合并操作。
+1. 合并前务必确认基模型和LoRA模型补丁的SHA256是否一致，否则无法进行合并操作。
+   - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
+   - 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
+2. 主要依赖库如下：
+   - ⚠️ 由于v4.27并不包含`LlamaModel`等实现，**必须从源码手动安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**。
+   - 使用`pip`安装`sentencepiece`、`peft`
 
-1. 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
-2. 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
+```bash
+pip install git+https://github.com/huggingface/transformers
+pip install sentencepiece
+pip install peft
+```
 
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
 请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。*本项目不对使用第三方（非Facebook官方）权重的合规性和正确性负责，例如HuggingFace模型库中的`decapoda-research/llama-7b-hf`（use at your own risk）。*
 
+请将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
+
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
-    --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
+    --input_dir path_to_original_llama_root_dir
+    --model_size 7B
+    --output_dir path_to_original_llama_hf_dir
 ```
 
 ### Step 2: 对模型进行中文词表扩充
 
-使用本项目中的`scripts/extend_llama_with_zh_vocab.py`对原版LLaMA模型扩充中文词表，请执行以下命令：
+使用本项目中的`scripts/extend_llama_with_zh_vocab.py`对原版LLaMA模型（HF格式）扩充中文词表，请执行以下命令：
 
 ```bash
 python scripts/extend_llama_with_zh_vocab.py \
-    --llama_model path_to_original_llama_model_hf \ 
-    --tokenizer path_to_chinese_tokenzier \
-    --output_dir output_dir
+    --llama_model path_to_original_llama_hf_dir \ 
+    --tokenizer path_to_chinese_llama_or_alpaca \
+    --output_dir path_to_zh_vocab_extended_model_dir
 ```
 
 其中：
 
 - `--llama_model`参数：存放HF格式的LLaMA模型权重和配置文件的目录
-- `--tokenizer`参数：Chinese LLaMA或者Alpaca模型的`tokenizer.model`文件所在目录，请指向在[上一节](#下载地址)里下载的LoRA模型压缩包解压后文件所在目录
-- `--output_dir`参数：扩充词表后的模型存放位置
+- `--tokenizer`参数：Chinese LLaMA或者Alpaca模型下载后解压路径，目录中包含`tokenizer.model`
+- `--output_dir`参数：扩充词表后的模型存放目录
 
 
 ### Step 3: 合并LoRA权重，生成全量模型权重
 
-使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重。请执行以下命令：
+使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`和配置文件`params.json`。请执行以下命令：
 
 ```bash
 python scripts/export_state_dict_ckeckpoint.py \
-    --base_model path_to_zh_vocab_extended_model_hf \
-    --lora_model path_to_chinese_lora
+    --base_model path_to_zh_vocab_extended_model_dir \
+    --lora_model path_to_chinese_lora_dir
+    --output_dir path_to_output_dir
 ```
 
 其中：
 
-- `--base_model`参数：经过中文词表扩充的模型（Step 2生成）
+- `--base_model`参数：经过中文词表扩充模型的所在目录（Step 2生成）
 - `--lora_model`参数：在[上一节](#下载地址)里下载的LoRA模型压缩包解压后文件所在目录
+- `--output_model`参数：指定保存全量模型权重的目录，默认为`./`
 
-*（可选）如有需要，可自行按照Step 1中的脚本将`.pth`文件转换为HuggingFace格式。*
+*（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
 
 ## 本地快速部署
 
@@ -158,7 +172,7 @@ make
 
 ###  Step 2: 生成量化版本模型
 
-根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将本项目根目录中的`params.json`和[合并模型](#合并模型)中最后一步获取的`.pth`模型文件放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用。目录结构类似：
+根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidate.*.pth`和配置文件`params.json`（本项目根目录也有）放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用。目录结构类似：
 
 ```
 llama.cpp/zh-models/
@@ -324,9 +338,10 @@ python quantize.py 7B -m zh-models
 
 ### 指令精调
 
-指令精调阶段的任务形式基本与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)相同。训练方案同样采用了LoRA进行高效精调，并进一步增加了可训练参数数量。
+1. 指令精调阶段的任务形式基本与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)相同。训练方案同样采用了LoRA进行高效精调，并进一步增加了可训练参数数量。
+2. 在prompt设计上，精调以及预测时采用的都是原版[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)不带input的模版。对于包含input字段的数据，采用`f"{instruction}+\n+{input}"`的形式进行拼接。
 
-### 训练数据与超参
+### 训练数据与实验配置
 
 指令精调阶段使用了约200万条数据，其基本构成如下：
 
@@ -338,15 +353,18 @@ python quantize.py 7B -m zh-models
 | 斯坦福Alpaca数据（中） | 50K  |                 本项目提供 => [链接](./data)                 | 本项目使用ChatGPT接口对英文版本进行翻译（丢弃了一部分） |
 | Self-instruction数据   | ~1M  |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取                           |
 
-训练过程的主要超参如下：
+训练过程的主要实验配置如下：
 
-| Hyperparameters          | 预训练-第一阶段 | 预训练-第二阶段 | 指令精调 |
-| :----------------------- | :-------------: | :-------------: | :------: |
-| Batch Size               |      1024       |      1024       |   512    |
-| Initial Learning Rate    |      2e-4       |      1e-4       |   1e-4   |
-| Training Steps           |       3K        |       6K        |  6K-10K  |
-| Max Length               |       512       |       512       |   512    |
-| Trainable Parameters (%) |      2.97%      |      6.06%      |  6.22%   |
+| 实验设置                 | 预训练-第一阶段  | 预训练-第二阶段  |     指令精调     |
+| :----------------------- | :--------------: | :--------------: | :--------------: |
+| Batch Size               |       1024       |       1024       |       512        |
+| Initial Learning Rate    |       2e-4       |       1e-4       |       1e-4       |
+| Training Steps           |        3K        |        6K        |      6K-10K      |
+| Max Length               |       512        |       512        |       512        |
+| Trainable Parameters (%) |      2.97%       |      6.06%       |      6.22%       |
+| Training Device          |     8 × A100     |    16 × A100     |    16 × A100     |
+| Distributed Training     | DeepSpeed Zero-2 | DeepSpeed Zero-2 | DeepSpeed Zero-2 |
+
 
 ## 局限性
 
@@ -378,6 +396,7 @@ python quantize.py 7B -m zh-models
 - Stanford Alpaca: https://github.com/tatsu-lab/stanford_alpaca
 - alpaca-lora by @tloen: https://github.com/tloen/alpaca-lora
 - llama.cpp by @ggerganov: https://github.com/ggerganov/llama.cpp
+- pCLUE and translation data by @brightmart: https://github.com/brightmart/nlp_chinese_corpus
 
 Episode: Logo中的小羊驼是由[midjourney](http://midjourney.com)自动生成，并由Mac自带的预览工具自动抠出来的。
 
