@@ -99,6 +99,8 @@ pip install git+https://github.com/huggingface/transformers
 
 请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。*本项目不对使用第三方（非Facebook官方）权重的合规性和正确性负责，例如HuggingFace模型库中的`decapoda-research/llama-7b-hf`（use at your own risk）。*
 
+⚠️ 请将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。
+
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
     --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
