@@ -122,7 +122,7 @@ Use the `scripts/extend_llama_with_zh_vocab.py` in this project to extend the or
 ```
 python scripts/extend_llama_with_zh_vocab.py \
     --llama_model path_to_original_llama_hf_dir \ 
-    --tokenizer path_to_chinese_llama_or_alpaca/tokenizer.model \
+    --tokenizer path_to_chinese_llama_or_alpaca \
     --output_dir path_to_zh_vocab_extended_model_dir
 ```
 
