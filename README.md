@@ -180,7 +180,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 进一步对FP16模型进行Q4量化，生成量化模型文件路径为`zh-models/7B/ggml-model-q4_0.bin`。
 
 ```
-python quantize.py 7B -m zh-models
+./quantize ./zh-models/7B/ggml-model-f16.bin ./zh-models/7B/ggml-model-q4_0.bin 2
 ```
 
 ### Step 3: 加载并启动模型
