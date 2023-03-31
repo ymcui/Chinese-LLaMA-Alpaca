@@ -137,7 +137,7 @@ python scripts/extend_llama_with_zh_vocab.py \
 ```bash
 python scripts/export_state_dict_ckeckpoint.py \
     --base_model path_to_zh_vocab_extended_model_dir \
-    --lora_model path_to_chinese_llama_or_alpaca_lora
+    --lora_model path_to_chinese_llama_or_alpaca_lora \
     --output_dir path_to_output_dir
 ```
 
