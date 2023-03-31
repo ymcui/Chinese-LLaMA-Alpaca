@@ -112,39 +112,21 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
     --output_dir path_to_original_llama_hf_dir
 ```
 
-### Step 2: 对模型进行中文词表扩充
+### Step 2: 合并LoRA权重，生成全量模型权重
 
-使用本项目中的`scripts/extend_llama_with_zh_vocab.py`对原版LLaMA模型（HF格式）扩充中文词表，请执行以下命令：
-
-```bash
-python scripts/extend_llama_with_zh_vocab.py \
-    --llama_model path_to_original_llama_hf_dir \ 
-    --tokenizer path_to_chinese_llama_or_alpaca_lora \
-    --output_dir path_to_zh_vocab_extended_model_dir
-```
-
-其中：
-
-- `--llama_model`参数：存放HF格式的LLaMA模型权重和配置文件的目录
-- `--tokenizer`参数：Chinese LLaMA或者Alpaca模型下载后解压路径，目录中包含`tokenizer.model`
-- `--output_dir`参数：扩充词表后的模型存放目录
-
-
-### Step 3: 合并LoRA权重，生成全量模型权重
-
-使用`scripts/export_state_dict_checkpoint.py`脚本，将Step 2生成的中文词表扩充的模型和LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`（建议检查[SHA256值](./SHA256.md)）和配置文件`params.json`。请执行以下命令：
+使用`scripts/merge_llama_with_chinese_lora.py`脚本，对原版LLaMA模型（HF格式）扩充中文词表，并和LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`（建议检查[SHA256值](./SHA256.md)）和配置文件`params.json`。请执行以下命令：
 
 ```bash
-python scripts/export_state_dict_ckeckpoint.py \
-    --base_model path_to_zh_vocab_extended_model_dir \
-    --lora_model path_to_chinese_llama_or_alpaca_lora
+python scripts/merge_llama_with_chinese_lora.py \
+    --base_model path_to_original_llama_hf_dir \
+    --lora_model path_to_chinese_llama_or_alpaca_lora \
     --output_dir path_to_output_dir
 ```
 
 其中：
 
-- `--base_model`参数：经过中文词表扩充模型的所在目录（Step 2生成）
-- `--lora_model`参数：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录
+- `--base_model`参数：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
+- `--lora_model`参数：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，或者也可使用HuggingFace Model Hub地址：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
 - `--output_model`参数：指定保存全量模型权重的目录，默认为`./`
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
