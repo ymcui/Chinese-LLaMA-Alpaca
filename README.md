@@ -33,7 +33,9 @@
 
 ## 新闻
 
-**2023/3/28 正式开源中文LLaMA、Alpaca大模型，目前提供7B版本下载体验 🎉🎉🎉**
+**2023/3/31 简化了模型合并步骤，由3步简化为2步；同时更新了指令爬取脚本，见[训练数据](#训练数据)一节**
+
+2023/3/28 正式开源中文LLaMA、Alpaca大模型，目前提供7B版本下载体验 🎉🎉🎉
 
 ## 内容导引
 | 章节                                  | 描述                                                         |
@@ -64,7 +66,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-LLaMA-13B  |   通用   | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
 | Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
 
-**[1]** 原版LLaMA模型需要在[Facebook-LLaMA](https://github.com/facebookresearch/llama)中申请使用，或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载，敬请谅解。
+**[1]** 原版LLaMA模型需要在[Facebook-LLaMA](https://github.com/facebookresearch/llama)中申请使用或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载链接，敬请谅解。
 
 **[2]** 经过重构后的模型大小比原版LLaMA稍大（因为扩充了词表），7B模型约为13G+。
 
@@ -323,7 +325,7 @@ python quantize.py 7B -m zh-models
 1. 指令精调阶段的任务形式基本与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)相同。训练方案同样采用了LoRA进行高效精调，并进一步增加了可训练参数数量。
 2. 在prompt设计上，精调以及预测时采用的都是原版[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)不带input的模版。对于包含input字段的数据，采用`f"{instruction}+\n+{input}"`的形式进行拼接。
 
-### 训练数据与实验配置
+### 训练数据
 
 指令精调阶段使用了约200万条数据，其基本构成如下：
 
@@ -333,7 +335,18 @@ python quantize.py 7B -m zh-models
 | pCLUE数据              | 300K |        [链接](https://github.com/CLUEbenchmark/pCLUE)        | 在原数据集的基础上进行了采样+规则筛选                   |
 | 斯坦福Alpaca数据（英） | 50K  |     [链接](https://github.com/tatsu-lab/stanford_alpaca)     | 斯坦福原版Alpaca训练数据                                |
 | 斯坦福Alpaca数据（中） | 50K  |                 本项目提供 => [链接](./data)                 | 本项目使用ChatGPT接口对英文版本进行翻译（丢弃了一部分） |
-| Self-instruction数据   | ~1M  |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取                           |
+| Self-instruction数据   | ~1M  |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取，具体见以下脚本描述       |
+
+**[New]** 本项目提供了一个动态生成不同领域和指令类型的prompt爬取脚本`script/crawl_prompt.py`。
+
+```
+python script/crawl_prompt.py output-file
+```
+- 生成的文件包含通过`gpt-3.5-turbo`爬取的数据（你必须拥有OpenAI API key才可以使用）
+- 虽然指令模板中要求输出JSON格式，但系统并不总是会返回合法的JSON，因此需要自行根据返回数据情况进行清洗
+- 由于爬取时间比较长，建议后台运行该脚本
+
+### 实验配置
 
 训练过程的主要实验配置如下：
 

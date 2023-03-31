@@ -2,6 +2,8 @@
 
 ***The authors are so lazy that the following contents are automatically translated by GPT-4 (with minor revisions) :)***
 
+***Notice: the document might not be up-to-date. Will update in the next release.***
+
 <p align="center">
     <br>
     <img src="./pics/banner.png" width="600"/>
