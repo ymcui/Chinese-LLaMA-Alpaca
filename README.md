@@ -87,10 +87,11 @@ chinese_llama_lora_7b/
 
 ### 准备工作
 
-1. 合并前务必确认基模型和LoRA模型补丁的SHA256是否一致，否则无法进行合并操作。
+1. 确保机器有足够的内存加载完整模型（例如7B模型需要13-15G）以进行合并模型操作。
+2. 合并前务必确认基模型和LoRA模型补丁的SHA256是否一致，否则无法进行合并操作。
    - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
    - 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
-2. 主要依赖库如下：
+3. 主要依赖库如下：
    - ⚠️ 由于v4.27并不包含`LlamaModel`等实现，**必须从源码手动安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**。
    - 使用`pip`安装`sentencepiece`、`peft`
 
@@ -148,13 +149,13 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 运行以下命令对llama.cpp项目进行编译，生成`./main`和`./quantize`二进制文件。
 
-```
+```bash
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
 make
 ```
 
-⚠️ **重要提醒（2023/3/30）**：llama.cpp工具的社区非常活跃，近期更新了相关算法策略，可以获得10-100x加载速度提升。但是新版本的代码**不能加载老模型**，需要重新生成ggml格式文件。你可以：
+⚠️ **重要提醒（2023/3/30）**：llama.cpp工具的社区非常活跃，近期更新了相关算法策略，可以获得10-100x **加载速度**提升（实测确实变快一些）。需要注意的是新版本的代码**不能加载老模型**，需要重新生成ggml格式文件。你可以：
 
 - 如果你还保存了合并模型后的`.pth`文件，可以使用llama.cpp最新代码进行重新量化
 - 如果你删除了之前的`.pth`文件，可以使用llama.cpp提供的`migrate-ggml-2023-03-30-pr613.py`将旧模型转换为新模型
@@ -173,24 +174,24 @@ llama.cpp/zh-models/
 
 将上述`.pth`模型权重转换为ggml的FP16格式，生成文件路径为`zh-models/7B/ggml-model-f16.bin`。
 
-```
+```bash
 python convert-pth-to-ggml.py zh-models/7B/ 1
 ```
 
 进一步对FP16模型进行Q4量化，生成量化模型文件路径为`zh-models/7B/ggml-model-q4_0.bin`。
 
-```
-python quantize.py 7B -m zh-models
+```bash
+./quantize ./zh-models/7B/ggml-model-f16.bin ./zh-models/7B/ggml-model-q4_0.bin 2
 ```
 
 ### Step 3: 加载并启动模型
 
 运行`./main`二进制文件，`-m`命令指定Q4量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例：
 
-```
+```bash
 ./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
 ```
-在提示符 `>` 之后输入你的prompt，`command+c`中断输出。如需查看帮助和参数说明，请执行`./main -h`命令。
+在提示符 `>` 之后输入你的prompt，`command+c`中断输出，多行信息以`\`作为行尾。如需查看帮助和参数说明，请执行`./main -h`命令。
 
 简要介绍几个重要参数：
 
@@ -350,13 +351,13 @@ python quantize.py 7B -m zh-models
 
 **[New]** 本项目提供了一个动态生成不同领域和指令类型的prompt爬取脚本`script/crawl_prompt.py`。
 
-```
+```bash
 python script/crawl_prompt.py output-file
 ```
-- 思路与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca#data-generation-process)中的做法基本一致，一次批量生成20组数据（降低爬取成本）
+- 思路与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca#data-generation-process)中的做法基本一致，一次批量生成20组数据（可自行修改模板），以降低爬取成本
 - 生成的文件包含通过`gpt-3.5-turbo`爬取的数据（你必须拥有OpenAI API key才可以使用）
-- 虽然指令模板中要求输出JSON格式，但系统并不总是会返回合法的JSON，需要自行根据返回数据情况进行二次清洗
-- 由于爬取时间比较长，建议后台运行该脚本
+- 虽然指令模板中要求输出JSON格式，但系统并不总是会返回合法的JSON，需要自行根据返回数据的情况进行清洗
+- 由于爬取时间比较长，建议后台运行该脚本。多线程运行时注意[OpenAI API的调用限制上限](https://platform.openai.com/docs/guides/rate-limits/overview)
 
 ### 实验配置
 
