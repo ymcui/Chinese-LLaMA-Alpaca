@@ -154,6 +154,11 @@ cd llama.cpp
 make
 ```
 
+⚠️ **重要提醒（2023/3/30）**：llama.cpp工具的社区非常活跃，最近一次更新更新了相关算法策略，可以获得10-100x加载速度提升。但是新版本的代码**不能加载老模型**，需要重新生成ggml格式文件。你可以：
+
+- 如果你还保存了合并模型后的`.pth`文件，可以使用llama.cpp最新代码进行重新量化
+- 如果你删除了之前的`.pth`文件，可以使用llama.cpp提供的`migrate-ggml-2023-03-30-pr613.py`将旧模型转换为新模型
+
 ###  Step 2: 生成量化版本模型
 
 根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidated.*.pth`和配置文件`params.json`（本项目根目录也有）放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用。目录结构类似：
