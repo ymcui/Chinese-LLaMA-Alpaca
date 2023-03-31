@@ -1,3 +1,7 @@
+'''
+NOTE: As we have simplified the mergeing steps,
+this script is no longer needed and will be removed in the next release.
+'''
 from transformers import LlamaForCausalLM, LlamaTokenizer
 from sentencepiece import sentencepiece_model_pb2 as sp_pb2_model
 import sentencepiece as spm
