@@ -107,8 +107,8 @@ pip install peft
 
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
-    --input_dir path_to_original_llama_root_dir
-    --model_size 7B
+    --input_dir path_to_original_llama_root_dir \
+    --model_size 7B \
     --output_dir path_to_original_llama_hf_dir
 ```
 

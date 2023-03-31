@@ -110,8 +110,8 @@ Use the script [convert_llama_weights_to_hf.py](https://github.com/huggingface/t
 
 ```
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
-    --input_dir path_to_original_llama_root_dir
-    --model_size 7B
+    --input_dir path_to_original_llama_root_dir \
+    --model_size 7B \
     --output_dir path_to_original_llama_hf_dir
 ```
 
@@ -139,7 +139,7 @@ Use the `scripts/export_state_dict_checkpoint.py` script to merge the Chinese vo
 ```
 python scripts/export_state_dict_ckeckpoint.py \
     --base_model path_to_zh_vocab_extended_model_dir \
-    --lora_model path_to_chinese_lora_dir
+    --lora_model path_to_chinese_lora_dir \
     --output_dir path_to_output_dir
 ```
 
