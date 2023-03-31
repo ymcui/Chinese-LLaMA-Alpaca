@@ -342,13 +342,12 @@ python quantize.py 7B -m zh-models
 ```
 python script/crawl_prompt.py output-file
 ```
+- 思路与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca#data-generation-process)中的做法基本一致，一次批量生成20组数据（降低爬取成本）
 - 生成的文件包含通过`gpt-3.5-turbo`爬取的数据（你必须拥有OpenAI API key才可以使用）
-- 虽然指令模板中要求输出JSON格式，但系统并不总是会返回合法的JSON，因此需要自行根据返回数据情况进行清洗
+- 虽然指令模板中要求输出JSON格式，但系统并不总是会返回合法的JSON，需要自行根据返回数据情况进行二次清洗
 - 由于爬取时间比较长，建议后台运行该脚本
 
 ### 实验配置
-
-训练过程的主要实验配置如下：
 
 | 实验设置                 | 预训练-第一阶段  | 预训练-第二阶段  |     指令精调     |
 | :----------------------- | :--------------: | :--------------: | :--------------: |
