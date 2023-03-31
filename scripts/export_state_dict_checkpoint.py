@@ -1,5 +1,10 @@
 """
 Borrowed and modified from https://github.com/tloen/alpaca-lora
+
+NOTE: As we have simplified the mergeing steps,
+this script is no longer needed and will be removed in the next release.
+Please check `merge_llama_with_chinese_lora.py` script instead.
+
 """
 
 import os
