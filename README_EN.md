@@ -139,7 +139,7 @@ Use the `scripts/export_state_dict_checkpoint.py` script to merge the Chinese vo
 ```
 python scripts/export_state_dict_ckeckpoint.py \
     --base_model path_to_zh_vocab_extended_model_dir \
-    --lora_model path_to_chinese_lora_dir
+    --lora_model path_to_chinese_lora_dir \
     --output_dir path_to_output_dir
 ```
 
