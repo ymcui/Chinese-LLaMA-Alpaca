@@ -2,7 +2,7 @@
 
 ***The authors are so lazy that the following contents are automatically translated by GPT-4 (with minor revisions) :)***
 
-***Notice: the document might not be up-to-date. Will update in the next release.***
+***Notice: the document might not be up-to-date. Will update in the next release. Current version: v1.1***
 
 <p align="center">
     <br>
@@ -38,7 +38,9 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-**2023/3/28  Open-sourcing Chinese LLaMA and Alpaca, currently offering the 7B version for download and experience 🎉🎉🎉**
+**2023/3/31 Release v1.1, major updates: simplification of model merging steps, addition of instruction data crawling script, and important notes about the new version of llama.cpp. See [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v1.1).**
+
+2023/3/28  Open-sourcing Chinese LLaMA and Alpaca, currently offering the 7B version for download and experience 🎉🎉🎉
 
 ## Content Navigation
 
@@ -50,6 +52,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 | [Example Results](#Example-Results)           | Examples of the system output                                |
 | [Training Details](#Training-Details)         | Introduces the training details of Chinese LLaMA and Alpaca  |
 | [Limitations](Limitations)                    | Limitations of the models involved in this project           |
+| [FAQ](#FAQ) | Replies to some common questions |
 
 ## Model Download
 
@@ -65,12 +68,14 @@ Note: The following models cannot be used directly and must be reconstructed fol
 | :---------------- | :-------------------------: | :------------------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
 | Chinese-LLaMA-7B  |           General           |    Original LLaMA-7B<sup>[1]</sup>     |        770M        | [[BaiduDisk]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |  39b86b......fe0e60  |
 | Chinese-Alpaca-7B | Fine-tuned for Instructions |    Original LLaMA-7B<sup>[1]</sup>     |        790M        | [[BaiduDisk]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |  9bb5b6......ce2d87  |
+| Chinese-LLaMA-13B | General | Original LLaMA-13B<sup>[1]</sup> | ⏳ | ⏳ | ⏳ |
+| Chinese-Alpaca-13B | Instruction Fine-tuning | Original LLaMA-13B<sup>[1]</sup> | ⏳ | ⏳ | ⏳ |
 
 **[1]** The original LLaMA model needs to be applied for use in [Facebook-LLaMA](https://github.com/facebookresearch/llama) or refer to this [PR](https://github.com/facebookresearch/llama/pull/73/files). Due to copyright issues, this project cannot provide downloads, and we ask for your understanding.
 
 **[2]** The reconstructed model is slightly larger than the original LLaMA (due to the expanded vocabulary); the 7B model is about 13G+.
 
-**[3]** After downloading, be sure to check whether the SHA256 of the ZIP file is consistent; for the full value, please see [SHA256.md](https://chat.openai.com/chat/SHA256.md).
+**[3]** After downloading, be sure to check whether the SHA256 of the ZIP file is consistent; for the full value, please see [SHA256.md](./SHA256.md).
 
 The file directory inside the ZIP file is as follows (using Chinese-LLaMA as an example):
 
@@ -87,13 +92,15 @@ chinese_llama_lora_7b/
 
 ### Preparation
 
-1. Before merging, make sure that the SHA256 of the base model and the LoRA model patch are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
+1. Make sure the machine has enough memory to load the complete model (e.g., 13-15G for the 7B model) for the model merging operation.
+
+2. Before merging, make sure that the SHA256 of the base model and the LoRA model patch are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
 
    - The original LLaMA contains the following files: `tokenizer.model`, `tokenizer_checklist.chk`, `consolidated.00.pth`, `params.json`
 
    - The SHA256 of the weight file `consolidated.00.pth`: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
 
-2. Dependencies:
+3. Dependencies:
    - ⚠️ **You MUST use the [latest 🤗Transformers library](https://huggingface.co/docs/transformers/installation#install-from-source)**. The current release v4.27 does not support LLaMA. 
    - install `sentencepiece` and `peft` using `pip` command
 
@@ -110,48 +117,31 @@ Use the script [convert_llama_weights_to_hf.py](https://github.com/huggingface/t
 
 ⚠️ Please put the original LLaMA's `tokenizer.model` file in`--input_dir`, and the other files in `${input_dir}/${model_size}`.
 
-```
+```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
     --input_dir path_to_original_llama_root_dir \
     --model_size 7B \
     --output_dir path_to_original_llama_hf_dir
 ```
 
-### Step 2: Extend the model with Chinese vocabulary
+### Step 2: Merge LoRA weights to generate consolidated model weights
 
-Use the `scripts/extend_llama_with_zh_vocab.py` in this project to extend the original LLaMA model with Chinese vocabulary. Run the following command:
+Use the script `merge_llama_with_chinese_lora.py` to expand the Chinese vocabulary of the original LLaMA model (in HF format), and merge it with LoRA weights to generate consolidated model weights `consolidated.*.pth` (it is recommended to check the [SHA256 values](./SHA256.md)) and the configuration file `params.json`. Please execute the following command:
 
-```
-python scripts/extend_llama_with_zh_vocab.py \
-    --llama_model path_to_original_llama_hf_dir \ 
-    --tokenizer path_to_chinese_llama_or_alpaca \
-    --output_dir path_to_zh_vocab_extended_model_dir
-```
-
-Where:
-
-- `--llama_model` parameter: Directory containing the HF format LLaMA model weights and configuration files
-- `--tokenizer` parameter: Directory containing the `tokenizer.model` file of the Chinese LLaMA or Alpaca model; point to the directory where the LoRA model package downloaded in the [previous section](#Download) is unzipped
-- `--output_dir` parameter: Storage location for the model after expanding the vocabulary
-
-### Step 3: Merge LoRA weights to generate full model weights
-
-Use the `scripts/export_state_dict_checkpoint.py` script to merge the Chinese vocabulary-expanded model generated in Step 2 with the LoRA weights to generate the full model weights (`consolidated.*.pth`) and config file (`params.json`). Run the following command:
-
-```
-python scripts/export_state_dict_ckeckpoint.py \
-    --base_model path_to_zh_vocab_extended_model_dir \
-    --lora_model path_to_chinese_lora_dir \
+```bash
+python scripts/merge_llama_with_chinese_lora.py \
+    --base_model path_to_original_llama_hf_dir \
+    --lora_model path_to_chinese_llama_or_alpaca_lora \
     --output_dir path_to_output_dir
 ```
 
-Where:
+where:
 
-- `--base_model` parameter: Chinese vocabulary-expanded model (generated in Step 2)
-- `--lora_model` parameter: Directory where the LoRA model package downloaded in the [previous section](#Download) is unzipped
-- `--output_dir` parameter: Specify the output directory, `./` by default.
+- `--base_model`: directory where the HF format LLaMA model weights and configuration files are saved (generated in Step 1)
+- `--lora_model`: directory where the Chinese LLaMA/Alpaca LoRA model compressed file downloaded in the previous section is located, or the model name on Hugging Face Model Hub: `ziqingyang/chinese-alpaca-lora-7b` or `ziqingyang/chinese-llama-lora-7b`
+- `--output_model`: directory to save the consolidated model weights (default: `./`)
 
-*(Optional) If needed, you can convert the `.pth` file to HuggingFace format according to the script in Step 1.*
+*(Optional) If necessary, you can convert the `.pth` files generated in this step to HuggingFace format using the script in Step 1.*
 
 ## Quick Deployment
 
@@ -168,11 +158,16 @@ Before running, please ensure:
 
 Run the following commands to build the llama.cpp project, generating `./main` and `./quantize` binary files.
 
-```
+```bash
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
 make
 ```
+
+⚠️ **Important Reminder (2023/3/30)**: The community around the llama.cpp tool is very active, and has recently updated the related algorithm strategies to achieve a 10-100x **faster loading speed** (it is indeed faster in practice). Please note that the new version of the code **cannot load old models**, and you need to regenerate ggml format files. You can:
+
+- If you still have the merged model's `.pth` file, you can use the latest llama.cpp code to re-quantize it.
+- If you have deleted the previous `.pth` file, you can use the `migrate-ggml-2023-03-30-pr613.py` provided by llama.cpp to convert the old model to the new model.
 
 ### Step 2: Generate a quantized model
 
@@ -188,22 +183,33 @@ llama.cpp/zh-models/
 
 Convert the above `.pth` model weights to ggml's FP16 format, and generate a file with the path `zh-models/7B/ggml-model-f16.bin`.
 
-```
+```bash
 python convert-pth-to-ggml.py zh-models/7B/ 1
 ```
 
 Further quantize the FP16 model to Q4, and generate a quantized model file with the path `zh-models/7B/ggml-model-q4_0.bin`.
 
-```
-python quantize.py 7B -m zh-models
+```bash
+./quantize ./zh-models/7B/ggml-model-f16.bin ./zh-models/7B/ggml-model-q4_0.bin 2
 ```
 
 ### Step 3: Load and start the model
 
 Run the `./main` binary file, with the `-m` command specifying the Q4 quantized model (or loading the ggml-FP16 model). Below is an example of decoding parameters:
 
-```
+```bash
 ./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
+```
+
+Please enter your prompt after the `>`, use `\` as the end of the line for multi-line inputs. To view help and parameter instructions, please execute the `./main -h` command. Here's a brief introduction to several important parameters:
+
+```
+-c controls the length of context, larger values allow for longer dialogue history to be referenced
+-ins activates the conversation mode for the ChatGPT class
+-n controls the maximum length of generated responses
+--repeat_penalty controls the penalty for repeated text in the generated response
+--temp is the temperature coefficient, lower values result in less randomness in the response, and vice versa
+--top_p, top_k control the sampling parameters
 ```
 
 ## System Performance
@@ -315,7 +321,13 @@ The entire training process includes three parts: vocabulary expansion, pre-trai
 
 ### Preparation: Vocabulary Expansion
 
-A 20K vocabulary based on [sentencepiece](https://github.com/google/sentencepiece) was trained on general Chinese corpora and merged with the original LLaMA's 32K vocabulary. After excluding duplicate tokens, the expanded vocabulary size is 49,953.
+Due to the limited support for Chinese (and other non-English languages) in the original LLaMA,
+
+- We further expanded the Chinese vocabulary based on training with the general Chinese corpus using [sentencepiece](https://github.com/google/sentencepiece) to create a 20K Chinese vocabulary, which was then merged with the original LLaMA model's 32K vocabulary. 
+- After removing duplicate tokens, the final Chinese LLaMA vocabulary size is 49,953.
+- It should be noted that during the fine-tuning stage, Alpaca has one more pad token than LLaMA, so the Chinese Alpaca vocabulary size is 49,954.
+
+For more information on the motivation behind expanding the Chinese vocabulary, please refer to the [FAQ](#FAQ).
 
 ### Pre-training
 
@@ -329,7 +341,7 @@ In the pre-training phase, the general Chinese corpora (consistent with the corp
 1. The task format of the instruction fine-tuning phase is basically the same as that of [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca). The training scheme also used LoRA for efficient fine-tuning and further increased the number of trainable parameters.
 2. We follow the original prompt by [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) that without "input". For the data that contains "input" values, we simply concatenate them in the for of`f"{instruction}+\n+{input}"`.
 
-### Training Data and Experimental Setups
+### Training Data
 
 During the instruction fine-tuning phase, about 2 million pieces of data were used. Details:
 | Dataset                   | Size |                             Source                             | Description                                                    |
@@ -338,9 +350,20 @@ During the instruction fine-tuning phase, about 2 million pieces of data were us
 | pCLUE              | 300K |        [link](https://github.com/CLUEbenchmark/pCLUE)        | sampled and cleaned from original dataset                  |
 | Stanford Alpaca data | 50K  |     [link](https://github.com/tatsu-lab/stanford_alpaca)     |  Original training data of Stanford Alpaca                               |
 | Stanford Alpaca data (Chinese) | 50K  |                 Provided in our proj => [link](./data)                 | We translate original data into Chinese using ChatGPT  |
-| Self-instruction data   | ~1M  |                         N/A                        | We use ChatGPT API to get these data                          |
+| Self-instruction data   | ~1M  |                         N/A                        | We use ChatGPT API to get these data, see below               |
 
-The main experimental setups of the training process are as follows:
+**[New]** This project provides a script `script/crawl_prompt.py` for dynamically generating prompts of different domains and instruction types.
+
+```bash
+python script/crawl_prompt.py output-file
+```
+
+- The idea is similar to the approach used in [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca#data-generation-process). It generates 20 sets of data at a time (you can modify the templates), reducing the cost of crawling.
+- The generated file contains data crawled through `gpt-3.5-turbo` (you must have an OpenAI API key to use it).
+- Although the instruction template requires the output to be in JSON format, the system does not always return valid JSON, so you need to clean it up according to the returned data.
+- Since crawling takes a long time, it is recommended to run this script in the background. When running multiple threads, pay attention to the [call limit of the OpenAI API](https://platform.openai.com/docs/guides/rate-limits/overview).
+
+### Experimental Setups
 
 | Settings          | Pre-training Stage One | Pre-training Stage Two | Instruction Fine-tuning |
 | :----------------------- | :--------------------: | :--------------------: | :---------------------: |
@@ -360,6 +383,24 @@ Although the models in this project have significantly improved Chinese understa
 - It may produce unpredictable harmful content and content that does not conform to human preferences and values.
 - Due to computing power and data issues, the training of the related models is not sufficient, and the Chinese understanding ability needs to be further improved.
 - There is no online interactive demo available for now (Note: users can still deploy it locally themselves).
+
+## FAQ
+
+##### Q1: Why can't you release the complete model weights?
+
+A: This question has been emphasized repeatedly before. The open source license for the LLaMA model does not allow us to do so, so related derivative work is seeking ways to bypass the restrictions. Please believe that we set up so many steps not to increase everyone's workload, but because of objective circumstances. After Facebook fully opens up the weights, we will release the complete model and directly loadable quantized models as soon as possible. During this period, we will also closely monitor other LLaMA-related repositories to see if there are better methods.
+
+##### Q2: Will there be versions of 13B, 33B, and 65B in the future?
+
+A: We cannot guarantee this at this time.
+
+##### Q3: The model doesn't perform well on some tasks!
+
+A: There are several possible reasons: 1) LLaMA itself has limited support for Chinese, and most related derivative work is pre-trained/finetuned directly on the original version, while we have taken a more bold strategy - expanding the Chinese vocabulary, which may further exacerbate the problem of insufficient Chinese training, but whether it is beneficial for subsequent pre-training in the long run remains to be seen over time; 2) the quality of instruction data needs to be further improved; 3) there is still a lot of room for adjustment in training time, hyperparameters, etc.; 4) there is no RLHF; 5) the Q4 quantization may cause a decrease in performance, so you can try loading the FP16 model, which is relatively better (but slower).
+
+##### Q4: Why expand the vocabulary? Can't you just pre-train the original LLaMA with Chinese data?
+
+A: The original LLaMA model's vocabulary size is 32K, mainly trained on English (see the [LLaMA paper](https://arxiv.org/abs/2302.13971v1) for more details), and support for multiple languages is not particularly ideal (you can compare the vocabulary size of the multilingual classic model XLM-R, which is 250K). Preliminary statistics show that the LLaMA vocabulary contains very few Chinese characters, so when cutting the words, the Chinese words are cut into smaller pieces, requiring multiple byte tokens to form a complete Chinese character, which leads to a decrease in information density. For example, in the model with the expanded vocabulary, a single Chinese character tends to be cut into one token, while in the original LLaMA, it may require 2-3 tokens to combine into one Chinese character, significantly reducing the efficiency of encoding and decoding.
 
 ## Acknowledgements
 
