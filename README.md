@@ -126,7 +126,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 其中：
 
 - `--base_model`参数：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
-- `--lora_model`参数：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，或者也可使用HuggingFace Model Hub地址：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
+- `--lora_model`参数：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，或者也可使用Hugging Face Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
 - `--output_model`参数：指定保存全量模型权重的目录，默认为`./`
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
