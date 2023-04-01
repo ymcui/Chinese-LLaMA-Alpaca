@@ -150,7 +150,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 ## 本地快速部署
 
-研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤。**本地快速部署体验推荐使用经过指令精调的Alpaca模型。**
+研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（同时参考[#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型。**
 
 运行前请确保：
 
