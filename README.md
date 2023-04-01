@@ -55,18 +55,32 @@
 
 Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，目前暂时无法发布完整的模型权重，敬请各位理解（目前国外也是一样）。Facebook完全开放模型权重之后，本项目会及时更新相关策略。**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者进行合并即可获得完整版权重。
 
-### 下载地址
+提醒：以下中文LLaMA/Alpaca LoRA模型无法单独使用，需要搭配原版LLaMA模型<sup>[1]</sup>。请参考本项目给出的[合并模型](#合并模型)步骤重构模型。
 
-注意：以下模型无法直接使用，必须按照本项目给出的[合并模型](#合并模型)步骤重构模型。
+### 中文LLaMA模型
+
+中文LLaMA模型在原版的基础上扩充了中文词表，使用了中文纯文本数据进行二次预训练，具体见[训练细节](#训练细节)一节。
+
+| 模型名称          | 类型 |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
+| :---------------- | :--: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
+| Chinese-LLaMA-7B  | 通用 | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |  39b86b......fe0e60  |
+| Chinese-LLaMA-13B | 通用 | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
+
+
+### 中文Alpaca模型
+
+中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调，具体见[训练细节](#训练细节)一节。
+
+**注意：如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
 
 | 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-LLaMA-7B   |   通用   | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |  39b86b......fe0e60  |
 | Chinese-Alpaca-7B  | 指令精调 | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |  9bb5b6......ce2d87  |
-| Chinese-LLaMA-13B  |   通用   | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
 | Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
 
-**[1]** 原版LLaMA模型需要在[Facebook-LLaMA](https://github.com/facebookresearch/llama)中申请使用或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载链接，敬请谅解。
+### 脚注及其他说明
+
+**[1]** 重构所需原版LLaMA模型需要在[Facebook-LLaMA](https://github.com/facebookresearch/llama)中申请使用或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载链接，敬请谅解。
 
 **[2]** 经过重构后的模型大小比原版LLaMA稍大（因为扩充了词表），7B模型约为13G+。
 
