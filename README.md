@@ -412,6 +412,19 @@ python script/crawl_prompt.py output-file
 
 答：原版LLaMA模型的词表大小是32K，其主要针对英语进行训练（具体详见[LLaMA论文](https://arxiv.org/abs/2302.13971v1)），对多语种支持不是特别理想（可以对比一下多语言经典模型XLM-R的词表大小为250K）。通过初步统计发现，LLaMA词表中仅包含很少的中文字符，所以在切词时会把中文切地更碎，需要多个byte token才能拼成一个完整的汉字，进而导致信息密度降低。比如，在扩展词表后的模型中，单个汉字倾向于被切成1个token，而在原版LLaMA中可能就需要2-3个才能组合成一个汉字，显著降低编解码的效率。
 
+## 引用
+
+如果您觉得本项目对您的研究有所帮助或使用了本项目的代码或数据，请参考以下引用（临时）：
+```
+@misc{chinese-llama-alpaca,
+  author = {Yiming Cui and Ziqing Yang},
+  title = {Chinese LLaMA and Alpaca LLMs},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/ymcui/Chinese-LLaMA-Alpaca}},
+}
+```
 
 ## 致谢
 

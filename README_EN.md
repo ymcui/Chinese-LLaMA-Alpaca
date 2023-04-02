@@ -402,6 +402,21 @@ A: There are several possible reasons: 1) LLaMA itself has limited support for C
 
 A: The original LLaMA model's vocabulary size is 32K, mainly trained on English (see the [LLaMA paper](https://arxiv.org/abs/2302.13971v1) for more details), and support for multiple languages is not particularly ideal (you can compare the vocabulary size of the multilingual classic model XLM-R, which is 250K). Preliminary statistics show that the LLaMA vocabulary contains very few Chinese characters, so when cutting the words, the Chinese words are cut into smaller pieces, requiring multiple byte tokens to form a complete Chinese character, which leads to a decrease in information density. For example, in the model with the expanded vocabulary, a single Chinese character tends to be cut into one token, while in the original LLaMA, it may require 2-3 tokens to combine into one Chinese character, significantly reducing the efficiency of encoding and decoding.
 
+## Citation
+
+If you find the model, data, code in our project useful, please consider cite our work as follows (temporary):
+
+```
+@misc{chinese-llama-alpaca,
+  author = {Yiming Cui and Ziqing Yang},
+  title = {Chinese LLaMA and Alpaca LLMs},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/ymcui/Chinese-LLaMA-Alpaca}},
+}
+```
+
 ## Acknowledgements
 
 This project is based on the following open-source projects for secondary development, and we would like to express our gratitude to the related projects and research and development personnel.
