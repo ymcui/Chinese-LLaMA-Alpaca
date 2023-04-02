@@ -94,8 +94,15 @@ chinese_llama_lora_7b/
   - adapter_model.bin		# LoRA权重文件
   - special_tokens_map.json	# special_tokens_map文件
   - tokenizer_config.json	# tokenizer配置文件
-  - tokenizer.model		# tokenizer文件
+  - tokenizer.model		# tokenizer文件 
 ```
+
+下表给出了各个版本合并后原模型大小（FP16）和4-bit量化后的大小，转换相应模型时确保本机有足够的内存和磁盘空间（下表应视为最低要求）：
+
+|                     |   7B   |  13B   |   33B   |   65B   |
+| :------------------ | :----: | :----: | :-----: | :-----: |
+| 原模型大小（FP16）  | 13 GB  | 24 GB  |  60 GB  | 120 GB  |
+| 量化后大小（4-bit） | 3.9 GB | 7.8 GB | 19.5 GB | 38.5 GB |
 
 ## 合并模型
 
@@ -158,6 +165,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 2. 加载使用量化后的模型时（例如7B版本），确保本机可用内存大于4-6G（受上下文长度影响）
 3. 系统应有`make`（MacOS/Linux自带）或`cmake`（Windows需自行安装）编译工具
 4. 推荐使用Python 3.9或3.10编译运行[llama.cpp工具](https://github.com/ggerganov/llama.cpp)（因为`sentencepiece`还不支持3.11）
+
 
 ### Step 1: 克隆和编译llama.cpp
 
@@ -402,7 +410,8 @@ python script/crawl_prompt.py output-file
 
 ##### 问题2：后面会有13B、33B、65B的版本吗？
 
-答：现在这个时间节点无法做出保证。
+答：~~现在这个时间节点无法做出保证。~~ 目前确认会推出13B版本模型。其余的版本需要看情况。
+
 
 ##### 问题3：一些任务上效果不好！
 
