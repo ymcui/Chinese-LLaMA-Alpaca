@@ -14,6 +14,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model',default=None,required=True,type=str,help="Please specify a base_model")
 parser.add_argument('--lora_model',default=None,required=True,type=str,help="Please specify a lora_model")
+parser.add_argument('--model_size',default='7B', type=str,help="Size of the LLaMA model",choices=['7B','13B'])
 parser.add_argument('--output_dir',default='./',type=str)
 args = parser.parse_args()
 
@@ -72,14 +73,30 @@ lora_model.train(False)
 
 lora_model_sd = lora_model.state_dict()
 
-params = {
-    "dim": 4096,
-    "multiple_of": 256,
-    "n_heads": 32,
-    "n_layers": 32,
-    "norm_eps": 1e-06,
-    "vocab_size": -1,
+
+params_of_models = {
+    '7B':
+        {
+        "dim": 4096,
+        "multiple_of": 256,
+        "n_heads": 32,
+        "n_layers": 32,
+        "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
+    '13B':
+        {
+        "dim": 5120,
+        "multiple_of": 256,
+        "n_heads": 40,
+        "n_layers": 40,
+        "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
 }
+params = params_of_models[args.model_size]
+
+
 n_layers = params["n_layers"]
 n_heads = params["n_heads"]
 dim = params["dim"]
