@@ -1,5 +1,7 @@
 [**中文**](./README.md) | [**English**](./README_EN.md)
 
+## 本branch用于测试新内容，内容会频繁更新，请勿参考！
+
 <p align="center">
     <br>
     <img src="./pics/banner.png" width="600"/>
@@ -11,6 +13,7 @@
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
 </p>
+
 以ChatGPT、GPT-4等为代表的大语言模型（Large Language Model, LLM）掀起了新一轮自然语言处理领域的研究浪潮，展现出了类通用人工智能（AGI）的能力，受到业界广泛关注。然而，由于大语言模型的训练和部署都极为昂贵，为构建透明且开放的学术研究造成了一定的阻碍。
 
 为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和经过指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，在中文LLaMA的基础上，本项目使用了中文指令数据进行指令精调，显著提升了模型对指令的理解和执行能力。
@@ -19,8 +22,9 @@
 
 **本项目主要内容：**
 
-- 🚀 开源了经过中文文本数据预训练的中文LLaMA大模型
-- 🚀 开源了进一步经过指令精调的中文Alpaca大模型
+- 🚀 针对原版LLaMA模型扩充了中文词表，提升了中文编解码效率 
+- 🚀 开源了使用中文文本数据预训练的中文LLaMA大模型（7B、13B）
+- 🚀 开源了进一步经过指令精调的中文Alpaca大模型（7B、13B）
 - 🚀 快速地使用笔记本电脑（个人PC）本地部署和体验量化版大模型
 
 💡 下图给出了7B版本模型本地化部署后的实际体验效果（动画未经加速，Apple M1 Max下实测）。
@@ -66,7 +70,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | 模型名称          | 类型 |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :---------------- | :--: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
 | Chinese-LLaMA-7B  | 通用 | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |  39b86b......fe0e60  |
-| Chinese-LLaMA-13B | 通用 | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
+| Chinese-LLaMA-13B | 通用 | 原版LLaMA-13B<sup>[1]</sup> |         1G         |       [百度网盘]<br/>[Google Drive]<br/>[HuggingFace]        |  3d6dee......e5199b  |
 
 
 ### 中文Alpaca模型
@@ -78,17 +82,17 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
 | Chinese-Alpaca-7B  | 指令精调 | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |  9bb5b6......ce2d87  |
-| Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |                              ⏳                               |          ⏳           |
+| Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |         ⏳          |       [百度网盘]<br/>[Google Drive]<br/>[HuggingFace]        |          ⏳           |
 
 ### 脚注及其他说明
 
 **[1]** 重构所需原版LLaMA模型需要在[Facebook-LLaMA](https://github.com/facebookresearch/llama)中申请使用或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载链接，敬请谅解。
 
-**[2]** 经过重构后的模型大小比原版LLaMA稍大（因为扩充了词表），7B模型约为13G+。
+**[2]** 经过重构后的模型大小比原版LLaMA稍大（主要因为扩充了词表）。
 
 **[3]** 下载后务必检查压缩包的SHA256是否一致，完整值请查看[SHA256.md](./SHA256.md)。
 
-压缩包内文件目录如下（以Chinese-LLaMA为例）：
+压缩包内文件目录如下（以Chinese-LLaMA-7B为例）：
 
 ```
 chinese_llama_lora_7b/
@@ -108,14 +112,17 @@ chinese_llama_lora_7b/
 
 ## 合并模型
 
-**[New]** 如果你订阅了Google Colab Pro(+)，那么可以使用我们写好的Notebook在线进行合并和量化模型。运行结束后，可按需下载合并后的全量权重以及量化后的权重。具体可查看（`notebooks`目录下也有，供流程参考）：<a href="https://colab.research.google.com/drive/1Eak6azD3MLeb-YsfbP8UZC8wrL1ddIMI?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+### 在线转换
+
+如果你订阅了Google Colab Pro(+)，那么可以使用我们写好的Notebook在线合并和量化模型。运行结束后，可按需下载合并后的全量以及量化后的权重。具体可查看（`notebooks`目录下也有，供参考）：<a href="https://colab.research.google.com/drive/1Eak6azD3MLeb-YsfbP8UZC8wrL1ddIMI?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+
+如果没有以上订阅，请参考以下步骤使用服务器或个人电脑进行权重合并和量化。
 
 ### 准备工作
 
 1. 确保机器有足够的内存加载完整模型（例如7B模型需要13-15G）以进行合并模型操作。
-2. 合并前务必确认基模型和LoRA模型补丁的SHA256是否一致，否则无法进行合并操作。
+2. 合并前务必确认基模型和LoRA模型补丁的[SHA256](./SHA256.md)是否一致，否则无法进行合并操作。
    - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
-   - 其中，权重文件`consolidated.00.pth`的SHA256: `700df0d3013b703a806d2ae7f1bfb8e59814e3d06ae78be0c66368a50059f33d`
 3. 主要依赖库如下：
    - ⚠️ 由于v4.27并不包含`LlamaModel`等实现，**必须从源码手动安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**。
    - 使用`pip`安装`sentencepiece`、`peft`
@@ -129,9 +136,9 @@ pip install peft
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
-请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。*本项目不对使用第三方（非Facebook官方）权重的合规性和正确性负责，例如HuggingFace模型库中的`decapoda-research/llama-7b-hf`（use at your own risk）。*
+请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。请将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
 
-请将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
+*本项目不对使用第三方（非Facebook官方）权重的合规性和正确性负责，例如HuggingFace模型库中的`decapoda-research/llama-7b-hf`（use at your own risk）。*
 
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
@@ -161,7 +168,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 ## 本地快速部署
 
-研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（同时参考[#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。**
+研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（同时参考[#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。**下面以中文Alpaca-7B模型为例介绍相关步骤。
 
 运行前请确保：
 
@@ -215,7 +222,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 运行`./main`二进制文件，`-m`命令指定Q4量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例：
 
 ```bash
-./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
+./main -m zh-models/7B/ggml-model-q4_0.bin --color -f prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
 ```
 在提示符 `>` 之后输入你的prompt，`command+c`中断输出，多行信息以`\`作为行尾。如需查看帮助和参数说明，请执行`./main -h`命令。
 
@@ -232,9 +239,9 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ## 系统效果
 
-为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见的任务上对比测试了原版Alpaca-7B和本项目的中文Alpaca-7B的效果。相关评测并非绝对严谨，测试结果仅供参考，欢迎自行体验。更多测试请参考[EXAMPLES.md](./EXAMPLES.md)。
+为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见的任务上对比测试了本项目的中文Alpaca-7B和中文Alpaca-13B的效果。测试模型均为**4-bit量化模型**，理论效果比非量化版本差一些。相关评测并非绝对严谨，测试结果仅供参考，欢迎自行体验。更多测试请参考[EXAMPLES.md](./EXAMPLES.md)。
 
-*注意：测试模型均为**4-bit量化模型**（理论效果比非量化版本差一些）。受解码超参影响，回复具有随机性。由于英文原版模型已不具备参考性，已移除相关测试结果（感兴趣的可以查看之前的commit）。*
+*注意：受解码超参影响，回复具有随机性。由于英文原版模型已不具备参考性，已移除相关测试结果（感兴趣的可以查看之前的commit）。*
 
 
 <details>
@@ -326,7 +333,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ### 预训练
 
-在预训练阶段，使用通用中文语料（与[中文BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm)、[MacBERT](https://github.com/ymcui/MacBERT)、[LERT](https://github.com/ymcui/PERT)、[PERT](https://github.com/ymcui/PERT)中使用的语料一致）在原版LLaMA权重的基础上进一步进行预训练。该过程又分为两个阶段：
+在预训练阶段，使用约20G左右的通用中文语料（与[中文BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm)、[MacBERT](https://github.com/ymcui/MacBERT)、[LERT](https://github.com/ymcui/PERT)、[PERT](https://github.com/ymcui/PERT)中使用的语料一致）在原版LLaMA权重的基础上进一步进行预训练。该过程又分为两个阶段：
 
 1. 第一阶段：固定模型transformer部分的参数，仅训练embedding，在尽量不干扰原模型的情况下适配新增的中文词向量。
 
