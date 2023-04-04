@@ -413,6 +413,13 @@ python script/crawl_prompt.py output-file
 
 答：目前已发现Q4量化的模型相对FP16的模型更倾向于给出短答案。可以在prompt中命令输出长回复，比如”请详细说明……“等。其余可能的原因包括训练数据分布、训练参数、解码参数等。
 
+##### 问题6：Windows下，模型无法理解中文、生成速度很慢等问题
+
+答： Windows用户出现模型无法理解中文、生成速度慢时，请参考以下issue中的解决方案。
+
+- 关于无法理解中文：[#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)（感谢@LainNya、@boholder、@hyperzlib 等人提供解决方案）
+- 关于生成速度很慢：[#issue 51](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/51)（感谢@wscsjnhboy 提供解决方案）
+
 
 ## 引用
 
