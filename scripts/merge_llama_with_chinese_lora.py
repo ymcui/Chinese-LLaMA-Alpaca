@@ -73,7 +73,7 @@ lora_model.train(False)
 
 lora_model_sd = lora_model.state_dict()
 
-
+num_shards_of_models = {'7B': 1, '13B': 2}
 params_of_models = {
     '7B':
         {
@@ -95,6 +95,7 @@ params_of_models = {
         },
 }
 params = params_of_models[args.model_size]
+num_shards = num_shards_of_models[args.model_size]
 
 
 n_layers = params["n_layers"]
@@ -155,18 +156,79 @@ def translate_state_dict_key(k):
         raise NotImplementedError
 
 
-new_state_dict = {}
-for k, v in lora_model_sd.items():
-    new_k = translate_state_dict_key(k)
-    if new_k is not None:
-        if "wq" in new_k or "wk" in new_k:
-            new_state_dict[new_k] = unpermute(v)
-        else:
-            new_state_dict[new_k] = v
+def save_shards(lora_model_sd, num_shards: int):
+    if num_shards == 1:
+        new_state_dict = {}
+        for k, v in lora_model_sd.items():
+            new_k = translate_state_dict_key(k)
+            if new_k is not None:
+                if "wq" in new_k or "wk" in new_k:
+                    new_state_dict[new_k] = unpermute(v)
+                else:
+                    new_state_dict[new_k] = v
 
-os.makedirs(output_dir, exist_ok=True)
+        os.makedirs(output_dir, exist_ok=True)
+        torch.save(new_state_dict, output_dir + "/consolidated.00.pth")
+        with open(output_dir + "/params.json", "w") as f:
+            json.dump(params, f)
+    else:
+        new_state_dicts = [dict() for _ in range(num_shards)]
+        for k, v in lora_model_sd.items():
+            new_k = translate_state_dict_key(k)
+            if new_k is not None:
+                if new_k=='tok_embeddings.weight':
+                    print(f"Processing {new_k}")
+                    assert v.size(1)%num_shards==0
+                    splits = v.split(v.size(1)//num_shards,dim=1)
+                elif new_k=='output.weight':
+                    print(f"Processing {new_k}")
+                    splits = v.split(v.size(0)//num_shards,dim=0)
 
-torch.save(new_state_dict, output_dir + "/consolidated.00.pth")
+                elif new_k=='norm.weight':
+                    print(f"Processing {new_k}")
+                    splits = [v] * num_shards
+                elif 'ffn_norm.weight' in new_k:
+                    print(f"Processing {new_k}")
+                    splits = [v] * num_shards
+                elif 'attention_norm.weight' in new_k:
+                    print(f"Processing {new_k}")
+                    splits = [v] * num_shards
 
-with open(output_dir + "/params.json", "w") as f:
-    json.dump(params, f)
+
+                elif 'w1.weight' in new_k:
+                    print(f"Processing {new_k}")
+                    splits = v.split(v.size(0)//num_shards,dim=0)
+                elif 'w2.weight' in new_k:
+                    print(f"Processing {new_k}")
+                    splits = v.split(v.size(1)//num_shards,dim=1)
+                elif 'w3.weight' in new_k:
+                    print(f"Processing {new_k}")
+                    splits = v.split(v.size(0)//num_shards,dim=0)
+
+
+                elif 'wo.weight' in new_k:
+                    print(f"Processing {new_k}")
+                    splits = v.split(v.size(1)//num_shards,dim=1)
+
+                elif 'wv.weight' in new_k:
+                    print(f"Processing {new_k}")
+                    splits = v.split(v.size(0)//num_shards,dim=0)
+
+                elif "wq.weight" in new_k or "wk.weight" in new_k:
+                    print(f"Processing {new_k}")
+                    v = unpermute(v)
+                    splits = v.split(v.size(0)//num_shards,dim=0)
+                else:
+                    print(f"Unexpected key {new_k}")
+                    raise ValueError
+                for sd,split in zip(new_state_dicts,splits):
+                    sd[new_k] = split.clone()
+
+        os.makedirs(output_dir, exist_ok=True)
+        for i,new_state_dict in enumerate(new_state_dicts):
+            torch.save(new_state_dict, output_dir + f"/consolidated.0{i}.pth")
+        with open(output_dir + "/params.json", "w") as f:
+            json.dump(params, f)
+
+
+save_shards(lora_model_sd=lora_model_sd, num_shards=num_shards)
