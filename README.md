@@ -123,7 +123,7 @@ chinese_llama_lora_7b/
 ### 准备工作
 
 1. 确保机器有足够的内存加载完整模型（例如7B模型需要13-15G）以进行合并模型操作。
-2. 合并前务必确认基模型和LoRA模型补丁的[SHA256](./SHA256.md)是否一致，否则无法进行合并操作。
+2. 合并前务必确认基模型和LoRA模型补丁的完整性，检查是否与[SHA256.md](./SHA256.md)所示的值一致，否则无法进行合并操作。
    - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
 3. 主要依赖库如下：
    - [最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)，**必须从源码安装**，因为v4.27并不包含`LlamaModel`等实现
@@ -141,7 +141,7 @@ pip install peft
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
-请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。**将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。**执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
+请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。**将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。** 执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
 
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
@@ -165,13 +165,13 @@ python scripts/merge_llama_with_chinese_lora.py \
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
 - `--lora_model`：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，或者也可使用Hugging Face Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
 - `--model_size`: 指定模型大小，目前支持`7B`和`13B`
-- `--output_model`：指定保存全量模型权重的目录，默认为`./`
+- `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
 
 ## 本地快速部署
 
-研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署（CPU！）**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（同时参考[#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。**下面以中文Alpaca-7B模型为例介绍相关步骤。
+研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署（CPU！）**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。**下面以中文Alpaca-7B模型为例介绍相关步骤。
 
 运行前请确保：
 
@@ -190,11 +190,6 @@ git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
 make
 ```
-
-⚠️ **重要提醒（2023/3/30）**：llama.cpp工具的社区非常活跃，近期更新了相关算法策略，可以获得10-100x **加载速度**提升（实测确实变快一些）。需要注意的是新版本的代码**不能加载老模型**，需要重新生成ggml格式文件。你可以：
-
-- 如果你还保存了合并模型后的`.pth`文件，可以使用llama.cpp最新代码进行重新量化
-- 如果你删除了之前的`.pth`文件，可以使用llama.cpp提供的`migrate-ggml-2023-03-30-pr613.py`将旧模型转换为新模型
 
 ###  Step 2: 生成量化版本模型
 
@@ -229,11 +224,11 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 ```
 在提示符 `>` 之后输入你的prompt，`command+c`中断输出，多行信息以`\`作为行尾。如需查看帮助和参数说明，请执行`./main -h`命令。
 
-简要介绍几个重要参数：
-
 ```
--c 控制上下文的长度，值越大越能参考更长的对话历史
+重要参数说明：
 -ins 启动类ChatGPT的对话交流模式
+-f 指定prompt模板，alpaca模型请加载prompts/alpaca.txt
+-c 控制上下文的长度，值越大越能参考更长的对话历史
 -n 控制回复生成的最大长度
 --repeat_penalty 控制生成回复中对重复文本的惩罚力度
 --temp 温度系数，值越低回复的随机性越小，反之越大
@@ -243,7 +238,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ## 系统效果
 
-为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见的任务上对比测试了本项目的中文Alpaca-7B和中文Alpaca-13B的效果。测试模型均为**4-bit量化模型**，理论效果比非量化版本差一些。相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。更多测试请参考[EXAMPLES.md](./EXAMPLES.md)。
+为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B和中文Alpaca-13B的效果。测试模型均为**4-bit量化模型**，理论效果比非量化版本差一些。相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。更多测试请参考[EXAMPLES.md](./EXAMPLES.md)。
 
 *注意：生成回复具有随机性，受解码超参影响。由于英文原版模型已不具备参考性，已移除相关测试结果（感兴趣的可以查看之前的commit）。*
 
@@ -350,15 +345,15 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ### 训练数据
 
-指令精调阶段使用了以下数据，其中7B约2M数据、13B约3M数据。基本构成如下：
+指令精调阶段使用了以下数据，其中7B模型约2M数据、13B模型约3M数据。基本构成如下：
 
-| 数据                   | 量级 |                             来源                             | 说明                                                    |
-| ---------------------- | :--: | :----------------------------------------------------------: | ------------------------------------------------------- |
-| 中英翻译数据           | 500K | [链接](https://github.com/brightmart/nlp_chinese_corpus#5翻译语料translation2019zh) | 在原数据集的基础上进行了采样+规则筛选                   |
-| pCLUE数据              | 300K |        [链接](https://github.com/CLUEbenchmark/pCLUE)        | 在原数据集的基础上进行了采样+规则筛选                   |
-| 斯坦福Alpaca数据（英） | 50K  |     [链接](https://github.com/tatsu-lab/stanford_alpaca)     | 斯坦福原版Alpaca训练数据                                |
-| 斯坦福Alpaca数据（中） | 50K  |                 本项目提供 => [链接](./data)                 | 本项目使用ChatGPT接口对英文版本进行翻译（丢弃了一部分） |
-| Self-instruction数据   | 1~2M |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取，具体见以下脚本描述       |
+| 数据                 | 量级 |                             来源                             | 说明                                                    |
+| -------------------- | :--: | :----------------------------------------------------------: | ------------------------------------------------------- |
+| 中英翻译数据         | 500K | [外部链接](https://github.com/brightmart/nlp_chinese_corpus#5翻译语料translation2019zh) | 在原数据集的基础上进行了采样+规则筛选                   |
+| pCLUE数据            | 300K |      [外部链接](https://github.com/CLUEbenchmark/pCLUE)      | 在原数据集的基础上进行了采样+规则筛选                   |
+| Alpaca数据（英）     | 50K  |   [外部链接](https://github.com/tatsu-lab/stanford_alpaca)   | 斯坦福原版Alpaca训练数据                                |
+| Alpaca数据（中）     | 50K  |                    **[本地链接](./data)**                    | 本项目使用ChatGPT接口对英文版本进行翻译（丢弃了一部分） |
+| Self-instruction数据 | 1~2M |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取，具体见以下脚本描述       |
 
 本项目提供了一个动态生成不同领域和指令类型的prompt爬取脚本`script/crawl_prompt.py`。
 
@@ -397,9 +392,9 @@ python script/crawl_prompt.py output-file
 
 答：这个问题前面已经反复强调过了。LLaMA模型的开源协议许可不允许我们这么做，所以相关衍生工作都在寻找可以绕过限制的方法。请相信我们设置这么多步骤，不是为了增加大家的工作量，而是客观情况所致。后续待Facebook完全开放权重之后，我们会第一时间将完整版模型以及直接可加载的量化模型放出来。在此期间，我们也会密切关注其他LLaMA相关的repo，看看有没有更好的方法。
 
-##### 问题2：后面会有13B、33B、65B的版本吗？
+##### 问题2：后面会有33B、65B的版本吗？
 
-答：~~现在这个时间节点无法做出保证。~~ 目前确认会推出13B版本模型。其余的版本需要看情况。
+答：33B和65B版本需要看情况。我们希望模型能够“健康地”增长，而不只是追求更大的模型。
 
 
 ##### 问题3：一些任务上效果不好！
