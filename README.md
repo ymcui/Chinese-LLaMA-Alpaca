@@ -57,7 +57,7 @@
 
 ## 模型下载
 
-### ⚠️ 用户须知（必读）
+### 用户须知（必读）
 
 Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，目前暂时无法发布完整的模型权重，敬请各位理解（目前国外也是一样）。Facebook完全开放模型权重之后，本项目会及时更新相关策略。**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者进行合并即可获得完整版权重。
 
@@ -126,8 +126,9 @@ chinese_llama_lora_7b/
 2. 合并前务必确认基模型和LoRA模型补丁的[SHA256](./SHA256.md)是否一致，否则无法进行合并操作。
    - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
 3. 主要依赖库如下：
-   - ⚠️ 由于v4.27并不包含`LlamaModel`等实现，**必须从源码手动安装[最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)**
-   - 使用`pip`安装`sentencepiece`、`peft`
+   - [最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)，**必须从源码安装**，因为v4.27并不包含`LlamaModel`等实现
+   - `sentencepiece`（0.1.97测试通过）
+   - `peft`（0.2.0测试通过）
 
 ```bash
 pip install git+https://github.com/huggingface/transformers
@@ -135,12 +136,12 @@ pip install sentencepiece
 pip install peft
 ```
 
+*注意：本项目不对使用第三方（非Facebook官方）权重的合规性和正确性负责，例如HuggingFace模型库中的`decapoda-research/llama-7b-hf`（use at your own risk）。*
+
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
-请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。请将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
-
-*本项目不对使用第三方（非Facebook官方）权重的合规性和正确性负责，例如HuggingFace模型库中的`decapoda-research/llama-7b-hf`（use at your own risk）。*
+请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。**将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。**执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
 
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
@@ -151,20 +152,20 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 
 ### Step 2: 合并LoRA权重，生成全量模型权重
 
-使用`scripts/merge_llama_with_chinese_lora.py`脚本，对原版LLaMA模型（HF格式）扩充中文词表，并和LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`（建议检查[SHA256值](./SHA256.md)）和配置文件`params.json`。请执行以下命令：
+使用`scripts/merge_llama_with_chinese_lora.py`脚本，对原版LLaMA模型（HF格式）扩充中文词表，并与LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`（建议检查生成模型的[SHA256值](./SHA256.md)）和配置文件`params.json`。请执行以下命令：
 
 ```bash
 python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
-    --output_dir path_to_output_dir
+    --model_type 7B \
+    --output_dir path_to_output_dir 
 ```
 
-其中：
-
-- `--base_model`参数：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
-- `--lora_model`参数：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，或者也可使用Hugging Face Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
-- `--output_model`参数：指定保存全量模型权重的目录，默认为`./`
+- `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
+- `--lora_model`：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，或者也可使用Hugging Face Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
+- `--model_size`: 指定模型大小，目前支持`7B`和`13B`
+- `--output_model`：指定保存全量模型权重的目录，默认为`./`
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
 
