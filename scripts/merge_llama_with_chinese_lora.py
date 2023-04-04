@@ -168,6 +168,7 @@ def save_shards(lora_model_sd, num_shards: int):
                     new_state_dict[new_k] = v
 
         os.makedirs(output_dir, exist_ok=True)
+        print(f"Saving shard 0 of {num_shards} into {output_dir}/consolidated.00.pth")
         torch.save(new_state_dict, output_dir + "/consolidated.00.pth")
         with open(output_dir + "/params.json", "w") as f:
             json.dump(params, f)
@@ -226,8 +227,10 @@ def save_shards(lora_model_sd, num_shards: int):
 
         os.makedirs(output_dir, exist_ok=True)
         for i,new_state_dict in enumerate(new_state_dicts):
+            print(f"Saving shard {i+1} of {num_shards} into {output_dir}/consolidated.0{i}.pth")
             torch.save(new_state_dict, output_dir + f"/consolidated.0{i}.pth")
         with open(output_dir + "/params.json", "w") as f:
+            print(f"Saving params.json into {output_dir}/params.json")
             json.dump(params, f)
 
 
