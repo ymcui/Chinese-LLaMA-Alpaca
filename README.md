@@ -46,13 +46,13 @@
 ## 内容导引
 | 章节                                  | 描述                                                         |
 | ------------------------------------- | ------------------------------------------------------------ |
-| [模型下载](#模型下载)         | 中文LLaMA、Alpaca大模型下载地址                |
-| [合并模型](#合并模型) | （重要）介绍如何将下载的LoRA模型与原版LLaMA合并 |
-| [本地快速部署](#本地快速部署)       | 介绍了如何对模型进行量化并使用个人电脑部署并体验大模型 |
-| [系统效果](#系统效果) | 介绍了部分场景和任务下的使用体验效果             |
-| [训练细节](#训练细节) | 介绍了中文LLaMA、Alpaca大模型的训练细节 |
-| [局限性](#局限性) | 本项目涉及模型的局限性 |
-| [FAQ](#FAQ) | 一些常见问题的回复 |
+| [⏬模型下载](#模型下载)        | 中文LLaMA、Alpaca大模型下载地址                |
+| [🈴合并模型](#合并模型) | （重要）介绍如何将下载的LoRA模型与原版LLaMA合并 |
+| [💻本地快速部署](#本地快速部署)     | 介绍了如何对模型进行量化并使用个人电脑部署并体验大模型 |
+| [💯系统效果](#系统效果) | 介绍了部分场景和任务下的使用体验效果             |
+| [📝训练细节](#训练细节) | 介绍了中文LLaMA、Alpaca大模型的训练细节 |
+| [⚠️局限性](#局限性) | 本项目涉及模型的局限性 |
+| [❓FAQ](#FAQ) | 一些常见问题的回复 |
 
 
 ## 模型下载
@@ -77,7 +77,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调，具体见[训练细节](#训练细节)一节。
 
-**注意：如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
+**⚠️ 如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
 
 | 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
@@ -86,7 +86,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 ### 脚注及其他说明
 
-**[1]** 原版LLaMA模型需要[去LLaMA项目申请使用](https://github.com/facebookresearch/llama)或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载链接，敬请谅解。
+**[1]** 原版LLaMA模型需要[去LLaMA项目申请使用](https://github.com/facebookresearch/llama)或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。因版权问题本项目无法提供下载链接。
 
 **[2]** 经过重构后的模型大小比同等量级的原版LLaMA大一些（主要因为扩充了词表）。
 
@@ -103,7 +103,7 @@ chinese_llama_lora_7b/
   - tokenizer.model		# tokenizer文件 
 ```
 
-下表给出了各个版本合并后原模型大小（FP16）和4-bit量化后的大小，转换相应模型时确保本机有足够的内存和磁盘空间（下表应视为最低要求）：
+以下是各原模型和4-bit量化后的大小，转换相应模型时确保本机有足够的内存和磁盘空间（最低要求）：
 
 |                     |   7B   |  13B   |   33B   |   65B   |
 | :------------------ | :----: | :----: | :-----: | :-----: |
@@ -322,11 +322,11 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ### 准备工作：词表扩充
 
-由于原版LLaMA对中文的支持非常有限（对其他非英语语种也是如此），本项目在原版LLaMA的基础上进一步扩充了中文词表。
+由于原版LLaMA对中文的支持非常有限，本项目在原版LLaMA的基础上进一步扩充了中文词表。
 
 - 在通用中文语料上训练了基于[sentencepiece](https://github.com/google/sentencepiece)的20K中文词表并与原版LLaMA模型的32K词表进行合并
-- 排除重复的token后，得到的最终中文LLaMA词表大小为49953
-- 需要注意的是，在fine-tune阶段Alpaca比LLaMA多一个pad token，所以中文Alpaca的词表大小为49954
+- 排除重复的token后，得到的最终中文LLaMA词表大小为**49953**
+- 需要注意的是，在fine-tune阶段Alpaca比LLaMA多一个pad token，所以中文Alpaca的词表大小为**49954**
 
 更多关于中文词表扩充的动机，可参考[FAQ](#FAQ)。
 
@@ -334,7 +334,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 在预训练阶段，使用约20G左右的通用中文语料（与[中文BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm)、[MacBERT](https://github.com/ymcui/MacBERT)、[LERT](https://github.com/ymcui/PERT)、[PERT](https://github.com/ymcui/PERT)中使用的语料一致）在原版LLaMA权重的基础上进一步进行预训练。该过程又分为两个阶段：
 
-1. 第一阶段：固定模型transformer参数，仅训练embedding，在尽量不干扰原模型的情况下适配新增的中文词向量。
+1. 第一阶段：冻结transformer参数，仅训练embedding，在尽量不干扰原模型的情况下适配新增的中文词向量。
 
 2. 第二阶段：使用LoRA技术，为模型添加LoRA权重（adapter），训练embedding的同时也更新LoRA参数。
 
