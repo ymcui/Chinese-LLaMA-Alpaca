@@ -86,7 +86,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 ### 脚注及其他说明
 
-**[1]** 重构所需原版LLaMA模型需要在[Facebook-LLaMA](https://github.com/facebookresearch/llama)中申请使用或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载链接，敬请谅解。
+**[1]** 原版LLaMA模型需要[去LLaMA项目申请使用](https://github.com/facebookresearch/llama)或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。由于版权问题本项目无法提供下载链接，敬请谅解。
 
 **[2]** 经过重构后的模型大小比同等量级的原版LLaMA大一些（主要因为扩充了词表）。
 
@@ -123,8 +123,8 @@ chinese_llama_lora_7b/
 ### 准备工作
 
 1. 确保机器有足够的内存加载完整模型（例如7B模型需要13-15G）以进行合并模型操作。
-2. 合并前务必确认基模型和LoRA模型补丁的完整性，检查是否与[SHA256.md](./SHA256.md)所示的值一致，否则无法进行合并操作。
-   - 原版LLaMA包含以下文件：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
+2. 务必确认基模型和下载的LoRA模型完整性，检查是否与[SHA256.md](./SHA256.md)所示的值一致，否则无法进行合并操作。
+   - 原版LLaMA包含：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
 3. 主要依赖库如下：
    - [最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)，**必须从源码安装**，因为v4.27并不包含`LlamaModel`等实现
    - `sentencepiece`（0.1.97测试通过）
@@ -163,15 +163,15 @@ python scripts/merge_llama_with_chinese_lora.py \
 ```
 
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
-- `--lora_model`：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，或者也可使用Hugging Face Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
-- `--model_size`: 指定模型大小，目前支持`7B`和`13B`
+- `--lora_model`：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，也可使用🤗Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
+- `--model_size`：指定模型大小，目前支持`7B`和`13B`
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
 
 ## 本地快速部署
 
-研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署（CPU！）**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。**下面以中文Alpaca-7B模型为例介绍相关步骤。
+研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署（CPU！）**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 下面以中文Alpaca-7B模型为例介绍相关步骤。
 
 运行前请确保：
 
@@ -334,7 +334,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 在预训练阶段，使用约20G左右的通用中文语料（与[中文BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm)、[MacBERT](https://github.com/ymcui/MacBERT)、[LERT](https://github.com/ymcui/PERT)、[PERT](https://github.com/ymcui/PERT)中使用的语料一致）在原版LLaMA权重的基础上进一步进行预训练。该过程又分为两个阶段：
 
-1. 第一阶段：固定模型transformer部分的参数，仅训练embedding，在尽量不干扰原模型的情况下适配新增的中文词向量。
+1. 第一阶段：固定模型transformer参数，仅训练embedding，在尽量不干扰原模型的情况下适配新增的中文词向量。
 
 2. 第二阶段：使用LoRA技术，为模型添加LoRA权重（adapter），训练embedding的同时也更新LoRA参数。
 
@@ -347,13 +347,13 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 指令精调阶段使用了以下数据，其中7B模型约2M数据、13B模型约3M数据。基本构成如下：
 
-| 数据                 | 量级 |                             来源                             | 说明                                                    |
-| -------------------- | :--: | :----------------------------------------------------------: | ------------------------------------------------------- |
-| 中英翻译数据         | 500K | [外部链接](https://github.com/brightmart/nlp_chinese_corpus#5翻译语料translation2019zh) | 在原数据集的基础上进行了采样+规则筛选                   |
-| pCLUE数据            | 300K |      [外部链接](https://github.com/CLUEbenchmark/pCLUE)      | 在原数据集的基础上进行了采样+规则筛选                   |
-| Alpaca数据（英）     | 50K  |   [外部链接](https://github.com/tatsu-lab/stanford_alpaca)   | 斯坦福原版Alpaca训练数据                                |
-| Alpaca数据（中）     | 50K  |                    **[本地链接](./data)**                    | 本项目使用ChatGPT接口对英文版本进行翻译（丢弃了一部分） |
-| Self-instruction数据 | 1~2M |                         （暂不提供）                         | 本项目使用ChatGPT接口进行爬取，具体见以下脚本描述       |
+| 数据                 | 量级 |                             来源                             | 说明                                                  |
+| -------------------- | :--: | :----------------------------------------------------------: | ----------------------------------------------------- |
+| 中英翻译数据         | 500K | [外部链接](https://github.com/brightmart/nlp_chinese_corpus#5翻译语料translation2019zh) | 在原数据集的基础上进行了采样+规则筛选                 |
+| pCLUE数据            | 300K |      [外部链接](https://github.com/CLUEbenchmark/pCLUE)      | 在原数据集的基础上进行了采样+规则筛选                 |
+| Alpaca数据（英）     | 50K  |   [外部链接](https://github.com/tatsu-lab/stanford_alpaca)   | 斯坦福原版Alpaca训练数据                              |
+| Alpaca数据（中）     | 50K  |                    **[本地链接](./data)**                    | 本项目使用ChatGPT接口将英文版翻译为中文（筛掉一部分） |
+| Self-instruction数据 | 1~2M |                           （暂无）                           | 本项目使用ChatGPT接口进行爬取，具体见以下脚本描述     |
 
 本项目提供了一个动态生成不同领域和指令类型的prompt爬取脚本`script/crawl_prompt.py`。
 
@@ -362,7 +362,7 @@ python script/crawl_prompt.py output-file
 ```
 - 思路与[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca#data-generation-process)中的做法基本一致，一次批量生成20组数据（可自行修改模板），以降低爬取成本
 - 生成的文件包含通过`gpt-3.5-turbo`爬取的数据（你必须拥有OpenAI API key才可以使用）
-- 虽然指令模板中要求输出JSON格式，但系统并不总是会返回合法的JSON，需要自行根据返回数据的情况进行清洗
+- 虽然指令模板中要求输出JSON，但系统并不总是会返回合法的JSON，需要自行对返回数据进行清洗
 - 由于爬取时间比较长，建议后台运行该脚本。多线程运行时注意[OpenAI API的调用限制上限](https://platform.openai.com/docs/guides/rate-limits/overview)
 
 ### 实验配置
@@ -445,7 +445,7 @@ Episode: Logo中的小羊驼是由[midjourney](http://midjourney.com)自动生�
 
 ## 免责声明
 
-本项目相关资源仅供学术研究之用，严禁用于商业用途。使用涉及第三方代码的部分时，请严格遵循相应的开源协议。模型生成的内容受模型计算、随机性和量化精度损失等因素影响，本项目无法对其准确性作出保证。对于模型输出的任何内容，本项目不承担任何法律责任，亦不对因使用相关资源和输出结果而可能产生的任何损失承担责任。
+本项目相关资源仅供学术研究之用，严禁用于商业用途。使用涉及第三方代码的部分时，请严格遵循相应的开源协议。模型生成的内容受模型计算、随机性和量化精度损失等因素影响，本项目不对其准确性作出保证。对于模型输出的任何内容，本项目不承担任何法律责任，亦不对因使用相关资源和输出结果而可能产生的任何损失承担责任。
 
 本项目由个人及协作者业余时间发起并维护，因此无法保证能及时回复解决相应问题。
 
