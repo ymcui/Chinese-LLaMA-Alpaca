@@ -108,7 +108,11 @@ chinese_llama_lora_7b/
 
 ## 合并模型
 
-**[New]** 如果你订阅了Google Colab Pro(+)，那么可以使用我们写好的Notebook在线进行合并和量化模型。运行结束后，可按需下载合并后的全量权重以及量化后的权重。具体可查看（`notebooks`目录下也有，供流程参考）：<a href="https://colab.research.google.com/drive/1Eak6azD3MLeb-YsfbP8UZC8wrL1ddIMI?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+### 在线转换
+
+如果你熟悉Google Colab（如果有Pro以及更高订阅更佳），那么可以使用我们写好的Notebook在线合并和量化模型。
+
+运行结束后，可按需下载合并后的全量以及量化后的权重。具体步骤请移步Google Colab笔记本查看和运行（`notebooks`目录下也有，供参考）：[![Open In Colab](https://camo.githubusercontent.com/84f0493939e0c4de4e6dbe113251b4bfb5353e57134ffd9fcab6b8714514d4d1/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667)](https://colab.research.google.com/drive/1Eak6azD3MLeb-YsfbP8UZC8wrL1ddIMI?usp=sharing)
 
 ### 准备工作
 
