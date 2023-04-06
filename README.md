@@ -116,11 +116,11 @@ chinese_llama_lora_7b/
 
 ### 在线转换
 
-如果你订阅了Google Colab Pro(+)，那么可以使用我们写好的Notebook在线合并和量化模型。运行结束后，可按需下载合并后的全量以及量化后的权重。具体可查看（`notebooks`目录下也有，供参考）：<a href="https://colab.research.google.com/drive/1Eak6azD3MLeb-YsfbP8UZC8wrL1ddIMI?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+如果你熟悉Google Colab（如果有Pro以及更高订阅更佳），可以使用我们写好的Notebook在线合并和量化模型。
 
-如果没有以上订阅，请参考以下步骤使用服务器或个人电脑进行权重合并和量化。
-
-*注：因为转换过程所需内存较高，免费版Colab能否转换有待测试。*
+- 支持7B和13B版本模型的在线转换
+- 运行结束后，可按需下载合并后的全量以及量化后的权重
+- 具体步骤请移步Google Colab笔记本查看和运行（`notebooks`目录下也有，供参考）：<a href="https://colab.research.google.com/drive/1Eak6azD3MLeb-YsfbP8UZC8wrL1ddIMI?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 ### 准备工作
 
@@ -418,8 +418,6 @@ python script/crawl_prompt.py output-file
     - [Unicode (Windows) Support for llama.cpp](https://github.com/josStorer/llama.cpp-unicode-windows)（感谢@josStorer开发）
     - [#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)（感谢@LainNya、@boholder、@hyperzlib 等人提供解决方案）
   - 关于生成速度很慢：[#issue 51](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/51)（感谢@wscsjnhboy 提供解决方案）
-
-
 
 ## 引用
 
