@@ -71,8 +71,8 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 | 模型名称          | 类型 |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :---------------- | :--: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-LLaMA-7B  | 通用 | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |  39b86b......fe0e60  |
-| Chinese-LLaMA-13B | 通用 | 原版LLaMA-13B<sup>[1]</sup> |         1G         |       [百度网盘]<br/>[Google Drive]<br/>[HuggingFace]        |  3d6dee......e5199b  |
+| Chinese-LLaMA-7B  | 通用 | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
+| Chinese-LLaMA-13B | 通用 | 原版LLaMA-13B<sup>[1]</sup> |         1G         | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |  3d6dee......e5199b  |
 
 
 ### 中文Alpaca模型
@@ -84,7 +84,18 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
 | Chinese-Alpaca-7B  | 指令精调 | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |  9bb5b6......ce2d87  |
-| Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |        1.1G        |       [百度网盘]<br/>[Google Drive]<br/>[HuggingFace]        |          ⏳           |
+| Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |        1.1G        |                [百度网盘]<br/>[Google Drive]                 |          ⏳           |
+
+### 🤗 Model Hub
+
+可以在🤗Model Hub下载以上所有模型，并且使用[🤗transformers](https://github.com/huggingface/transformers)和[🤗PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。
+
+| 模型名             | MODEL_NAME                         | 链接                                                      |
+| ------------------ | ---------------------------------- | --------------------------------------------------------- |
+| Chinese-LLaMA-7B   | ziqingyang/chinese-llama-lora-7b   | https://huggingface.co/ziqingyang/chinese-llama-lora-7b   |
+| Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | https://huggingface.co/ziqingyang/chinese-llama-lora-13b  |
+| Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b  |
+| Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b |
 
 ### 脚注及其他说明
 
@@ -118,8 +129,8 @@ chinese_llama_lora_7b/
 
 如果你熟悉Google Colab（如果有Pro以及更高订阅更佳），可以使用我们写好的Notebook在线合并和量化模型。
 
-- 支持7B和13B版本模型的在线转换
-- 运行结束后，可按需下载合并后的全量以及量化后的权重
+- 支持LLaMA/Alpaca模型7B和13B版本的在线转换
+- 运行结束后，可按需下载合并后的全量以及量化后的权重（也可转存自己的Google Drive）
 - 具体步骤请移步Google Colab笔记本查看和运行（`notebooks`目录下也有，供参考）：<a href="https://colab.research.google.com/drive/1Eak6azD3MLeb-YsfbP8UZC8wrL1ddIMI?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 ### 准备工作
