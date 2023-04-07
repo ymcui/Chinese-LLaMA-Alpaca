@@ -259,16 +259,16 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 | 测试任务         |                详细样例                | 样例数 | 中文Alpaca-7B | 中文Alpaca-13B |
 | ---------------- | :------------------------------------: | :----: | :-----------: | :------------: |
 | **💯总平均分**    |                   -                    |  160   |    **49**     |    **👍🏻71**    |
-| 知识问答         |            [QA.md](./QA.md)            |   20   |      53       |    **👍🏻77**    |
-| 开放式问答       |           [OQA.md](./OQA.md)           |   20   |      64       |    **👍🏻73**    |
-| 数值计算、推理   |     [REASONING.md](./REASONING.md)     |   20   |      23       |    **👍🏻50**    |
-| 诗词、文学、哲学 |    [LITERATURE.md](./LITERATURE.md)    |   20   |      31       |    **👍🏻54**    |
-| 音乐、体育、娱乐 | [ENTERTAINMENT.md](./ENTERTAINMENT.md) |   20   |      36       |    **👍🏻65**    |
-| 写信、写文章     |    [GENERATION.md](./GENERATION.md)    |   15   |      65       |    **👍🏻78**    |
-| 文本翻译         |   [TRANSLATION.md](./TRANSLATION.md)   |   15   |      63       |    **👍🏻79**    |
-| 多轮交互         |      [DIALOGUE.md](./DIALOGUE.md)      |   10   |      80       |    **👍🏻83**    |
-| 代码编程         |          [CODE.md](./CODE.md)          |   10   |      27       |    **👍🏻49**    |
-| 伦理、拒答       |        [ETHICS.md](./ETHICS.md)        |   10   |      50       |   **👍🏻100**    |
+| 知识问答         |            [QA.md](./examples/QA.md)            |   20   |      53       |    **👍🏻77**    |
+| 开放式问答       |           [OQA.md](./examples/OQA.md)           |   20   |      64       |    **👍🏻73**    |
+| 数值计算、推理   |     [REASONING.md](./examples/REASONING.md)     |   20   |      23       |    **👍🏻50**    |
+| 诗词、文学、哲学 |    [LITERATURE.md](./examples/LITERATURE.md)    |   20   |      31       |    **👍🏻54**    |
+| 音乐、体育、娱乐 | [ENTERTAINMENT.md](./examples/ENTERTAINMENT.md) |   20   |      36       |    **👍🏻65**    |
+| 写信、写文章     |    [GENERATION.md](./examples/GENERATION.md)    |   15   |      65       |    **👍🏻78**    |
+| 文本翻译         |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   15   |      63       |    **👍🏻79**    |
+| 多轮交互         |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   10   |      80       |    **👍🏻83**    |
+| 代码编程         |          [CODE.md](./examples/CODE.md)          |   10   |      27       |    **👍🏻49**    |
+| 伦理、拒答       |        [ETHICS.md](./examples/ETHICS.md)        |   10   |      50       |   **👍🏻100**    |
 
 
 <details>
@@ -392,7 +392,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ### 预训练
 
-在预训练阶段，使用约20G左右的通用中文语料（与[中文BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm)、[MacBERT](https://github.com/ymcui/MacBERT)、[LERT](https://github.com/ymcui/PERT)、[PERT](https://github.com/ymcui/PERT)中使用的语料一致）在原版LLaMA权重的基础上进一步进行预训练。该过程又分为两个阶段：
+在预训练阶段，使用约20G左右的通用中文语料（与[中文BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm)、[MacBERT](https://github.com/ymcui/MacBERT)、[LERT](https://github.com/ymcui/LERT)、[PERT](https://github.com/ymcui/PERT)中使用的语料一致）在原版LLaMA权重的基础上进一步进行预训练。该过程又分为两个阶段：
 
 1. 第一阶段：冻结transformer参数，仅训练embedding，在尽量不干扰原模型的情况下适配新增的中文词向量。
 
