@@ -4,6 +4,7 @@ Borrowed and modified from https://github.com/tloen/alpaca-lora
 
 import os
 import json
+import gc
 
 import torch
 from peft import PeftModel, LoraConfig
@@ -14,6 +15,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model',default=None,required=True,type=str,help="Please specify a base_model")
 parser.add_argument('--lora_model',default=None,required=True,type=str,help="Please specify a lora_model")
+parser.add_argument('--model_size',default='7B',type=str,help="Size of the LLaMA model",choices=['7B','13B'])
+parser.add_argument('--offload_dir',default=None,type=str,help="(Optional) Please specify a temp folder for offloading (useful for low-RAM machines). Default None (disable offload).")
 parser.add_argument('--output_dir',default='./',type=str)
 args = parser.parse_args()
 
@@ -32,12 +35,26 @@ assert (
 ), "Please specify a BASE_MODEL in the script, e.g. 'decapoda-research/llama-7b-hf'"
 
 tokenizer = LlamaTokenizer.from_pretrained(LORA_MODEL)
-base_model = LlamaForCausalLM.from_pretrained(
-    BASE_MODEL,
-    load_in_8bit=False,
-    torch_dtype=torch.float16,
-    device_map={"": "cpu"},
-)
+if args.offload_dir is not None:
+    # Load with offloading, which is useful for low-RAM machines.
+    # Note that if you have enough RAM, please use original method instead, as it is faster.
+    base_model = LlamaForCausalLM.from_pretrained(
+        BASE_MODEL,
+        load_in_8bit=False,
+        torch_dtype=torch.float16,
+        offload_folder=args.offload_dir,
+        offload_state_dict=True,
+        low_cpu_mem_usage=True,
+        device_map={"": "cpu"},
+    )
+else:
+    # Original method without offloading
+    base_model = LlamaForCausalLM.from_pretrained(
+        BASE_MODEL,
+        load_in_8bit=False,
+        torch_dtype=torch.float16,
+        device_map={"": "cpu"},
+    )
 
 base_model.resize_token_embeddings(len(tokenizer))
 assert base_model.get_input_embeddings().weight.size(0) == len(tokenizer)
@@ -71,15 +88,33 @@ for layer in lora_model.base_model.model.model.layers:
 lora_model.train(False)
 
 lora_model_sd = lora_model.state_dict()
+del lora_model, base_model
 
-params = {
-    "dim": 4096,
-    "multiple_of": 256,
-    "n_heads": 32,
-    "n_layers": 32,
-    "norm_eps": 1e-06,
-    "vocab_size": -1,
+num_shards_of_models = {'7B': 1, '13B': 2}
+params_of_models = {
+    '7B':
+        {
+        "dim": 4096,
+        "multiple_of": 256,
+        "n_heads": 32,
+        "n_layers": 32,
+        "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
+    '13B':
+        {
+        "dim": 5120,
+        "multiple_of": 256,
+        "n_heads": 40,
+        "n_layers": 40,
+        "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
 }
+params = params_of_models[args.model_size]
+num_shards = num_shards_of_models[args.model_size]
+
+
 n_layers = params["n_layers"]
 n_heads = params["n_heads"]
 dim = params["dim"]
@@ -138,18 +173,89 @@ def translate_state_dict_key(k):
         raise NotImplementedError
 
 
-new_state_dict = {}
-for k, v in lora_model_sd.items():
-    new_k = translate_state_dict_key(k)
-    if new_k is not None:
-        if "wq" in new_k or "wk" in new_k:
-            new_state_dict[new_k] = unpermute(v)
+def save_shards(lora_model_sd, num_shards: int):
+    # Add the no_grad context manager
+    with torch.no_grad():
+        if num_shards == 1:
+            new_state_dict = {}
+            for k, v in lora_model_sd.items():
+                new_k = translate_state_dict_key(k)
+                if new_k is not None:
+                    if "wq" in new_k or "wk" in new_k:
+                        new_state_dict[new_k] = unpermute(v)
+                    else:
+                        new_state_dict[new_k] = v
+
+            os.makedirs(output_dir, exist_ok=True)
+            print(f"Saving shard 1 of {num_shards} into {output_dir}/consolidated.00.pth")
+            torch.save(new_state_dict, output_dir + "/consolidated.00.pth")
+            with open(output_dir + "/params.json", "w") as f:
+                json.dump(params, f)
         else:
-            new_state_dict[new_k] = v
+            new_state_dicts = [dict() for _ in range(num_shards)]
+            for k in list(lora_model_sd.keys()):
+                v = lora_model_sd[k]
+                new_k = translate_state_dict_key(k)
+                if new_k is not None:
+                    if new_k=='tok_embeddings.weight':
+                        print(f"Processing {new_k}")
+                        assert v.size(1)%num_shards==0
+                        splits = v.split(v.size(1)//num_shards,dim=1)
+                    elif new_k=='output.weight':
+                        print(f"Processing {new_k}")
+                        splits = v.split(v.size(0)//num_shards,dim=0)
 
-os.makedirs(output_dir, exist_ok=True)
+                    elif new_k=='norm.weight':
+                        print(f"Processing {new_k}")
+                        splits = [v] * num_shards
+                    elif 'ffn_norm.weight' in new_k:
+                        print(f"Processing {new_k}")
+                        splits = [v] * num_shards
+                    elif 'attention_norm.weight' in new_k:
+                        print(f"Processing {new_k}")
+                        splits = [v] * num_shards
 
-torch.save(new_state_dict, output_dir + "/consolidated.00.pth")
 
-with open(output_dir + "/params.json", "w") as f:
-    json.dump(params, f)
+                    elif 'w1.weight' in new_k:
+                        print(f"Processing {new_k}")
+                        splits = v.split(v.size(0)//num_shards,dim=0)
+                    elif 'w2.weight' in new_k:
+                        print(f"Processing {new_k}")
+                        splits = v.split(v.size(1)//num_shards,dim=1)
+                    elif 'w3.weight' in new_k:
+                        print(f"Processing {new_k}")
+                        splits = v.split(v.size(0)//num_shards,dim=0)
+
+
+                    elif 'wo.weight' in new_k:
+                        print(f"Processing {new_k}")
+                        splits = v.split(v.size(1)//num_shards,dim=1)
+
+                    elif 'wv.weight' in new_k:
+                        print(f"Processing {new_k}")
+                        splits = v.split(v.size(0)//num_shards,dim=0)
+
+                    elif "wq.weight" in new_k or "wk.weight" in new_k:
+                        print(f"Processing {new_k}")
+                        v = unpermute(v)
+                        splits = v.split(v.size(0)//num_shards,dim=0)
+                    else:
+                        print(f"Unexpected key {new_k}")
+                        raise ValueError
+                    for sd,split in zip(new_state_dicts,splits):
+                        sd[new_k] = split.clone()
+                        del split
+                    del splits
+                del lora_model_sd[k],v
+                gc.collect()    # Effectively enforce garbage collection
+
+            os.makedirs(output_dir, exist_ok=True)
+            for i,new_state_dict in enumerate(new_state_dicts):
+                print(f"Saving shard {i+1} of {num_shards} into {output_dir}/consolidated.0{i}.pth")
+                torch.save(new_state_dict, output_dir + f"/consolidated.0{i}.pth")
+            with open(output_dir + "/params.json", "w") as f:
+                print(f"Saving params.json into {output_dir}/params.json")
+                json.dump(params, f)
+
+
+save_shards(lora_model_sd=lora_model_sd, num_shards=num_shards)
