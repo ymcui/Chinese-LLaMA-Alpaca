@@ -35,7 +35,7 @@ assert (
 ), "Please specify a BASE_MODEL in the script, e.g. 'decapoda-research/llama-7b-hf'"
 
 tokenizer = LlamaTokenizer.from_pretrained(LORA_MODEL)
-if args.offload_folder is not None:
+if args.offload_dir is not None:
     # Load with offloading, which is useful for low-RAM machines.
     # Note that if you have enough RAM, please use original method instead, as it is faster.
     base_model = LlamaForCausalLM.from_pretrained(
