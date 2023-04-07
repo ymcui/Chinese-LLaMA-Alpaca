@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--base_model',default=None,required=True,type=str,help="Please specify a base_model")
 parser.add_argument('--lora_model',default=None,required=True,type=str,help="Please specify a lora_model")
 parser.add_argument('--model_size',default='7B',type=str,help="Size of the LLaMA model",choices=['7B','13B'])
-parser.add_argument('--offload_folder',default=None,type=str,help="(Optional) Please specify a temp folder for offloading (useful for low-RAM machines). Default None (disable offload).")
+parser.add_argument('--offload_dir',default=None,type=str,help="(Optional) Please specify a temp folder for offloading (useful for low-RAM machines). Default None (disable offload).")
 parser.add_argument('--output_dir',default='./',type=str)
 args = parser.parse_args()
 
@@ -42,7 +42,7 @@ if args.offload_folder is not None:
         BASE_MODEL,
         load_in_8bit=False,
         torch_dtype=torch.float16,
-        offload_folder=args.offload_folder,
+        offload_folder=args.offload_dir,
         offload_state_dict=True,
         low_cpu_mem_usage=True,
         device_map={"": "cpu"},

@@ -183,6 +183,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 - `--lora_model`：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，也可使用🤗Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
 - `--model_size`：指定模型大小，目前支持`7B`和`13B`
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
+- （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
 
 *（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
 
