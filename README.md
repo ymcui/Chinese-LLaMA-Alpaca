@@ -85,19 +85,19 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 | 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-Alpaca-7B  | 指令精调 | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing)</br>[[HuggingFace]](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |  9bb5b6......ce2d87  |
+| Chinese-Alpaca-7B  | 指令精调 | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
 | Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |        1.1G        |                [百度网盘]<br/>[Google Drive]                 |          ⏳           |
 
 ### 🤗 Model Hub
 
 可以在🤗Model Hub下载以上所有模型，并且使用[🤗transformers](https://github.com/huggingface/transformers)和[🤗PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。
 
-| 模型名             | MODEL_NAME                         | 链接                                                      |
-| ------------------ | ---------------------------------- | --------------------------------------------------------- |
-| Chinese-LLaMA-7B   | ziqingyang/chinese-llama-lora-7b   | https://huggingface.co/ziqingyang/chinese-llama-lora-7b   |
-| Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | https://huggingface.co/ziqingyang/chinese-llama-lora-13b  |
-| Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b  |
-| Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b |
+| 模型名             |             MODEL_NAME             |                             链接                             |
+| ------------------ | :--------------------------------: | :----------------------------------------------------------: |
+| Chinese-LLaMA-7B   |  ziqingyang/chinese-llama-lora-7b  | [Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
+| Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | [Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
+| Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | [Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
+| Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | [Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
 
 ### 脚注及其他说明
 
