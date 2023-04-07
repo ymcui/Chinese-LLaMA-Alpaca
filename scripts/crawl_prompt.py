@@ -4,6 +4,8 @@ import sys
 import random
 
 openai.api_key = ""   # you must provide your OpenAI API key before crawling
+if not openai.api_key:
+  raise ValueError("OpenAI API key not provided. Please set the 'openai.api_key' variable.")
 
 def return_random_prompt():
   system_prompt = "你需要尽可能给出多样化的任务指令和对应的回答。我们将用于人工评估ChatGPT模型对指令的完成情况。要求:\n"
