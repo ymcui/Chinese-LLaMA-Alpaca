@@ -260,16 +260,16 @@ In order to quickly evaluate the actual performance of related models, this proj
 | Task                           |                Samples                 |  #   | Chinese Alpaca-7B | Chinese Alpaca-13B |
 | ------------------------------ | :------------------------------------: | :--: | :---------------: | :----------------: |
 | **💯 Overall**                  |                   -                    | 160  |      **49**       |      **👍🏻71**      |
-| Question Answering             |            [QA.md](./QA.md)            |  20  |        53         |      **👍🏻77**      |
-| Open QA                        |           [OQA.md](./OQA.md)           |  20  |        64         |      **👍🏻73**      |
-| Computation, Reasoning         |     [REASONING.md](./REASONING.md)     |  20  |        23         |      **👍🏻50**      |
-| Poetry, Literature, Philosophy |    [LITERATURE.md](./LITERATURE.md)    |  20  |        31         |      **👍🏻54**      |
-| Music, Sports, Entertainment   | [ENTERTAINMENT.md](./ENTERTAINMENT.md) |  20  |        36         |      **👍🏻65**      |
-| Letters and Articles           |    [GENERATION.md](./GENERATION.md)    |  15  |        65         |      **👍🏻78**      |
-| Translation                    |   [TRANSLATION.md](./TRANSLATION.md)   |  15  |        63         |      **👍🏻79**      |
-| Multi-turn Dialogue            |      [DIALOGUE.md](./DIALOGUE.md)      |  10  |        80         |      **👍🏻83**      |
-| Coding                         |          [CODE.md](./CODE.md)          |  10  |        27         |      **👍🏻49**      |
-| Ethics                         |        [ETHICS.md](./ETHICS.md)        |  10  |        50         |     **👍🏻100**      |
+| Question Answering             |       [QA.md](./examples/QA.md)        |  20  |        53         |      **👍🏻77**      |
+| Open QA                        |           [OQA.md](./examples/OQA.md)           |  20  |        64         |      **👍🏻73**      |
+| Computation, Reasoning         |     [REASONING.md](./examples/REASONING.md)     |  20  |        23         |      **👍🏻50**      |
+| Poetry, Literature, Philosophy |    [LITERATURE.md](./examples/LITERATURE.md)    |  20  |        31         |      **👍🏻54**      |
+| Music, Sports, Entertainment   | [ENTERTAINMENT.md](./examples/ENTERTAINMENT.md) |  20  |        36         |      **👍🏻65**      |
+| Letters and Articles           |    [GENERATION.md](./examples/GENERATION.md)    |  15  |        65         |      **👍🏻78**      |
+| Translation                    |   [TRANSLATION.md](./examples/TRANSLATION.md)   |  15  |        63         |      **👍🏻79**      |
+| Multi-turn Dialogue            |      [DIALOGUE.md](./examples/DIALOGUE.md)      |  10  |        80         |      **👍🏻83**      |
+| Coding                         |          [CODE.md](./examples/CODE.md)          |  10  |        27         |      **👍🏻49**      |
+| Ethics                         |        [ETHICS.md](./examples/ETHICS.md)        |  10  |        50         |     **👍🏻100**      |
 
 
 <details>
@@ -392,7 +392,7 @@ For more information on the motivation behind expanding the Chinese vocabulary, 
 
 ### Pre-training
 
-In the pre-training phase, the general Chinese corpora (consistent with the corpora used in [Chinese BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm), [MacBERT](https://github.com/ymcui/MacBERT), [LERT](https://github.com/ymcui/PERT), [PERT](https://github.com/ymcui/PERT)) were used for further pre-training based on the original LLaMA weights. This process is divided into two stages:
+In the pre-training phase, the general Chinese corpora (consistent with the corpora used in [Chinese BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm), [MacBERT](https://github.com/ymcui/MacBERT), [LERT](https://github.com/ymcui/LERT), [PERT](https://github.com/ymcui/PERT)) were used for further pre-training based on the original LLaMA weights. This process is divided into two stages:
 
 1. Stage One: Fix the parameters of the transformer part of the model and only train the embedding, adapting the newly added Chinese word vectors without disturbing the original model as much as possible.
 2. Stage Two: Use LoRA technology to add LoRA weights (adapter) to the model, and train the embedding while updating LoRA parameters.
