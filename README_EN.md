@@ -125,7 +125,7 @@ The following is the size of each original model and 4-bit quantization. When co
 
 ### Online Conversion
 
-**[New] After memory optimization, Colab free users can now convert 7B and 13B models online! **
+**[New] After memory optimization, Colab free users can now convert 7B and 13B models online!**
 
 If you are familiar with Google Colab (if you have Pro and higher subscriptions), you can use our written Notebook to combine and quantify models online.
 
@@ -515,5 +515,5 @@ This project is initiated and maintained by individuals and collaborators in the
 If you have any questions, please submit them in GitHub Issues.
 
 - Before submitting a question, please check if the FAQ can solve the problem and consult past issues to see if they can help.
-- Duplicate and unrelated issues will be handled by [stable-bot](stale · GitHub Marketplace); please understand.
+- Duplicate and unrelated issues will be handled by [stable-bot](https://github.com/marketplace/stale); please understand.
 - Raise questions politely and help build a harmonious discussion community.
