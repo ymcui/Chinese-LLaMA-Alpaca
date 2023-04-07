@@ -49,12 +49,12 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 | Chapter                                       | Description                                                  |
 | --------------------------------------------- | ------------------------------------------------------------ |
-| [Download](#Download)                         | Download links for Chinese LLaMA and Alpaca                  |
+| [Model Download](#Model-Download)                         | Download links for Chinese LLaMA and Alpaca                  |
 | [Model Reconstruction](#Model-Reconstruction) | (Important) Explains how to merge downloaded LoRA models with the original LLaMA |
-| [Quick Deployment](#Quick=Deployment)         | Steps for quantize and deploy LLMs on personal computers     |
-| [Example Results](#Example-Results)           | Examples of the system output                                |
+| [Quick Deployment](#Quick-Deployment)         | Steps for quantize and deploy LLMs on personal computers     |
+| [System Performance](#System-Performance)           | Examples of the system output                                |
 | [Training Details](#Training-Details)         | Introduces the training details of Chinese LLaMA and Alpaca  |
-| [Limitations](Limitations)                    | Limitations of the models involved in this project           |
+| [Limitations](#Limitations)                    | Limitations of the models involved in this project           |
 | [FAQ](#FAQ)                                   | Replies to some common questions                             |
 
 ## Model Download
@@ -182,7 +182,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 where:
 
 - `--base_model`: directory where the HF format LLaMA model weights and configuration files are saved (generated in Step 1)
-- `--lora_model`: directory where the Chinese LLaMA/Alpaca LoRA model compressed file downloaded in the previous section is located, or the model name on Hugging Face Model Hub: `ziqingyang/chinese-alpaca-lora-7b` or `ziqingyang/chinese-llama-lora-7b`
+- `--lora_model`: directory where the Chinese LLaMA/Alpaca LoRA model compressed file downloaded in the [previous section](#Model-Download) is located, or the model name on Hugging Face Model Hub: `ziqingyang/chinese-alpaca-lora-7b` or `ziqingyang/chinese-llama-lora-7b`
 - `--model_size`: specify model size, support`7B` and `13B`
 - `--output_model`: directory to save the consolidated model weights (default: `./`)
 - (optional) `--offload_dir`: for low-RAM users, please specify a offload directory
