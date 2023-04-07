@@ -173,7 +173,7 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
-    --model_type 7B \
+    --model_size 7B \
     --output_dir path_to_output_dir 
 ```
 
