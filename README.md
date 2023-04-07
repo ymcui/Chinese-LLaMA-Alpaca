@@ -127,6 +127,8 @@ chinese_llama_lora_7b/
 
 ### 在线转换
 
+**[New] 经过内存优化之后，现在Colab免费用户也能在线转换7B和13B模型了！**
+
 如果你熟悉Google Colab（如果有Pro以及更高订阅更佳），可以使用我们写好的Notebook在线合并和量化模型。
 
 - 支持LLaMA/Alpaca模型7B和13B版本的在线转换
