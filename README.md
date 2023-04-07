@@ -173,7 +173,7 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
-    --model_type 7B \
+    --model_size 7B \
     --output_dir path_to_output_dir 
 ```
 
@@ -192,7 +192,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 运行前请确保：
 
 1. 模型量化过程需要将未量化模型全部载入内存，请确保有足够可用内存（7B版本需要13G以上）
-2. 加载使用Q4量化后的模型时（例如7B版本），确保本机可用内存大于4-6G（受上下文长度影响）
+2. 加载使用4-bit量化后的模型时（例如7B版本），确保本机可用内存大于4-6G（受上下文长度影响）
 3. 系统应有`make`（MacOS/Linux自带）或`cmake`（Windows需自行安装）编译工具
 4. 推荐使用Python 3.9或3.10编译运行[llama.cpp工具](https://github.com/ggerganov/llama.cpp)（因为`sentencepiece`还不支持3.11）
 
@@ -209,7 +209,7 @@ make
 
 ###  Step 2: 生成量化版本模型
 
-根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.*`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
+根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.model`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
 
 ```
 llama.cpp/zh-models/
@@ -225,7 +225,7 @@ llama.cpp/zh-models/
 python convert-pth-to-ggml.py zh-models/7B/ 1
 ```
 
-进一步对FP16模型进行Q4量化，生成量化模型文件路径为`zh-models/7B/ggml-model-q4_0.bin`。
+进一步对FP16模型进行4-bit量化，生成量化模型文件路径为`zh-models/7B/ggml-model-q4_0.bin`。
 
 ```bash
 ./quantize ./zh-models/7B/ggml-model-f16.bin ./zh-models/7B/ggml-model-q4_0.bin 2
@@ -233,12 +233,12 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ### Step 3: 加载并启动模型
 
-运行`./main`二进制文件，`-m`命令指定Q4量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例：
+运行`./main`二进制文件，`-m`命令指定4-bit量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例：
 
 ```bash
 ./main -m zh-models/7B/ggml-model-q4_0.bin --color -f prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
 ```
-在提示符 `>` 之后输入你的prompt，`command+c`中断输出，多行信息以`\`作为行尾。如需查看帮助和参数说明，请执行`./main -h`命令。
+在提示符 `>` 之后输入你的prompt，`cmd/ctrl+c`中断输出，多行信息以`\`作为行尾。如需查看帮助和参数说明，请执行`./main -h`命令。
 
 ```
 重要参数说明：
@@ -459,7 +459,7 @@ python script/crawl_prompt.py output-file
 
 ##### 问题3：一些任务上效果不好！
 
-答：这里有几个可能的原因，1）本身LLaMA对中文支持不是很好，大多数相关衍生工作是直接在原版上进行pretrain/finetune的，而我们采取了更大胆的策略——增加中文词表，可能进一步加剧中文训练不充分的问题，但从长远看是否有利于后续进一步预训练就得靠时间检验了；2）指令数据的质量有待进一步提升；3）训练时间、超参等方面还有很大调整空间；4）没有RLHF；5）Q4量化后效果可能会下降，因此可以尝试加载FP16模型，效果相对更好一些（也更慢）。
+答：这里有几个可能的原因，1）本身LLaMA对中文支持不是很好，大多数相关衍生工作是直接在原版上进行pretrain/finetune的，而我们采取了更大胆的策略——增加中文词表，可能进一步加剧中文训练不充分的问题，但从长远看是否有利于后续进一步预训练就得靠时间检验了；2）指令数据的质量有待进一步提升；3）训练时间、超参等方面还有很大调整空间；4）没有RLHF；5）4-bit量化后效果可能会下降，因此可以尝试加载FP16模型，效果相对更好一些（也更慢）。
 
 ##### 问题4：为什么要扩充词表？直接在原版LLaMA上用中文预训练不行吗？
 
@@ -467,7 +467,7 @@ python script/crawl_prompt.py output-file
 
 ##### 问题5：回复内容很短
 
-答：目前已发现Q4量化的模型相对FP16的模型更倾向于给出短答案。可以在prompt中命令输出长回复，比如”请详细说明……“等。其余可能的原因包括训练数据分布、训练参数、解码参数等。
+答：目前已发现4-bit量化的模型相对FP16的模型更倾向于给出短答案。可以在prompt中命令输出长回复，比如”请详细说明……“等。其余可能的原因包括训练数据分布、训练参数、解码参数等。
 
 ##### 问题6：Windows下，模型无法理解中文、生成速度很慢等问题
 

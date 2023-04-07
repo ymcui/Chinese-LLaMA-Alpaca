@@ -50,18 +50,18 @@ To promote open research of large models in the Chinese NLP community, this proj
 | Chapter                                       | Description                                                  |
 | --------------------------------------------- | ------------------------------------------------------------ |
 | [Download](#Download)                         | Download links for Chinese LLaMA and Alpaca                  |
-| [Model Reconstrcution](#Model-Reconstrcution) | (Important) Explains how to merge downloaded LoRA models with the original LLaMA |
-| [Quick Deployment](#Quick=Deployment)         | Steps for quantize adn deploy LLMs on personal computers     |
+| [Model Reconstruction](#Model-Reconstruction) | (Important) Explains how to merge downloaded LoRA models with the original LLaMA |
+| [Quick Deployment](#Quick=Deployment)         | Steps for quantize and deploy LLMs on personal computers     |
 | [Example Results](#Example-Results)           | Examples of the system output                                |
 | [Training Details](#Training-Details)         | Introduces the training details of Chinese LLaMA and Alpaca  |
 | [Limitations](Limitations)                    | Limitations of the models involved in this project           |
-| [FAQ](#FAQ) | Replies to some common questions |
+| [FAQ](#FAQ)                                   | Replies to some common questions                             |
 
 ## Model Download
 
 ### ⚠️ User Notice (Must Read)
 
-The official [LLaMA model released by Facebook prohibits commercial use](https://github.com/facebookresearch/llama), and the official model weights have not been open-sourced (although there are many third-party download links available online). In order to comply with the relevant licenses, it is currently not possible to release the complete model weights. We appreciate your understanding. After Facebook fully opens up the model weights, this project will update its policies accordingly. **What is released here are the LoRA weights**, which can be seen as a "patch" for the original LLaMA model, and the complete weights can be obtained by merging the two.
+The official [LLaMA models released by Facebook prohibits commercial use](https://github.com/facebookresearch/llama), and the official model weights have not been open-sourced (although there are many third-party download links available online). In order to comply with the relevant licenses, it is currently not possible to release the complete model weights. We appreciate your understanding. After Facebook fully opens up the model weights, this project will update its policies accordingly. **What is released here are the LoRA weights**, which can be seen as a "patch" for the original LLaMA model, and the complete weights can be obtained by merging the two.
 
 
 ### Chinese LLaMA
@@ -121,7 +121,7 @@ The following is the size of each original model and 4-bit quantization. When co
 | Original（FP16）   | 13 GB  | 24 GB  |  60 GB  | 120 GB  |
 | Quantized（4-bit） | 3.9 GB | 7.8 GB | 19.5 GB | 38.5 GB |
 
-## Model Reconstrcution
+## Model Reconstruction
 
 ### Online Conversion
 
@@ -137,7 +137,7 @@ If you are familiar with Google Colab (if you have Pro and higher subscriptions)
 
 1. Make sure the machine has enough memory to load the complete model (e.g., 13-15G for the 7B model) for the model merging operation.
 
-2. Before merging, make sure that the SHA256 of the base model and the LoRA model patch are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
+2. Before merging, make sure that the SHA256 of the base model and the LoRA model patch files are consistent with those in [SHA256.md](./SHA256.md), otherwise, the merge operation cannot be performed.
 
    - The original LLaMA contains the following files: `tokenizer.model`, `tokenizer_checklist.chk`, `consolidated.00.pth`, `params.json`
 
@@ -175,7 +175,7 @@ Use the script `merge_llama_with_chinese_lora.py` to expand the Chinese vocabula
 python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
-		--model_type 7B \
+    --model_size 7B \
     --output_dir path_to_output_dir
 ```
 
@@ -228,7 +228,7 @@ Convert the above `.pth` model weights to ggml's FP16 format, and generate a fil
 python convert-pth-to-ggml.py zh-models/7B/ 1
 ```
 
-Further quantize the FP16 model to Q4, and generate a quantized model file with the path `zh-models/7B/ggml-model-q4_0.bin`.
+Further quantize the FP16 model to 4-bit, and generate a quantized model file with the path `zh-models/7B/ggml-model-q4_0.bin`.
 
 ```bash
 ./quantize ./zh-models/7B/ggml-model-f16.bin ./zh-models/7B/ggml-model-q4_0.bin 2
@@ -236,7 +236,7 @@ Further quantize the FP16 model to Q4, and generate a quantized model file with 
 
 ### Step 3: Load and start the model
 
-Run the `./main` binary file, with the `-m` command specifying the Q4 quantized model (or loading the ggml-FP16 model). Below is an example of decoding parameters:
+Run the `./main` binary file, with the `-m` command specifying the 4-bit quantized model (or loading the ggml-FP16 model). Below is an example of decoding parameters:
 
 ```bash
 ./main -m zh-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
@@ -400,7 +400,7 @@ In the pre-training phase, the general Chinese corpora (consistent with the corp
 ### Instruction Fine-tuning
 
 1. The task format of the instruction fine-tuning phase is basically the same as that of [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca). The training scheme also used LoRA for efficient fine-tuning and further increased the number of trainable parameters.
-2. We follow the original prompt by [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) that without "input". For the data that contains "input" values, we simply concatenate them in the for of`f"{instruction}+\n+{input}"`.
+2. We follow the original prompt by [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) that without "input". For the data that contains "input" values, we simply concatenate them in the form of`f"{instruction}+\n+{input}"`.
 
 ### Training Data
 
