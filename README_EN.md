@@ -176,7 +176,7 @@ python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
     --model_size 7B \
-    --output_dir path_to_output_dir
+    --output_dir path_to_output_dir/7B
 ```
 
 where:
@@ -187,7 +187,21 @@ where:
 - `--output_model`: directory to save the consolidated model weights (default: `./`)
 - (optional) `--offload_dir`: for low-RAM users, please specify a offload directory
 
-*(Optional) If necessary, you can convert the `.pth` files generated in this step to HuggingFace format using the script in Step 1.*
+### Step 3. (Optional) If necessary, convert the consolidated model to HuggingFace format
+
+Put `tokenizer.model` in downloaded LoRA model to `path_to_output_dir`.
+
+Run script:
+
+```
+python src/transformers/models/llama/convert_llama_weights_to_hf.py \
+    --input_dir path_to_output_dir \
+    --model_size 7B \
+    --output_dir path_to_hf_output_dir
+```
+
+Modify `path_to_hf_output_dir/config.json`: change `"vocab_size": 32000` to `"vocab_size": 49953` (LLaMA) or `"vocab_size": 49954` (Alpaca).
+
 
 ## Quick Deployment
 

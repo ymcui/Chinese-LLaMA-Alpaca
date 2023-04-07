@@ -174,7 +174,7 @@ python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
     --model_size 7B \
-    --output_dir path_to_output_dir 
+    --output_dir path_to_output_dir/7B
 ```
 
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
@@ -183,7 +183,21 @@ python scripts/merge_llama_with_chinese_lora.py \
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
 
-*（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
+### Step 3:（可选）如有需要，将全量模型转换为HuggingFace格式。*
+
+将下载的 LoRA 模型里 `tokenizer.model` 放入 `path_to_output_dir` 中。
+
+执行命令：
+
+```
+python src/transformers/models/llama/convert_llama_weights_to_hf.py \
+    --input_dir path_to_output_dir \
+    --model_size 7B \
+    --output_dir path_to_hf_output_dir
+```
+
+生成之后将 `path_to_hf_output_dir/config.json` 中 `"vocab_size": 32000` 替换为 `"vocab_size": 49953` (LLaMA) 或者 `"vocab_size": 49954` (Alpaca)。
+
 
 ## 本地快速部署
 
