@@ -77,9 +77,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 ### 中文Alpaca模型
 
-中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调，具体见[训练细节](#训练细节)一节。
-
-**⚠️ 如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
+中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调，具体见[训练细节](#训练细节)一节。如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。
 
 | 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
@@ -127,7 +125,7 @@ chinese_llama_lora_7b/
 
 ### 在线转换
 
-**[New] 经过内存优化之后，现在Colab免费用户也能在线转换7B和13B模型了！**
+**🆕 经过内存优化之后，现在Colab免费用户也能在线转换7B和13B模型了！**
 
 如果你熟悉Google Colab（如果有Pro以及更高订阅更佳），可以使用我们写好的Notebook在线合并和量化模型。
 
@@ -156,7 +154,7 @@ pip install peft
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
-请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。**将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。** 执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
+请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
 
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
@@ -187,14 +185,16 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 ## 本地快速部署
 
-研究社区已经有很多优秀的模型量化和部署工具帮助用户**很方便地将大模型在自己的电脑上进行本地部署（CPU！）**。接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 下面以中文Alpaca-7B模型为例介绍相关步骤。
+研究社区已经有很多优秀的模型量化和本地部署工具帮助用户很方便地将大模型在自己的电脑上进行部署（CPU！）。
 
-运行前请确保：
+接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
+
+下面以中文Alpaca-7B模型为例介绍，运行前请确保：
 
 1. 模型量化过程需要将未量化模型全部载入内存，请确保有足够可用内存（7B版本需要13G以上）
 2. 加载使用4-bit量化后的模型时（例如7B版本），确保本机可用内存大于4-6G（受上下文长度影响）
 3. 系统应有`make`（MacOS/Linux自带）或`cmake`（Windows需自行安装）编译工具
-4. 推荐使用Python 3.9或3.10编译运行[llama.cpp工具](https://github.com/ggerganov/llama.cpp)（因为`sentencepiece`还不支持3.11）
+4. [llama.cpp](https://github.com/ggerganov/llama.cpp)官方建议使用Python 3.9或3.10编译和运行该工具
 
 
 ### Step 1: 克隆和编译llama.cpp
@@ -238,17 +238,18 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 ```bash
 ./main -m zh-models/7B/ggml-model-q4_0.bin --color -f prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
 ```
-在提示符 `>` 之后输入你的prompt，`cmd/ctrl+c`中断输出，多行信息以`\`作为行尾。如需查看帮助和参数说明，请执行`./main -h`命令。
+在提示符 `>` 之后输入你的prompt，`cmd/ctrl+c`中断输出，多行信息以`\`作为行尾。如需查看帮助和参数说明，请执行`./main -h`命令。下面介绍一些常用的参数：
 
 ```
-重要参数说明：
--ins 启动类ChatGPT的对话交流模式
+-ins 启动类ChatGPT对话交流的运行模式
 -f 指定prompt模板，alpaca模型请加载prompts/alpaca.txt
--c 控制上下文的长度，值越大越能参考更长的对话历史
--n 控制回复生成的最大长度
+-c 控制上下文的长度，值越大越能参考更长的对话历史（默认：512）
+-n 控制回复生成的最大长度（默认：128）
+-b 控制batch size（默认：8），可适当增加
+-t 控制线程数量（默认：4），可适当增加
 --repeat_penalty 控制生成回复中对重复文本的惩罚力度
 --temp 温度系数，值越低回复的随机性越小，反之越大
---top_p, top_k 控制采样的相关参数
+--top_p, top_k 控制解码采样的相关参数
 ```
 
 
