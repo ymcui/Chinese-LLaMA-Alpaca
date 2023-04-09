@@ -229,6 +229,8 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 ./quantize ./zh-models/7B/ggml-model-f16.bin ./zh-models/7B/ggml-model-q4_0.bin 2
 ```
 
+此处也可以将最后一个参数改为`3`，即生成`q4_1`版本的量化权重。`q4_1`权重比`q4_0`大一些，速度慢一些，效果方面会有些许提升，具体可参考[llama.cpp#PPL](https://github.com/ggerganov/llama.cpp#perplexity-measuring-model-quality)。
+
 ### Step 3: 加载并启动模型
 
 运行`./main`二进制文件，`-m`命令指定4-bit量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例：
@@ -253,7 +255,9 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ## 系统效果
 
-为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B和中文Alpaca-13B的效果。测试模型均为**4-bit量化模型**，理论效果比非量化版本差一些。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples/README.md](./examples/README.md)
+为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B和中文Alpaca-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples/README.md](./examples/README.md)。
+
+*以下测试结果均基于**4-bit量化模型**，理论效果比非量化版本差一些。*
 
 | 测试任务         |                详细样例                | 样例数 | 中文Alpaca-7B | 中文Alpaca-13B |
 | ---------------- | :------------------------------------: | :----: | :-----------: | :------------: |
