@@ -176,7 +176,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 ```
 
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
-- `--lora_model`：将下载的Chinese LLaMA/Alpaca LoRA压缩包解压后文件所在目录，也可使用🤗Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
+- `--lora_model`：将下载的Chinese LLaMA/Alpaca LoRA压缩包解压后文件所在目录，也可使用[🤗Model Hub上的模型名](#🤗-Model-Hub)
 - `--model_size`：指定模型大小，目前支持`7B`和`13B`
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
@@ -185,9 +185,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 ## 本地快速部署
 
-研究社区已经有很多优秀的模型量化和本地部署工具帮助用户很方便地将大模型在自己的电脑上进行部署（CPU！）。
-
-接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并部署的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
+接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
 
 下面以中文Alpaca-7B模型为例介绍，运行前请确保：
 
