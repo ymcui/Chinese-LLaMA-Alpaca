@@ -86,9 +86,9 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 ### Model Hub
 
-可以在🤗Model Hub下载以上所有模型，并且使用[transformers](https://github.com/huggingface/transformers)和[PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。
+可以在🤗Model Hub下载以上所有模型，并且使用[transformers](https://github.com/huggingface/transformers)和[PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。以下模型调用名称指的是使用`.from_pretrained()`中指定的模型名称。
 
-| 模型名             |             MODEL_NAME             |                             链接                             |
+| 模型名             |            模型调用名称            |                             链接                             |
 | ------------------ | :--------------------------------: | :----------------------------------------------------------: |
 | Chinese-LLaMA-7B   |  ziqingyang/chinese-llama-lora-7b  | [Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
 | Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | [Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
@@ -176,7 +176,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 ```
 
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
-- `--lora_model`：将下载的Chinese LLaMA/Alpaca LoRA压缩包解压后文件所在目录，也可使用[🤗Model Hub上的模型名](#Model-Hub)
+- `--lora_model`：将下载的中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub上的模型调用名称](#Model-Hub)
 - `--model_size`：指定模型大小，目前支持`7B`和`13B`
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
