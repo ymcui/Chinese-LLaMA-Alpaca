@@ -88,7 +88,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 ### 🤗 Model Hub
 
-可以在🤗Model Hub下载以上所有模型，并且使用[🤗transformers](https://github.com/huggingface/transformers)和[🤗PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。
+可以在🤗Model Hub下载以上所有模型，并且使用[transformers](https://github.com/huggingface/transformers)和[PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。
 
 | 模型名             |             MODEL_NAME             |                             链接                             |
 | ------------------ | :--------------------------------: | :----------------------------------------------------------: |
@@ -178,7 +178,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 ```
 
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
-- `--lora_model`：在[上一节](#下载地址)里下载的Chinese LLaMA/Alpaca LoRA模型压缩包解压后文件所在目录，也可使用🤗Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
+- `--lora_model`：将下载的Chinese LLaMA/Alpaca LoRA压缩包解压后文件所在目录，也可使用🤗Model Hub上的模型名：`ziqingyang/chinese-alpaca-lora-7b`或`ziqingyang/chinese-llama-lora-7b`
 - `--model_size`：指定模型大小，目前支持`7B`和`13B`
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
@@ -471,13 +471,17 @@ python script/crawl_prompt.py output-file
 
 ##### 问题6：Windows下，模型无法理解中文、生成速度很慢等问题
 
-答： Windows用户出现模型无法理解中文、生成速度慢时，请参考以下issue中的解决方案。
+答： Windows用户出现模型无法理解中文、生成速度慢时，请参考以下的解决方案。
 
-- 关于无法理解中文：
-  - [Unicode (Windows) Support for llama.cpp](https://github.com/josStorer/llama.cpp-unicode-windows)（感谢@josStorer开发）
-  - [#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)（感谢@LainNya、@boholder、@hyperzlib 等人提供解决方案）
+关于无法理解中文：
 
-- 关于生成速度很慢：[#issue 51](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/51)（感谢@wscsjnhboy 提供解决方案）
+- llama.cpp在[PR#840](https://github.com/ggerganov/llama.cpp/pull/840)解决了这个问题，请优先使用最新版llama.cpp。如果还不能解决建议查看下面的方案。
+- [Unicode (Windows) Support for llama.cpp](https://github.com/josStorer/llama.cpp-unicode-windows)（感谢@josStorer开发）
+- [#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11)（感谢@LainNya、@boholder、@hyperzlib 等人提供解决方案）
+
+关于生成速度很慢：
+
+- [#issue 51](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/51)（感谢@wscsjnhboy 提供解决方案）
 
 
 ## 引用
