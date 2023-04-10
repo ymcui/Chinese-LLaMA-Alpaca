@@ -14,6 +14,7 @@
 </p>
 
 
+
 以ChatGPT、GPT-4等为代表的大语言模型（Large Language Model, LLM）掀起了新一轮自然语言处理领域的研究浪潮，展现出了类通用人工智能（AGI）的能力，受到业界广泛关注。然而，由于大语言模型的训练和部署都极为昂贵，为构建透明且开放的学术研究造成了一定的阻碍。
 
 为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和经过指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，在中文LLaMA的基础上，本项目使用了中文指令数据进行指令精调，显著提升了模型对指令的理解和执行能力。
@@ -176,13 +177,11 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
-    --model_size 7B \
     --output_dir path_to_output_dir 
 ```
 
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
 - `--lora_model`：将下载的中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub上的模型调用名称](#Model-Hub)
-- `--model_size`：指定模型大小，目前支持`7B`和`13B`
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
 

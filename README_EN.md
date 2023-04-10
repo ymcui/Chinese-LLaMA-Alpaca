@@ -16,6 +16,7 @@
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
 </p>
 
+
 Large Language Models (LLM), represented by ChatGPT and GPT-4, have sparked a new wave of research in the field of natural language processing, demonstrating capabilities of Artificial General Intelligence (AGI) and attracting widespread attention from the industry. However, the expensive training and deployment of large language models have posed certain obstacles to building transparent and open academic research.
 
 To promote open research of large models in the Chinese NLP community, this project has open-sourced the **Chinese LLaMA model and the Alpaca large model with instruction fine-tuning**. These models expand the Chinese vocabulary based on the original LLaMA and use Chinese data for secondary pre-training, further enhancing Chinese basic semantic understanding. Additionally, the project uses Chinese instruction data for fine-tuning on the basis of the Chinese LLaMA, significantly improving the model's understanding and execution of instructions.
@@ -180,7 +181,6 @@ The parameters that need to be set for the above two scripts are consistent, but
 python scripts/merge_llama_with_chinese_lora.py \
     --base_model path_to_original_llama_hf_dir \
     --lora_model path_to_chinese_llama_or_alpaca_lora \
-    --model_size 7B \
     --output_dir path_to_output_dir
 ```
 
@@ -188,7 +188,6 @@ where:
 
 - `--base_model`: directory where the HF format LLaMA model weights and configuration files are saved (generated in Step 1)
 - `--lora_model`: directory where the Chinese LLaMA/Alpaca LoRA model compressed file downloaded in the previous section is located, or the model name on Hugging Face Model Hub: `ziqingyang/chinese-alpaca-lora-7b` or `ziqingyang/chinese-llama-lora-7b`
-- `--model_size`: specify model size, support`7B` and `13B`
 - `--output_model`: directory to save the consolidated model weights (default: `./`)
 - (optional) `--offload_dir`: for low-RAM users, please specify a offload directory
 
