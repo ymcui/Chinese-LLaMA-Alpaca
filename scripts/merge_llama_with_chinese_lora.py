@@ -7,7 +7,8 @@ import json
 import gc
 
 import torch
-from peft import PeftModel, LoraConfig
+import peft
+from peft import PeftModel
 
 import transformers
 
@@ -15,7 +16,10 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model',default=None,required=True,type=str,help="Please specify a base_model")
 parser.add_argument('--lora_model',default=None,required=True,type=str,help="Please specify a lora_model")
+
+# deprecated; the script infers the model size from the checkpoint
 parser.add_argument('--model_size',default='7B',type=str,help="Size of the LLaMA model",choices=['7B','13B'])
+
 parser.add_argument('--offload_dir',default=None,type=str,help="(Optional) Please specify a temp folder for offloading (useful for low-RAM machines). Default None (disable offload).")
 parser.add_argument('--output_dir',default='./',type=str)
 args = parser.parse_args()
@@ -61,6 +65,17 @@ assert base_model.get_input_embeddings().weight.size(0) == len(tokenizer)
 tokenizer.save_pretrained(output_dir)
 print(f"Extended vocabulary size: {len(tokenizer)}")
 
+## infer the model size from the checkpoint
+emb_to_model_size = {
+    4096 : '7B',
+    5120 : '13B',
+    6656 : '30B',
+    8192 : '65B',
+}
+embedding_size = base_model.get_input_embeddings().weight.size(1)
+model_size = emb_to_model_size[embedding_size]
+print(f"Loading LoRA for {model_size} model")
+
 lora_model = PeftModel.from_pretrained(
     base_model,
     LORA_MODEL,
@@ -69,21 +84,28 @@ lora_model = PeftModel.from_pretrained(
 )
 
 # merge weights
-for layer in lora_model.base_model.model.model.layers:
-    if hasattr(layer.self_attn.q_proj,'merge_weights'):
-        layer.self_attn.q_proj.merge_weights = True
-    if hasattr(layer.self_attn.v_proj,'merge_weights'):
-        layer.self_attn.v_proj.merge_weights = True
-    if hasattr(layer.self_attn.k_proj,'merge_weights'):
-        layer.self_attn.k_proj.merge_weights = True
-    if hasattr(layer.self_attn.o_proj,'merge_weights'):
-        layer.self_attn.o_proj.merge_weights = True
-    if hasattr(layer.mlp.gate_proj,'merge_weights'):
-        layer.mlp.gate_proj.merge_weights = True
-    if hasattr(layer.mlp.down_proj,'merge_weights'):
-        layer.mlp.down_proj.merge_weights = True
-    if hasattr(layer.mlp.up_proj,'merge_weights'):
-        layer.mlp.up_proj.merge_weights = True
+print(f"Peft version: {peft.__version__}")
+print(f"Merging model")
+if peft.__version__ > '0.2.0':
+    # merge weights - new merging method from peft
+    lora_model = lora_model.merge_and_unload()
+else:
+    # merge weights
+    for layer in lora_model.base_model.model.model.layers:
+        if hasattr(layer.self_attn.q_proj,'merge_weights'):
+            layer.self_attn.q_proj.merge_weights = True
+        if hasattr(layer.self_attn.v_proj,'merge_weights'):
+            layer.self_attn.v_proj.merge_weights = True
+        if hasattr(layer.self_attn.k_proj,'merge_weights'):
+            layer.self_attn.k_proj.merge_weights = True
+        if hasattr(layer.self_attn.o_proj,'merge_weights'):
+            layer.self_attn.o_proj.merge_weights = True
+        if hasattr(layer.mlp.gate_proj,'merge_weights'):
+            layer.mlp.gate_proj.merge_weights = True
+        if hasattr(layer.mlp.down_proj,'merge_weights'):
+            layer.mlp.down_proj.merge_weights = True
+        if hasattr(layer.mlp.up_proj,'merge_weights'):
+            layer.mlp.up_proj.merge_weights = True
 
 lora_model.train(False)
 
@@ -111,8 +133,9 @@ params_of_models = {
         "vocab_size": -1,
         },
 }
-params = params_of_models[args.model_size]
-num_shards = num_shards_of_models[args.model_size]
+
+params = params_of_models[model_size]
+num_shards = num_shards_of_models[model_size]
 
 
 n_layers = params["n_layers"]
