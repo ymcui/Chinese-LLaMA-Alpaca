@@ -167,9 +167,14 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
     --output_dir path_to_original_llama_hf_dir
 ```
 
-### Step 2: Merge LoRA weights to generate consolidated model weights
+### Step 2: Merge LoRA weights to generate full model weights
 
-Use the script `merge_llama_with_chinese_lora.py` to expand the Chinese vocabulary of the original LLaMA model (in HF format), and merge it with LoRA weights to generate consolidated model weights `consolidated.*.pth` (it is recommended to check the [SHA256 values](./SHA256.md)) and the configuration file `params.json`. Please execute the following command:
+This step will expand the Chinese vocabulary of the original LLaMA model (HF format), merge LoRA weights, and generate full model weights. There are two options available here:
+
+- ✅ If you need quantize and deploy our model: output the weight of PyTorch version (`. pth` file) using `scripts/merge_llama_with_chinese_lora.py` script
+- ❎ If you DO NOT need quantize and deploy our model: output the weight of the HuggingFace version (such as for further fine-tuning), using `scripts/merge_llama_with_chinese_lora_to_hf.py` script (thanks @sgsdxzy)
+
+The parameters that need to be set for the above two scripts are consistent, but the output file format is different. The followings are command lines for generating `.pth` file (need further quantize and deploy our model). 
 
 ```bash
 python scripts/merge_llama_with_chinese_lora.py \
@@ -191,7 +196,7 @@ where:
 
 ## Quick Deployment
 
-The research community has developed many excellent model quantization and deployment tools to help users **easily deploy large models locally on their own computers (CPU!)**. In the following, we'll take the [llama.cpp tool](https://github.com/ggerganov/llama.cpp) as an example and introduce the detailed steps to quantize and deploy the model on MacOS and Linux systems. For Windows, you may need to install build tools like cmake, and you can refer to the steps in [alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows). **For a local quick deployment experience, it is recommended to use the instruction-finetuned Alpaca model.**
+The research community has developed many excellent model quantization and deployment tools to help users **easily deploy large models locally on their own computers (CPU!)**. In the following, we'll take the [llama.cpp tool](https://github.com/ggerganov/llama.cpp) as an example and introduce the detailed steps to quantize and deploy the model on MacOS and Linux systems. For Windows, you may need to install build tools like cmake. **For a local quick deployment experience, it is recommended to use the instruction-finetuned Alpaca model.**
 
 Before running, please ensure:
 

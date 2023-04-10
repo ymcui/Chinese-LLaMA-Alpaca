@@ -165,7 +165,12 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 
 ### Step 2: 合并LoRA权重，生成全量模型权重
 
-使用`scripts/merge_llama_with_chinese_lora.py`脚本，对原版LLaMA模型（HF格式）扩充中文词表，并与LoRA权重进行合并，生成全量模型权重`consolidated.*.pth`（建议检查生成模型的[SHA256值](./SHA256.md)）和配置文件`params.json`。请执行以下命令：
+这一步骤会对原版LLaMA模型（HF格式）扩充中文词表，合并LoRA权重并生成全量模型权重。此处可有两种选择：
+
+- ✅ 需要量化部署：即输出PyTorch版本的权重（`.pth`文件），使用`scripts/merge_llama_with_chinese_lora.py`脚本
+- ❎ 不需要量化部署：即输出HuggingFace版本的权重（以便进一步进行精调），使用`scripts/merge_llama_with_chinese_lora_to_hf.py`脚本（感谢@sgsdxzy 提供）
+
+以上两个脚本需要设置的参数一致，只是输出文件格式不同。下面以“需要量化部署”为例，介绍脚本相应的参数设置。
 
 ```bash
 python scripts/merge_llama_with_chinese_lora.py \
@@ -181,11 +186,9 @@ python scripts/merge_llama_with_chinese_lora.py \
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
 
-*（可选）如有需要，可自行按照Step 1中的脚本将本步骤生成的`.pth`文件转换为HuggingFace格式。*
-
 ## 本地快速部署
 
-接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装，可参考[alpaca.cpp](https://github.com/antimatter15/alpaca.cpp#building-from-source-windows)中的步骤（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
+接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
 
 下面以中文Alpaca-7B模型为例介绍，运行前请确保：
 
