@@ -170,7 +170,7 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 - ✅ 需要量化部署：即输出PyTorch版本的权重（`.pth`文件），使用`scripts/merge_llama_with_chinese_lora.py`脚本
 - ❎ 不需要量化部署：即输出HuggingFace版本的权重（以便进一步进行精调），使用`scripts/merge_llama_with_chinese_lora_to_hf.py`脚本（感谢@sgsdxzy 提供）
 
-以上两个脚本需要设置的参数一致，只是输出文件格式不同。下面以“需要量化部署”为例，介绍脚本相应的参数设置。
+以上两个脚本需要设置的参数一致，只是输出文件格式不同。下面以“需要量化部署”为例，介绍相应的参数设置。
 
 ```bash
 python scripts/merge_llama_with_chinese_lora.py \
