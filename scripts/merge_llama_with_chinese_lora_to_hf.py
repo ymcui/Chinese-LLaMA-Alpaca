@@ -72,6 +72,8 @@ lora_model = PeftModel.from_pretrained(
 
 assert torch.allclose(first_weight_old, first_weight)
 
+print(f"Peft version: {peft.__version__}")
+print(f"Merging model")
 if peft.__version__ > '0.2.0':
     # merge weights - new merging method from peft
     lora_model = lora_model.merge_and_unload()
