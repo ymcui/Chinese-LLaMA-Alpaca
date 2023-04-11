@@ -2,17 +2,16 @@
 Borrowed and modified from https://github.com/tloen/alpaca-lora
 """
 
+import argparse
 import os
 import json
 import gc
 
 import torch
+import transformers
 import peft
 from peft import PeftModel
 
-import transformers
-
-import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model',default=None,required=True,type=str,help="Please specify a base_model")
 parser.add_argument('--lora_model',default=None,required=True,type=str,help="Please specify a lora_model")
@@ -65,6 +64,9 @@ assert base_model.get_input_embeddings().weight.size(0) == len(tokenizer)
 tokenizer.save_pretrained(output_dir)
 print(f"Extended vocabulary size: {len(tokenizer)}")
 
+first_weight = base_model.model.layers[0].self_attn.q_proj.weight
+first_weight_old = first_weight.clone()
+
 ## infer the model size from the checkpoint
 emb_to_model_size = {
     4096 : '7B',
@@ -83,6 +85,7 @@ lora_model = PeftModel.from_pretrained(
     torch_dtype=torch.float16,
 )
 
+assert torch.allclose(first_weight_old, first_weight)
 # merge weights
 print(f"Peft version: {peft.__version__}")
 print(f"Merging model")
@@ -108,6 +111,9 @@ else:
             layer.mlp.up_proj.merge_weights = True
 
 lora_model.train(False)
+
+# did we do anything?
+assert not torch.allclose(first_weight_old, first_weight)
 
 lora_model_sd = lora_model.state_dict()
 del lora_model, base_model
