@@ -25,6 +25,17 @@
 | 代码编程         |          [CODE.md](./CODE.md)          |   10   |      27       |    **👍🏻49**    |
 | 伦理、拒答       |        [ETHICS.md](./ETHICS.md)        |   10   |      50       |   **👍🏻100**    |
 
+#### 运行参数
+
+测试中使用了统一的解码参数（可能并不适合所有任务）：
+```bash
+./main -m zh-alpaca-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins \
+  -b 24 -c 2048 -n 512 -t 6 \
+  --temp 0.2 --top_k 40 --top_p 0.9 \
+  --repeat_penalty 1.3
+```
+
+
 #### 打分方式
 
 - 一共10组任务，每组任务满分100分；每组任务10-20个样例，每个样例满分10分
