@@ -209,7 +209,7 @@ make
 
 ###  Step 2: 生成量化版本模型
 
-根据需要转换的模型类型（LLaMA或Alpaca），将下载的LoRA模型压缩包中的`tokenizer.model`文件放入`zh-models`目录下，将[合并模型](#合并模型)中最后一步获取的模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
+将[合并模型](#合并模型)（选择生成`.pth`格式模型）中最后一步生成的`tokenizer.model`文件放入`zh-models`目录下，模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
 
 ```
 llama.cpp/zh-models/
