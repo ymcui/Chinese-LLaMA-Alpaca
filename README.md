@@ -209,7 +209,7 @@ make
 
 ###  Step 2: 生成量化版本模型
 
-将[合并模型](#合并模型)（选择生成`.pth`格式模型）中最后一步生成的`tokenizer.model`文件放入`zh-models`目录下，模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意`.pth`模型文件和`tokenizer.model`是对应的，LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
+将[合并模型](#合并模型)（选择生成`.pth`格式模型）中最后一步生成的`tokenizer.model`文件放入`zh-models`目录下，模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
 
 ```
 llama.cpp/zh-models/
@@ -235,7 +235,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 ### Step 3: 加载并启动模型
 
-运行`./main`二进制文件，`-m`命令指定4-bit量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例：
+运行`./main`二进制文件，`-m`命令指定4-bit量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例（并非最优参数）：
 
 ```bash
 ./main -m zh-models/7B/ggml-model-q4_0.bin --color -f prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
