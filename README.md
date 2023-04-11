@@ -91,10 +91,10 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 | 模型名             |            模型调用名称            |                             链接                             |
 | ------------------ | :--------------------------------: | :----------------------------------------------------------: |
-| Chinese-LLaMA-7B   |  ziqingyang/chinese-llama-lora-7b  | [Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
-| Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | [Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
-| Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | [Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
-| Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | [Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
+| Chinese-LLaMA-7B   |  ziqingyang/chinese-llama-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
+| Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
+| Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
+| Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
 
 ### 脚注及其他说明
 
@@ -137,8 +137,7 @@ chinese_llama_lora_7b/
 ### 准备工作
 
 1. 确保机器有足够的内存加载完整模型（例如7B模型需要13-15G）以进行合并模型操作。
-2. 务必确认基模型和下载的LoRA模型完整性，检查是否与[SHA256.md](./SHA256.md)所示的值一致，否则无法进行合并操作。
-   - 原版LLaMA包含：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.00.pth`、`params.json`
+2. 务必确认基模型和下载的LoRA模型完整性，检查是否与[SHA256.md](./SHA256.md)所示的值一致，否则无法进行合并操作。原版LLaMA包含：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.*.pth`、`params.json`
 3. 主要依赖库如下：
    - [最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)，**必须从源码安装**，因为v4.27并不包含`LlamaModel`等实现
    - `sentencepiece`（0.1.97测试通过）
@@ -168,8 +167,8 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 
 这一步骤会对原版LLaMA模型（HF格式）扩充中文词表，合并LoRA权重并生成全量模型权重。此处可有两种选择：
 
-- ✅ 需要量化部署：即输出PyTorch版本的权重（`.pth`文件），使用`scripts/merge_llama_with_chinese_lora.py`脚本
-- ❎ 不需要量化部署：即输出HuggingFace版本的权重（以便进一步进行精调），使用`scripts/merge_llama_with_chinese_lora_to_hf.py`脚本（感谢@sgsdxzy 提供）
+- 需要量化部署：输出PyTorch版本权重（`.pth`文件），使用`merge_llama_with_chinese_lora.py`脚本
+- 不需要量化部署：输出HuggingFace版本权重（以便进一步进行精调），使用`merge_llama_with_chinese_lora_to_hf.py`脚本（感谢@sgsdxzy 提供）
 
 以上两个脚本需要设置的参数一致，只是输出文件格式不同。下面以“需要量化部署”为例，介绍相应的参数设置。
 
@@ -181,7 +180,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 ```
 
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
-- `--lora_model`：将下载的中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub上的模型调用名称](#Model-Hub)
+- `--lora_model`：中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub模型调用名称](#Model-Hub)
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
 
@@ -455,7 +454,7 @@ python script/crawl_prompt.py output-file
 
 ##### 问题1：为什么不能放出完整版本权重？
 
-答：这个问题前面已经反复强调过了。LLaMA模型的开源协议许可不允许我们这么做，所以相关衍生工作都在寻找可以绕过限制的方法。请相信我们设置这么多步骤，不是为了增加大家的工作量，而是客观情况所致。后续待Facebook完全开放权重之后，我们会第一时间将完整版模型以及直接可加载的量化模型放出来。在此期间，我们也会密切关注其他LLaMA相关的repo，看看有没有更好的方法。
+答：这个问题前面已经反复强调过了。LLaMA模型的开源协议不允许我们这么做，所以相关衍生工作都在寻找可以绕过限制的方法。请相信我们设置这么多步骤，不是为了增加大家的工作量，而是客观情况所致。后续待Facebook完全开放权重之后，我们会第一时间将完整版模型以及直接可加载的量化模型放出来。在此期间，我们也会密切关注其他LLaMA相关的repo，看看有没有更好的方法。
 
 ##### 问题2：后面会有33B、65B的版本吗？
 
