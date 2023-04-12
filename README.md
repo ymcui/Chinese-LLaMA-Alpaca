@@ -186,6 +186,8 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 ## 本地快速部署
 
+### llama.cpp
+
 接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
 
 下面以中文Alpaca-7B模型为例介绍，运行前请确保：
@@ -196,7 +198,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 4. [llama.cpp](https://github.com/ggerganov/llama.cpp)官方建议使用Python 3.9或3.10编译和运行该工具
 
 
-### Step 1: 克隆和编译llama.cpp
+#### Step 1: 克隆和编译llama.cpp
 
 运行以下命令对llama.cpp项目进行编译，生成`./main`和`./quantize`二进制文件。
 
@@ -206,7 +208,7 @@ cd llama.cpp
 make
 ```
 
-###  Step 2: 生成量化版本模型
+#### Step 2: 生成量化版本模型
 
 将[合并模型](#合并模型)（选择生成`.pth`格式模型）中最后一步生成的`tokenizer.model`文件放入`zh-models`目录下，模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
 
@@ -232,7 +234,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 此处也可以将最后一个参数改为`3`，即生成`q4_1`版本的量化权重。`q4_1`权重比`q4_0`大一些，速度慢一些，效果方面会有些许提升，具体可参考[llama.cpp#PPL](https://github.com/ggerganov/llama.cpp#perplexity-measuring-model-quality)。
 
-### Step 3: 加载并启动模型
+#### Step 3: 加载并启动模型
 
 运行`./main`二进制文件，`-m`命令指定4-bit量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例（并非最优参数）：
 
@@ -251,6 +253,39 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 --repeat_penalty 控制生成回复中对重复文本的惩罚力度
 --temp 温度系数，值越低回复的随机性越小，反之越大
 --top_p, top_k 控制解码采样的相关参数
+```
+
+### text-generation-webui
+
+接下来以[text-generation-webui工具](https://github.com/oobabooga/text-generation-webui)为例，介绍无需合并模型即可**本地化部署**的详细步骤
+
+```bash
+# 克隆text-generation-webui
+git clone https://github.com/oobabooga/text-generation-webui
+cd text-generation-webui
+pip install -r requirements.txt
+
+# 将下载后的lora权重放到loras文件夹下
+ls loras/chinese-alpaca-lora-7b
+adapter_config.json  adapter_model.bin  special_tokens_map.json  tokenizer_config.json  tokenizer.model
+
+# 将HuggingFace格式的llama-7B模型文件放到models文件夹下
+ls models/llama-7b-hf
+pytorch_model-00001-of-00002.bin pytorch_model-00002-of-00002.bin config.json pytorch_model.bin.index.json generation_config.json
+
+# 复制lora权重的tokenizer到models/llama-7b-hf下
+cp loras/chinese-alpaca-lora-7b/tokenizer.model models/llama-7b-hf/
+cp loras/chinese-alpaca-lora-7b/special_tokens_map.json models/llama-7b-hf/
+cp loras/chinese-alpaca-lora-7b/tokenizer_config.json models/llama-7b-hf/
+
+# 修改/modules/LoRA.py文件，大约在第28行
+shared.model.resize_token_embeddings(49954)
+assert shared.model.get_input_embeddings().weight.size(0) == 49954
+shared.model = PeftModel.from_pretrained(shared.model, Path(f"{shared.args.lora_dir}/{lora_name}"), **params)
+
+# 接下来就可以愉快的运行了，参考https://github.com/oobabooga/text-generation-webui/wiki/Using-LoRAs
+python server.py --model llama-7b-hf --lora chinese-alpaca-lora-7b
+
 ```
 
 
