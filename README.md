@@ -52,6 +52,7 @@
 | [⏬模型下载](#模型下载)        | 中文LLaMA、Alpaca大模型下载地址                |
 | [🈴合并模型](#合并模型) | （重要）介绍如何将下载的LoRA模型与原版LLaMA合并 |
 | [💻本地快速部署](#本地快速部署)     | 介绍了如何对模型进行量化并使用个人电脑部署并体验大模型 |
+| [🤗使用Transformers推理](使用Transformers推理) | 使用Transformers代码在CPU和GPU上推理 |
 | [💯系统效果](#系统效果) | 介绍了部分场景和任务下的使用体验效果             |
 | [📝训练细节](#训练细节) | 介绍了中文LLaMA、Alpaca大模型的训练细节 |
 | [⚠️局限性](#局限性) | 本项目涉及模型的局限性 |
@@ -252,6 +253,46 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 --temp 温度系数，值越低回复的随机性越小，反之越大
 --top_p, top_k 控制解码采样的相关参数
 ```
+
+## 使用Transformers推理
+
+如果不想安装llama.cpp或WebUI，也可以使用[scripts/inference_hf.py](scripts/inference_hf.py)在不量化的情况下快速地体验模型效果。该脚本支持CPU和GPU的单卡推理。以启动Chinese-Alpaca 7B模型为例，脚本运行方式如下：
+
+```
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_original_llama_hf_dir \
+    --lora_model path_to_chinese_llama_or_alpaca_lora \
+    --with_prompt \
+    --interactive
+```
+
+如果已经执行了`merge_llama_with_chinese_lora_to_hf.py`脚本将lora权重合并，那么启动方式更简单：
+
+```
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_merged_llama_or_alpaca_hf_dir \
+    --with_prompt \
+    --interactive
+```
+
+
+参数说明以及其他可选参数如下
+
+`{device_id}`: CUDA设备编号。如果为空，那么在CPU上进行推理
+`--base_model {base_model} `: 存放HF格式的LLaMA模型权重和配置文件的目录
+`--lora_model {lora_model}` : 中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub模型调用名称](#Model-Hub)。若不提供此参数，则只加载base_model
+`--tokenizer_path {tokenizer_path}`  : 存放对应tokenizer的目录。若不提供此参数，则其值与lora_model相同；若也未提供lora_model参数，则其值与base_model相同
+`--with_prompt`: 是否将输入放入prompt模版中。**如果加载Alpaca模型，请务必启用此选项！**
+`--interactive`: 以交互式方式启动。**与llama.cpp不同，该脚本不支持多轮对话中的上下文语意理解**
+`--data_file {file_name}`:  非交互式方式启动下，按行读取file_name中的的内容进行预测
+`--predictions_file {file_name}`: 非交互式方式下，将预测的结果以json格式写入file_name
+
+**注意：该脚本仅为方便快速体验用，并未对多卡、低内存、低显存等情况等条件做任何优化。**
+
+**如在CPU上运行7B模型推理，请确保有32GB内存**
+
+**如在GPU上运行7B模型推理，请确保有20GB显存**
+
 
 
 ## 系统效果
