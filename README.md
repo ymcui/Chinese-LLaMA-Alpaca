@@ -17,7 +17,7 @@
 
 以ChatGPT、GPT-4等为代表的大语言模型（Large Language Model, LLM）掀起了新一轮自然语言处理领域的研究浪潮，展现出了类通用人工智能（AGI）的能力，受到业界广泛关注。然而，由于大语言模型的训练和部署都极为昂贵，为构建透明且开放的学术研究造成了一定的阻碍。
 
-为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和经过指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，在中文LLaMA的基础上，本项目使用了中文指令数据进行指令精调，显著提升了模型对指令的理解和执行能力。
+为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力。
 
 ***声明：本项目相关资源仅供学术研究使用。***
 
@@ -26,9 +26,9 @@
 - 🚀 针对原版LLaMA模型扩充了中文词表，提升了中文编解码效率 
 - 🚀 开源了使用中文文本数据预训练的中文LLaMA大模型（7B、13B）
 - 🚀 开源了进一步经过指令精调的中文Alpaca大模型（7B、13B）
-- 🚀 快速使用笔记本电脑（个人PC）的CPU本地部署和体验量化版大模型
+- 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地部署和体验大模型
 
-💡 下图给出了7B版本模型本地化部署后的实际体验效果（动画未经加速，Apple M1 Max下实测）。
+💡 下图给出了7B版本模型本地CPU部署后的实际体验效果（动画未经加速，Apple M1 Max下实测）。
 
 ![](./pics/screencast.gif)
 
@@ -38,20 +38,22 @@
 
 ## 新闻
 
-**[2023/04/07] 🎉🎉🎉 Release v2.0：发布13B版本中文LLaMA、Alpaca大模型，主要升级：更强的事实性、文本问答、翻译、伦理拒答等能力全面提升！更多更新内容请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)**
+**[2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)**
+
+[2023/04/07] Release v2.0：发布13B版本中文LLaMA、Alpaca大模型，主要升级：更强的事实性、文本问答、翻译、伦理拒答等能力全面提升！更多更新内容请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)
 
 [2023/04/03] 添加了模型合并和量化的notebook，Colab Pro(+)用户可在线合并和下载模型。请参考：[合并模型](#合并模型)
 
 [2023/03/31] Release v1.1：简化模型合并步骤、添加指令数据爬取脚本、关于新版本llama.cpp的重要提示。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v1.1)
 
-[2023/03/28] 正式开源中文LLaMA、Alpaca大模型，目前提供7B版本下载体验 🎉🎉🎉
+[2023/03/28] 正式开源中文LLaMA、Alpaca大模型，目前提供7B版本下载体验
 
 ## 内容导引
 | 章节                                  | 描述                                                         |
 | ------------------------------------- | ------------------------------------------------------------ |
 | [⏬模型下载](#模型下载)        | 中文LLaMA、Alpaca大模型下载地址                |
 | [🈴合并模型](#合并模型) | （重要）介绍如何将下载的LoRA模型与原版LLaMA合并 |
-| [💻本地快速部署](#本地快速部署)     | 介绍了如何对模型进行量化并使用个人电脑部署并体验大模型 |
+| [💻本地推理与快速部署](#本地推理与快速部署) | 介绍了如何对模型进行量化并使用个人电脑部署并体验大模型 |
 | [💯系统效果](#系统效果) | 介绍了部分场景和任务下的使用体验效果             |
 | [📝训练细节](#训练细节) | 介绍了中文LLaMA、Alpaca大模型的训练细节 |
 | [⚠️局限性](#局限性) | 本项目涉及模型的局限性 |
@@ -126,7 +128,7 @@ chinese_llama_lora_7b/
 
 ### 在线转换
 
-**🆕 经过内存优化之后，现在Colab免费用户也能在线转换7B和13B模型了！**
+**经过内存优化之后，现在Colab免费用户也能在线转换7B和13B模型了！**
 
 如果你熟悉Google Colab（如果有Pro以及更高订阅更佳），可以使用我们写好的Notebook在线合并和量化模型。
 
@@ -179,18 +181,24 @@ python scripts/merge_llama_with_chinese_lora.py \
     --output_dir path_to_output_dir 
 ```
 
+参数说明：
+
 - `--base_model`：存放HF格式的LLaMA模型权重和配置文件的目录（Step 1生成）
 - `--lora_model`：中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub模型调用名称](#Model-Hub)
 - `--output_dir`：指定保存全量模型权重的目录，默认为`./`
 - （可选）`--offload_dir`：对于低内存用户需要指定一个offload缓存路径
 
-## 本地快速部署
+## 本地推理与快速部署
+
+本项目中的模型主要支持以下三种推理和部署方式：
+
+- [llama.cpp](#llamacpp)：提供了一种模型量化和在本地CPU上部署方式
+- [🤗Transformers](#使用Transformers推理)：提供原生transformers推理接口，支持CPU/GPU上进行模型推理
+- [text-generation-webui](#使用text-generation-webui搭建界面)：提供了一种可实现前端UI界面的部署方式
 
 ### llama.cpp
 
-接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
-
-下面以中文Alpaca-7B模型为例介绍，运行前请确保：
+接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 下面以中文Alpaca-7B模型为例介绍，运行前请确保：
 
 1. 模型量化过程需要将未量化模型全部载入内存，请确保有足够可用内存（7B版本需要13G以上）
 2. 加载使用4-bit量化后的模型时（例如7B版本），确保本机可用内存大于4-6G（受上下文长度影响）
@@ -203,12 +211,10 @@ python scripts/merge_llama_with_chinese_lora.py \
 运行以下命令对llama.cpp项目进行编译，生成`./main`和`./quantize`二进制文件。
 
 ```bash
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-make
+git clone https://github.com/ggerganov/llama.cpp && cd llama.cpp && make
 ```
 
-#### Step 2: 生成量化版本模型
+####  Step 2: 生成量化版本模型
 
 将[合并模型](#合并模型)（选择生成`.pth`格式模型）中最后一步生成的`tokenizer.model`文件放入`zh-models`目录下，模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
 
@@ -236,7 +242,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 #### Step 3: 加载并启动模型
 
-运行`./main`二进制文件，`-m`命令指定4-bit量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例（并非最优参数）：
+运行`./main`二进制文件，`-m`命令指定4-bit量化或FP16的GGML模型。以下是命令示例（并非最优参数）：
 
 ```bash
 ./main -m zh-models/7B/ggml-model-q4_0.bin --color -f prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
@@ -255,9 +261,47 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 --top_p, top_k 控制解码采样的相关参数
 ```
 
-### text-generation-webui
+### 使用Transformers推理
 
-接下来以[text-generation-webui工具](https://github.com/oobabooga/text-generation-webui)为例，介绍无需合并模型即可**本地化部署**的详细步骤
+如果想在不安装其他库或Python包的情况下快速体验模型效果，可以使用[scripts/inference_hf.py](scripts/inference_hf.py) 脚本启动非量化模型。该脚本支持CPU和GPU的单卡推理。以启动Chinese-Alpaca-7B模型为例，脚本运行方式如下：
+
+```bash
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_original_llama_hf_dir \
+    --lora_model path_to_chinese_llama_or_alpaca_lora \
+    --with_prompt \
+    --interactive
+```
+
+如果已经执行了`merge_llama_with_chinese_lora_to_hf.py`脚本将lora权重合并，那么无需再指定`--lora_model`，启动方式更简单：
+
+```bash
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_merged_llama_or_alpaca_hf_dir \
+    --with_prompt \
+    --interactive
+```
+
+参数说明：
+
+* `{device_id}`：CUDA设备编号。如果为空，那么在CPU上进行推理
+* `--base_model {base_model} `：存放HF格式的LLaMA模型权重和配置文件的目录
+* `--lora_model {lora_model}` ：中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub模型调用名称](#Model-Hub)。若不提供此参数，则只加载`--base_model`指定的模型
+* `--tokenizer_path {tokenizer_path}`：存放对应tokenizer的目录。若不提供此参数，则其默认值与`--lora_model`相同；若也未提供`--lora_model`参数，则其默认值与`--base_model`相同
+* `--with_prompt`：是否将输入与prompt模版进行合并。**如果加载Alpaca模型，请务必启用此选项！**
+* `--interactive`：以交互方式启动，以便进行多次**单轮问答**（此处不是llama.cpp中的上下文对话）
+* `--data_file {file_name}`：非交互方式启动下，按行读取`file_name`中的的内容进行预测
+* `--predictions_file {file_name}`：非交互式方式下，将预测的结果以json格式写入`file_name`
+
+注意事项：
+
+- 因不同框架的解码实现细节有差异，该脚本并不能保证复现llama.cpp的解码效果
+- 该脚本仅为方便快速体验用，并未对多机多卡、低内存、低显存等情况等条件做任何优化
+- 如在CPU上运行7B模型推理，请确保有32GB内存；如在GPU上运行7B模型推理，请确保有20GB显存
+
+### 使用text-generation-webui搭建界面
+
+接下来以[text-generation-webui工具](https://github.com/oobabooga/text-generation-webui)为例，介绍无需合并模型即可进行**本地化部署**的详细步骤。
 
 ```bash
 # 克隆text-generation-webui
@@ -284,48 +328,7 @@ shared.model = PeftModel.from_pretrained(shared.model, Path(f"{shared.args.lora_
 
 # 接下来就可以愉快的运行了，参考https://github.com/oobabooga/text-generation-webui/wiki/Using-LoRAs
 python server.py --model llama-7b-hf --lora chinese-alpaca-lora-7b
-
 ```
-
-### 使用Transformers推理
-
-如果想快速体验模型效果，不安装其他库或Python包，可以使用[scripts/inference_hf.py](scripts/inference_hf.py)在不量化的情况下启动模型。该脚本支持CPU和GPU的单卡推理。以启动Chinese-Alpaca 7B模型为例，脚本运行方式如下：
-
-(**因不同框架的解码的实现细节有差异，该脚本并不能保证复现llama.cpp的解码效果**)
-
-```
-CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
-    --base_model path_to_original_llama_hf_dir \
-    --lora_model path_to_chinese_llama_or_alpaca_lora \
-    --with_prompt \
-    --interactive
-```
-
-如果已经执行了`merge_llama_with_chinese_lora_to_hf.py`脚本将lora权重合并，那么无需再指定lora_model，启动方式更简单：
-
-```
-CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
-    --base_model path_to_merged_llama_or_alpaca_hf_dir \
-    --with_prompt \
-    --interactive
-```
-
-参数说明以及其他可选参数如下
-
-* `{device_id}`: CUDA设备编号。如果为空，那么在CPU上进行推理
-* `--base_model {base_model} `: 存放HF格式的LLaMA模型权重和配置文件的目录
-* `--lora_model {lora_model}` : 中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub模型调用名称](#Model-Hub)。若不提供此参数，则只加载base_model
-* `--tokenizer_path {tokenizer_path}`  : 存放对应tokenizer的目录。若不提供此参数，则其值与lora_model相同；若也未提供lora_model参数，则其值与base_model相同
-* `--with_prompt`: 是否将输入放入prompt模版中。**如果加载Alpaca模型，请务必启用此选项！**
-* `--interactive`: 以交互式方式启动。**与llama.cpp不同，该脚本不支持多轮对话中的上下文语意理解**
-* `--data_file {file_name}`:  非交互式方式启动下，按行读取file_name中的的内容进行预测
-* `--predictions_file {file_name}`: 非交互式方式下，将预测的结果以json格式写入file_name
-
-⚠️**注意：该脚本仅为方便快速体验用，并未对多卡、低内存、低显存等情况等条件做任何优化。⚠️**
-
-⚠️**如在CPU上运行7B模型推理，请确保有32GB内存；如在GPU上运行7B模型推理，请确保有20GB显存**⚠️
-
-
 
 ## 系统效果
 
@@ -562,7 +565,7 @@ python script/crawl_prompt.py output-file
 
 ##### 问题7：Chinese-LLaMA 13B模型没法用llama.cpp启动，提示维度不一致
 
-答：这与13B模型拆分成了两个文件，每个文件大小不相同有关，见 https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/133 。动手能力强的用户可以用issue提到的方法自己尝试解决。另一方面，Chinese-LLaMA模型本身并不是为对话、交互设计，而是为进一步在中文上fine-tuning提供基底；所以也并不建议用llama.cpp加载Chinese-LLaMA模型。
+答：这与13B模型拆分成了两个文件，每个文件大小不相同有关，见[Issue#133](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/133)。动手能力强的用户可以用该issue提到的方法自己尝试解决。另一方面，Chinese-LLaMA模型本身并不是为对话、交互设计，而是为进一步在中文指令精调或其他任务精调提供基底，因此也并不建议用llama.cpp加载Chinese-LLaMA模型。
 
 
 ## 引用

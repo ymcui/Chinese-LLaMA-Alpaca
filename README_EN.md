@@ -2,7 +2,7 @@
 
 ***The authors are so lazy that the following contents are automatically translated by GPT-4 (with minor revisions) :)***
 
-***Notice: the document might not be up-to-date. Will update in the next release. Current version: v2.0***
+***Notice: the document might not be up-to-date. Will update in the next release. Current version: v2.1***
 
 <p align="center">
     <br>
@@ -28,7 +28,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 - 🚀 Extended Chinese vocabulary on top of original LLaMA with significant encode/decode efficiency
 - 🚀 Open-sourced the Chinese LLaMA large model pre-trained on Chinese text data  (7B, 13B)
 - 🚀 Open-sourced the Chinese Alpaca large model with further instruction fine-tuning (7B, 13B)
-- 🚀 Quickly deploy and experience the quantized version of the large model on CPU of your laptop (personal PC) 
+- 🚀 Quickly deploy and experience the quantized version of the large model on CPU/GPU of your laptop (personal PC) 
 
 💡 The following image shows the actual experience effect of the 7B version model after local deployment (animation unaccelerated, tested on Apple M1 Max).
 
@@ -40,11 +40,13 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-[2023/04/07] 🎉🎉🎉 Release v2.0: Release 13B versions of Chinese LLaMA and Alpaca model. Main upgrades: stronger factuality, better performance on QA, translation and more. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)
+**[2023/04/13] Release v2.1: Add HuggingFace-transformers and text-generation-webui interfances. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)**
+
+[2023/04/07] Release v2.0: Release 13B versions of Chinese LLaMA and Alpaca model. Main upgrades: stronger factuality, better performance on QA, translation and more. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)
 
 2023/3/31 Release v1.1, major updates: simplification of model merging steps, addition of instruction data crawling script, and important notes about the new version of llama.cpp. See [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v1.1).
 
-2023/3/28  Open-sourcing Chinese LLaMA and Alpaca, currently offering the 7B version for download and experience 🎉🎉🎉
+2023/3/28  Open-sourcing Chinese LLaMA and Alpaca, currently offering the 7B version for download and experience 
 
 ## Content Navigation
 
@@ -85,7 +87,7 @@ The Chinese Alpaca model further uses instruction data for fine-tuning on the ba
 | Chinese-Alpaca-7B  | Instruction Tuning | LLaMA-7B<sup>[1]</sup>  |        790M        | [[BaiduDisk]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
 | Chinese-Alpaca-13B | Instruction Tuning | LLaMA-13B<sup>[1]</sup> |        1.1G        | [[BaiduDisk]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |  45c92e......682d91  |
 
-### 🤗 Model Hub
+### Model Hub
 
 You can download all the above models in 🤗Model Hub, and use [🤗transformers](https://github.com/huggingface/transformers) and [🤗PEFT](https://github.com/huggingface/peft) to call Chinese LLaMA or the Alpaca LoRA model.
 
@@ -194,6 +196,13 @@ where:
 *(Optional) If necessary, you can convert the `.pth` files generated in this step to HuggingFace format using the script in Step 1.*
 
 ## Quick Deployment
+
+We mainly provide the following three ways for inference and local deployment.
+
+- [llama.cpp](#llamacpp)：a tool for quantizing model and deploying on local CPU
+- [🤗Transformers](#Inference-with-Transformers)：original transformers inference method, support CPU/GPU
+- [text-generation-webui](#Building-UI-with-text-generation-webui)：a tool for deploying model as a web UI
+
 ### llama.cpp
 
 The research community has developed many excellent model quantization and deployment tools to help users **easily deploy large models locally on their own computers (CPU!)**. In the following, we'll take the [llama.cpp tool](https://github.com/ggerganov/llama.cpp) as an example and introduce the detailed steps to quantize and deploy the model on MacOS and Linux systems. For Windows, you may need to install build tools like cmake. **For a local quick deployment experience, it is recommended to use the instruction-finetuned Alpaca model.**
@@ -210,9 +219,7 @@ Before running, please ensure:
 Run the following commands to build the llama.cpp project, generating `./main` and `./quantize` binary files.
 
 ```bash
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-make
+git clone https://github.com/ggerganov/llama.cpp && cd llama.cpp && make
 ```
 
 #### Step 2: Generate a quantized model
@@ -258,7 +265,46 @@ Please enter your prompt after the `>`, use `\` as the end of the line for multi
 --top_p, top_k control the sampling parameters
 ```
 
-### text-generation-webui
+
+### Inference with Transformers
+
+If you want to quickly experience the model performance without installing other libraries or Python packages, you can use the [scripts/inference_hf.py](scripts/inference_hf.py) script to launch a non-quantized model. The script supports single-card inference for both CPU and GPU. For example, to launch the Chinese-Alpaca-7B model, run the script as follows:
+
+```bash
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_original_llama_hf_dir \
+    --lora_model path_to_chinese_llama_or_alpaca_lora \
+    --with_prompt \
+    --interactive
+```
+
+If you have already executed the `merge_llama_with_chinese_lora_to_hf.py` script to merge the LoRa weights, you don't need to specify `--lora_model`, and the startup method is simpler:
+
+```bash
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_merged_llama_or_alpaca_hf_dir \
+    --with_prompt \
+    --interactive
+```
+
+Parameter description:
+
+- `{device_id}`: CUDA device number. If empty, inference will be performed on the CPU.
+- `--base_model {base_model}`: Directory containing the LLaMA model weights and configuration files in HF format.
+- `--lora_model {lora_model}`: Directory of the Chinese LLaMA/Alpaca LoRa files after decompression, or the [🤗Model Hub model name](#Model-Hub). If this parameter is not provided, only the model specified by `--base_model` will be loaded.
+- `--tokenizer_path {tokenizer_path}`: Directory containing the corresponding tokenizer. If this parameter is not provided, its default value is the same as `--lora_model`; if the `--lora_model` parameter is not provided either, its default value is the same as `--base_model`.
+- `--with_prompt`: Whether to merge the input with the prompt template. **If you are loading an Alpaca model, be sure to enable this option!**
+- `--interactive`: Launch interactively for multiple **single-round question-answer** sessions (this is not the contextual dialogue in llama.cpp).
+- `--data_file {file_name}`: In non-interactive mode, read the content of `file_name` line by line for prediction.
+- `--predictions_file {file_name}`: In non-interactive mode, write the predicted results in JSON format to `file_name`.
+
+Note:
+
+- Due to differences in decoding implementation details between different frameworks, this script cannot guarantee to reproduce the decoding effect of llama.cpp.
+- This script is for convenient and quick experience only, and has not been optimized for multi-machine, multi-card, low memory, low display memory, and other conditions.
+- When running 7B model inference on a CPU, make sure you have 32GB of memory; when running 7B model inference on a GPU, make sure you have 20GB of display memory.
+
+### Building UI with text-generation-webui
 
 Next, we will use the [text-generation-webui tool](https://github.com/oobabooga/text-generation-webui) as an example to introduce the detailed steps for local deployment without the need for model merging.
 
@@ -287,7 +333,6 @@ shared.model = PeftModel.from_pretrained(shared.model, Path(f"{shared.args.lora_
 
 # Great! You can now run the tool. Please refer to https://github.com/oobabooga/text-generation-webui/wiki/Using-LoRAs for instructions on how to use LoRAs
 python server.py --model llama-7b-hf --lora chinese-alpaca-lora-7b
-
 ```
 
 ## System Performance
@@ -511,8 +556,11 @@ Answer: If the model cannot understand Chinese and the generation speed is slow 
 - About not being able to understand Chinese:
    - [Unicode (Windows) Support for llama.cpp](https://github.com/josStorer/llama.cpp-unicode-windows) (thanks @josStorer for development)
    - [#issue 11](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/11) (Thanks to @LainNya, @boholder, @hyperzlib and others for their solutions)
-
 - Regarding the slow generation: [#issue 51](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/51) (thanks to @wscsjnhboy for the solution)
+
+##### Question 7: Chinese-LLaMA 13B model cannot be launched with llama.cpp, reporting inconsistent dimensions.
+
+Answer: This is related to the fact that the 13B model is split into two files with different sizes. See [Issue#133](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/133). Users with strong hands-on skills can try to solve this issue using the method mentioned in the issue. On the other hand, the Chinese-LLaMA model itself is not designed for dialogue or interaction, but rather to provide a foundation for further fine-tuning on Chinese instruction tasks or other tasks. Therefore, it is not recommended to load the Chinese-LLaMA model with llama.cpp.
 
 ## Citation
 
