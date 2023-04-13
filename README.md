@@ -169,10 +169,15 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 
 这一步骤会对原版LLaMA模型（HF格式）扩充中文词表，合并LoRA权重并生成全量模型权重。此处可有两种选择：
 
-- 需要量化部署：输出PyTorch版本权重（`.pth`文件），使用`merge_llama_with_chinese_lora.py`脚本
-- 不需要量化部署：输出HuggingFace版本权重（以便进一步进行精调），使用`merge_llama_with_chinese_lora_to_hf.py`脚本（感谢@sgsdxzy 提供）
+- 输出PyTorch版本权重（`.pth`文件），使用`merge_llama_with_chinese_lora.py`脚本
+  - 以便[使用llama.cpp工具进行量化和部署](#llamacpp量化部署)
 
-以上两个脚本需要设置的参数一致，只是输出文件格式不同。下面以“需要量化部署”为例，介绍相应的参数设置。
+- 输出HuggingFace版本权重（`.bin`文件），使用`merge_llama_with_chinese_lora_to_hf.py`脚本（感谢@sgsdxzy 提供）
+  - 以便[使用Transformers进行推理](#使用transformers推理)
+  - 以便[使用text-generation-webui搭建界面](#使用text-generation-webui搭建界面)
+
+
+以上两个脚本需要设置的参数一致，只是输出文件格式不同。下面以生成PyTorch版本权重为例，介绍相应的参数设置。
 
 ```bash
 python scripts/merge_llama_with_chinese_lora.py \
@@ -196,7 +201,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 - [🤗Transformers](#使用Transformers推理)：提供原生transformers推理接口，支持CPU/GPU上进行模型推理
 - [text-generation-webui](#使用text-generation-webui搭建界面)：提供了一种可实现前端UI界面的部署方式
 
-### llama.cpp
+### llama.cpp量化部署
 
 接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 下面以中文Alpaca-7B模型为例介绍，运行前请确保：
 
@@ -285,7 +290,7 @@ CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
 参数说明：
 
 * `{device_id}`：CUDA设备编号。如果为空，那么在CPU上进行推理
-* `--base_model {base_model} `：存放HF格式的LLaMA模型权重和配置文件的目录
+* `--base_model {base_model} `：存放**HF格式**的LLaMA模型权重和配置文件的目录。如果之前合并生成的是PyTorch格式模型，[请转换为HF格式](#step-1-将原版llama模型转换为hf格式)
 * `--lora_model {lora_model}` ：中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub模型调用名称](#Model-Hub)。若不提供此参数，则只加载`--base_model`指定的模型
 * `--tokenizer_path {tokenizer_path}`：存放对应tokenizer的目录。若不提供此参数，则其默认值与`--lora_model`相同；若也未提供`--lora_model`参数，则其默认值与`--base_model`相同
 * `--with_prompt`：是否将输入与prompt模版进行合并。**如果加载Alpaca模型，请务必启用此选项！**
