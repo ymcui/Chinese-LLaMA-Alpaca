@@ -177,7 +177,7 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
   - 以便[使用text-generation-webui搭建界面](#使用text-generation-webui搭建界面)
 
 
-以上两个脚本需要设置的参数一致，只是输出文件格式不同。下面以生成PyTorch版本权重为例，介绍相应的参数设置。
+以上两个脚本所需参数一致，仅输出文件格式不同。下面以生成PyTorch版本权重为例，介绍相应的参数设置。
 
 ```bash
 python scripts/merge_llama_with_chinese_lora.py \
