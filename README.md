@@ -259,6 +259,8 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 如果想快速体验模型效果，不安装其他库或Python包，可以使用[scripts/inference_hf.py](scripts/inference_hf.py)在不量化的情况下启动模型。该脚本支持CPU和GPU的单卡推理。以启动Chinese-Alpaca 7B模型为例，脚本运行方式如下：
 
+(**因不同框架的解码的实现细节有差异，该脚本并不能保证复现llama.cpp的解码效果**)
+
 ```
 CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
     --base_model path_to_original_llama_hf_dir \
