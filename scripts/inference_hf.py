@@ -14,17 +14,23 @@ parser.add_argument('--predictions_file', default='./predictions.json', type=str
 args = parser.parse_args()
 
 generation_config = dict(
-    temperature=0.7,
-    top_p=0.95,
+    temperature=0.2,
+    top_k=40,
+    top_p=0.9,
     do_sample=True,
     num_beams=1,
+    repeat_penalty=1.3,
     max_new_tokens=400
     )
 
+
+ # The prompt template below is taken from llama.cpp
+ # and is slightly different from the one used in training.
+ # But we find it gives better results
 prompt_input = (
     "Below is an instruction that describes a task. "
     "Write a response that appropriately completes the request.\n\n"
-    "### Instruction:\n{instruction}\n\n### Response: "
+    "### Instruction:\n\n{instruction}\n\n### Response:\n\n"
 )
 
 sample_data = ["为什么要减少污染，保护环境？"]
@@ -105,7 +111,7 @@ if __name__ == '__main__':
                 s = generation_output[0]
                 output = tokenizer.decode(s,skip_special_tokens=True)
                 if args.with_prompt:
-                    response = output.split("### Response: ")[1].strip()
+                    response = output.split("### Response:")[1].strip()
                 else:
                     response = output
                 print("Response: ",response)
@@ -128,7 +134,7 @@ if __name__ == '__main__':
                 s = generation_output[0]
                 output = tokenizer.decode(s,skip_special_tokens=True)
                 if args.with_prompt:
-                    response = output.split("### Response: ")[1].strip()
+                    response = output.split("### Response:")[1].strip()
                 else:
                     response = output
                 print(f"======={index}=======")
