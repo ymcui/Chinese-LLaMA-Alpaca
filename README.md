@@ -186,6 +186,8 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 ## 本地快速部署
 
+### llama.cpp
+
 接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 
 
 下面以中文Alpaca-7B模型为例介绍，运行前请确保：
@@ -196,7 +198,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 4. [llama.cpp](https://github.com/ggerganov/llama.cpp)官方建议使用Python 3.9或3.10编译和运行该工具
 
 
-### Step 1: 克隆和编译llama.cpp
+#### Step 1: 克隆和编译llama.cpp
 
 运行以下命令对llama.cpp项目进行编译，生成`./main`和`./quantize`二进制文件。
 
@@ -206,7 +208,7 @@ cd llama.cpp
 make
 ```
 
-###  Step 2: 生成量化版本模型
+####  Step 2: 生成量化版本模型
 
 将[合并模型](#合并模型)（选择生成`.pth`格式模型）中最后一步生成的`tokenizer.model`文件放入`zh-models`目录下，模型文件`consolidated.*.pth`和配置文件`params.json`放入`zh-models/7B`目录下。请注意LLaMA和Alpaca的`tokenizer.model`不可混用（原因见[训练细节](#训练细节)）。目录结构类似：
 
@@ -232,7 +234,7 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 
 此处也可以将最后一个参数改为`3`，即生成`q4_1`版本的量化权重。`q4_1`权重比`q4_0`大一些，速度慢一些，效果方面会有些许提升，具体可参考[llama.cpp#PPL](https://github.com/ggerganov/llama.cpp#perplexity-measuring-model-quality)。
 
-### Step 3: 加载并启动模型
+#### Step 3: 加载并启动模型
 
 运行`./main`二进制文件，`-m`命令指定4-bit量化模型（也可加载ggml-FP16的模型）。以下是解码参数示例（并非最优参数）：
 
@@ -252,6 +254,45 @@ python convert-pth-to-ggml.py zh-models/7B/ 1
 --temp 温度系数，值越低回复的随机性越小，反之越大
 --top_p, top_k 控制解码采样的相关参数
 ```
+
+### 使用Transformers推理
+
+如果想快速体验模型效果，不安装其他库或Python包，可以使用[scripts/inference_hf.py](scripts/inference_hf.py)在不量化的情况下启动模型。该脚本支持CPU和GPU的单卡推理。以启动Chinese-Alpaca 7B模型为例，脚本运行方式如下：
+
+(**因不同框架的解码的实现细节有差异，该脚本并不能保证复现llama.cpp的解码效果**)
+
+```
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_original_llama_hf_dir \
+    --lora_model path_to_chinese_llama_or_alpaca_lora \
+    --with_prompt \
+    --interactive
+```
+
+如果已经执行了`merge_llama_with_chinese_lora_to_hf.py`脚本将lora权重合并，那么无需再指定lora_model，启动方式更简单：
+
+```
+CUDA_VISIBLE_DEVICES={device_id} python scripts/inference_hf.py \
+    --base_model path_to_merged_llama_or_alpaca_hf_dir \
+    --with_prompt \
+    --interactive
+```
+
+参数说明以及其他可选参数如下
+
+* `{device_id}`: CUDA设备编号。如果为空，那么在CPU上进行推理
+* `--base_model {base_model} `: 存放HF格式的LLaMA模型权重和配置文件的目录
+* `--lora_model {lora_model}` : 中文LLaMA/Alpaca LoRA解压后文件所在目录，也可使用[🤗Model Hub模型调用名称](#Model-Hub)。若不提供此参数，则只加载base_model
+* `--tokenizer_path {tokenizer_path}`  : 存放对应tokenizer的目录。若不提供此参数，则其值与lora_model相同；若也未提供lora_model参数，则其值与base_model相同
+* `--with_prompt`: 是否将输入放入prompt模版中。**如果加载Alpaca模型，请务必启用此选项！**
+* `--interactive`: 以交互式方式启动。**与llama.cpp不同，该脚本不支持多轮对话中的上下文语意理解**
+* `--data_file {file_name}`:  非交互式方式启动下，按行读取file_name中的的内容进行预测
+* `--predictions_file {file_name}`: 非交互式方式下，将预测的结果以json格式写入file_name
+
+⚠️**注意：该脚本仅为方便快速体验用，并未对多卡、低内存、低显存等情况等条件做任何优化。⚠️**
+
+⚠️**如在CPU上运行7B模型推理，请确保有32GB内存；如在GPU上运行7B模型推理，请确保有20GB显存**⚠️
+
 
 
 ## 系统效果
