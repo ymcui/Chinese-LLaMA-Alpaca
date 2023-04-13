@@ -279,8 +279,7 @@ cp loras/chinese-alpaca-lora-7b/special_tokens_map.json models/llama-7b-hf/
 cp loras/chinese-alpaca-lora-7b/tokenizer_config.json models/llama-7b-hf/
 
 # 修改/modules/LoRA.py文件，大约在第28行
-shared.model.resize_token_embeddings(49954)
-assert shared.model.get_input_embeddings().weight.size(0) == 49954
+shared.model.resize_token_embeddings(len(shared.tokenizer))
 shared.model = PeftModel.from_pretrained(shared.model, Path(f"{shared.args.lora_dir}/{lora_name}"), **params)
 
 # 接下来就可以愉快的运行了，参考https://github.com/oobabooga/text-generation-webui/wiki/Using-LoRAs
