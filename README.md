@@ -522,6 +522,10 @@ python script/crawl_prompt.py output-file
 
 - [#issue 51](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/51)（感谢@wscsjnhboy 提供解决方案）
 
+##### 问题7：Chinese-LLaMA 13B模型没法用llama.cpp启动，提示维度不一致
+
+答：这与13B模型拆分成了两个文件，每个文件大小不相同有关，见 https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues/133 。动手能力强的用户可以用issue提到的方法自己尝试解决。另一方面，Chinese-LLaMA模型本身并不是为对话、交互设计，而是为进一步在中文上fine-tuning提供基底；所以也并不建议用llama.cpp加载Chinese-LLaMA模型。
+
 
 ## 引用
 
