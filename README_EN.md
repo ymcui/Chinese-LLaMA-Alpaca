@@ -194,6 +194,7 @@ where:
 *(Optional) If necessary, you can convert the `.pth` files generated in this step to HuggingFace format using the script in Step 1.*
 
 ## Quick Deployment
+### llama.cpp
 
 The research community has developed many excellent model quantization and deployment tools to help users **easily deploy large models locally on their own computers (CPU!)**. In the following, we'll take the [llama.cpp tool](https://github.com/ggerganov/llama.cpp) as an example and introduce the detailed steps to quantize and deploy the model on MacOS and Linux systems. For Windows, you may need to install build tools like cmake. **For a local quick deployment experience, it is recommended to use the instruction-finetuned Alpaca model.**
 
@@ -204,7 +205,7 @@ Before running, please ensure:
 3. The system should have `make` (built-in for MacOS/Linux) or `cmake` (need to be installed separately for Windows) build tools.
 4. It is recommended to use Python 3.9 or 3.10 to build and run the [llama.cpp tool](https://github.com/ggerganov/llama.cpp) (since `sentencepiece` does not yet support 3.11).
 
-### Step 1: Clone and build llama.cpp
+#### Step 1: Clone and build llama.cpp
 
 Run the following commands to build the llama.cpp project, generating `./main` and `./quantize` binary files.
 
@@ -214,7 +215,7 @@ cd llama.cpp
 make
 ```
 
-### Step 2: Generate a quantized model
+#### Step 2: Generate a quantized model
 
 Depending on the type of model you want to convert (LLaMA or Alpaca), place the `tokenizer.*` files from the downloaded LoRA model package into the `zh-models` directory, and place the `params.json`  and the `consolidate.*.pth` model file obtained in the last step of [Model Reconstruction](#Model-Reconstruction) into the `zh-models/7B` directory. Note that the `.pth` model file and `tokenizer.model` are corresponding, and the `tokenizer.model` for LLaMA and Alpaca should not be mixed. The directory structure should be similar to:
 
@@ -238,7 +239,7 @@ Further quantize the FP16 model to 4-bit, and generate a quantized model file wi
 ./quantize ./zh-models/7B/ggml-model-f16.bin ./zh-models/7B/ggml-model-q4_0.bin 2
 ```
 
-### Step 3: Load and start the model
+#### Step 3: Load and start the model
 
 Run the `./main` binary file, with the `-m` command specifying the 4-bit quantized model (or loading the ggml-FP16 model). Below is an example of decoding parameters:
 
@@ -255,6 +256,38 @@ Please enter your prompt after the `>`, use `\` as the end of the line for multi
 --repeat_penalty controls the penalty for repeated text in the generated response
 --temp is the temperature coefficient, lower values result in less randomness in the response, and vice versa
 --top_p, top_k control the sampling parameters
+```
+
+### text-generation-webui
+
+Next, we will use the [text-generation-webui tool](https://github.com/oobabooga/text-generation-webui) as an example to introduce the detailed steps for local deployment without the need for model merging.
+
+```bash
+# clone text-generation-webui
+git clone https://github.com/oobabooga/text-generation-webui
+cd text-generation-webui
+pip install -r requirements.txt
+
+# put the downloaded lora weights into the loras folder.
+ls loras/chinese-alpaca-lora-7b
+adapter_config.json  adapter_model.bin  special_tokens_map.json  tokenizer_config.json  tokenizer.model
+
+# put the HuggingFace-formatted llama-7B model files into the models  folder.
+ls models/llama-7b-hf
+pytorch_model-00001-of-00002.bin pytorch_model-00002-of-00002.bin config.json pytorch_model.bin.index.json generation_config.json
+
+# copy the tokenizer of lora weights to the models/llama-7b-hf directory
+cp loras/chinese-alpaca-lora-7b/tokenizer.model models/llama-7b-hf/
+cp loras/chinese-alpaca-lora-7b/special_tokens_map.json models/llama-7b-hf/
+cp loras/chinese-alpaca-lora-7b/tokenizer_config.json models/llama-7b-hf/
+
+# modify /modules/LoRA.py file
+shared.model.resize_token_embeddings(len(shared.tokenizer))
+shared.model = PeftModel.from_pretrained(shared.model, Path(f"{shared.args.lora_dir}/{lora_name}"), **params)
+
+# Great! You can now run the tool. Please refer to https://github.com/oobabooga/text-generation-webui/wiki/Using-LoRAs for instructions on how to use LoRAs
+python server.py --model llama-7b-hf --lora chinese-alpaca-lora-7b
+
 ```
 
 ## System Performance
