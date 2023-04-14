@@ -237,7 +237,7 @@ llama.cpp/zh-models/
 Convert the above `.pth` model weights to ggml's FP16 format, and generate a file with the path `zh-models/7B/ggml-model-f16.bin`.
 
 ```bash
-python convert-pth-to-ggml.py zh-models/7B/ 1
+python convert.py zh-models/7B/
 ```
 
 Further quantize the FP16 model to 4-bit, and generate a quantized model file with the path `zh-models/7B/ggml-model-q4_0.bin`.
