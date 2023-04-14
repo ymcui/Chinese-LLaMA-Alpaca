@@ -203,6 +203,10 @@ python scripts/merge_llama_with_chinese_lora.py \
 
 ### llama.cpp量化部署
 
+⚠️ 2023/4/14：由于转换脚本更新，如果需要安装最新版请先查看: https://github.com/ggerganov/llama.cpp#prepare-data--run 
+
+**下面介绍的是[d990e3f](https://github.com/ggerganov/llama.cpp/releases/tag/master-d990e3f) commit（4/13）及之前的安装、量化和部署步骤。晚些时候更新到最新版本的部署方式。**
+
 接下来以[llama.cpp工具](https://github.com/ggerganov/llama.cpp)为例，介绍MacOS和Linux系统中，将模型进行量化并在**本地CPU上部署**的详细步骤。Windows则可能需要cmake等编译工具的安装（Windows用户出现模型无法理解中文或生成速度特别慢时请参考[FAQ#6](https://github.com/ymcui/Chinese-LLaMA-Alpaca/tree/main#FAQ)）。**本地快速部署体验推荐使用经过指令精调的Alpaca模型，有条件的推荐使用FP16模型，效果更佳。** 下面以中文Alpaca-7B模型为例介绍，运行前请确保：
 
 1. 模型量化过程需要将未量化模型全部载入内存，请确保有足够可用内存（7B版本需要13G以上）
