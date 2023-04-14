@@ -140,13 +140,13 @@ chinese_llama_lora_7b/
 
 1. 确保机器有足够的内存加载完整模型（例如7B模型需要13-15G）以进行合并模型操作。
 2. 务必确认基模型和下载的LoRA模型完整性，检查是否与[SHA256.md](./SHA256.md)所示的值一致，否则无法进行合并操作。原版LLaMA包含：`tokenizer.model`、`tokenizer_checklist.chk`、`consolidated.*.pth`、`params.json`
-3. 主要依赖库如下：
-   - [最新版🤗Transformers](https://huggingface.co/docs/transformers/installation#install-from-source)，**必须从源码安装**，因为v4.27并不包含`LlamaModel`等实现
+3. 主要依赖库如下（如果出问题就请安装以下指定版本）：
+   - `transformers`（4.28.0测试通过）
    - `sentencepiece`（0.1.97测试通过）
    - `peft`（0.2.0测试通过）
 
 ```bash
-pip install git+https://github.com/huggingface/transformers
+pip install transformers
 pip install sentencepiece
 pip install peft
 ```
@@ -156,7 +156,7 @@ pip install peft
 
 ### Step 1: 将原版LLaMA模型转换为HF格式
 
-请使用[最新版🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
+请使用[🤗transformers](https://huggingface.co/docs/transformers/installation#install-from-source)提供的脚本[convert_llama_weights_to_hf.py](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)，将原版LLaMA模型转换为HuggingFace格式。将原版LLaMA的`tokenizer.model`放在`--input_dir`指定的目录，其余文件放在`${input_dir}/${model_size}`下。执行以下命令后，`--output_dir`中将存放转换好的HF版权重。
 
 ```bash
 python src/transformers/models/llama/convert_llama_weights_to_hf.py \
