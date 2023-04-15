@@ -18,7 +18,7 @@
 
 为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力。
 
-***声明：本项目相关资源仅供学术研究使用。项目文档：[📚 GitHub Wiki]((https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki))***
+***声明：本项目相关资源仅供学术研究使用。项目文档： [📚 GitHub Wiki]((https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki))***
 
 **本项目主要内容：**
 
