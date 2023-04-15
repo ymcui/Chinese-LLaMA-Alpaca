@@ -144,6 +144,7 @@ chinese_llama_lora_7b/
    - `transformers`（4.28.0测试通过）
    - `sentencepiece`（0.1.97测试通过）
    - `peft`（0.2.0测试通过）
+   - python版本建议在3.9以上
 
 ```bash
 pip install transformers
@@ -208,7 +209,7 @@ python scripts/merge_llama_with_chinese_lora.py \
 1. 模型量化过程需要将未量化模型全部载入内存，请确保有足够可用内存（7B版本需要13G以上）
 2. 加载使用4-bit量化后的模型时（例如7B版本），确保本机可用内存大于4-6G（受上下文长度影响）
 3. 系统应有`make`（MacOS/Linux自带）或`cmake`（Windows需自行安装）编译工具
-4. [llama.cpp](https://github.com/ggerganov/llama.cpp)官方建议使用Python 3.9或3.10编译和运行该工具
+4. [llama.cpp](https://github.com/ggerganov/llama.cpp)官方建议使用Python 3.9~3.11编译和运行该工具
 
 
 #### Step 1: 克隆和编译llama.cpp
