@@ -169,7 +169,7 @@ chinese_llama_lora_7b/
 
 ## 训练细节
 
-整个训练流程包括词表扩充、预训练和指令精调三部分，其中词表扩充的代码参见[merge_tokenizers.py](scripts/merge_tokenizers.py)；预训练和指令精调代码参考了🤗transformers中的[run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py)和[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)项目中数据集处理的相关部分。
+整个训练流程包括词表扩充、预训练和指令精调三部分。词表扩充的代码请参考[merge_tokenizers.py](scripts/merge_tokenizers.py)。预训练和指令精调代码参考了🤗transformers中的[run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py)和[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)项目中数据集处理的相关部分。
 
 关于相关模型的训练细节，请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
 
