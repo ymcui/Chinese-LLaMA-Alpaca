@@ -18,7 +18,7 @@
 
 为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力。
 
-***声明：本项目相关资源仅供学术研究使用。项目文档： [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki))***
+***声明：本项目相关资源仅供学术研究使用。项目文档： [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)***
 
 **本项目主要内容：**
 
@@ -26,6 +26,7 @@
 - 🚀 开源了使用中文文本数据预训练的中文LLaMA大模型（7B、13B）
 - 🚀 开源了进一步经过指令精调的中文Alpaca大模型（7B、13B）
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地部署和体验大模型
+- 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat)等生态
 
 💡 下图给出了7B版本模型本地CPU部署后的实际体验效果（动画未经加速，Apple M1 Max下实测）。
 

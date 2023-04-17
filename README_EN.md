@@ -29,6 +29,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 - 🚀 Open-sourced the Chinese LLaMA large model pre-trained on Chinese text data  (7B, 13B)
 - 🚀 Open-sourced the Chinese Alpaca large model with further instruction fine-tuning (7B, 13B)
 - 🚀 Quickly deploy and experience the quantized version of the large model on CPU/GPU of your laptop (personal PC) 
+- 🚀 Support [🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), etc.
 
 💡 The following image shows the actual experience effect of the 7B version model after local deployment (animation unaccelerated, tested on Apple M1 Max).
 
