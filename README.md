@@ -37,7 +37,9 @@
 
 ## 新闻
 
-**[2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)**
+**[2023/04/17] Release v2.2：添加LlamaChat支持（macOS图形界面）、文档移至GitHub Wiki。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)**
+
+[2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
 
 [2023/04/07] Release v2.0：发布13B版本中文LLaMA、Alpaca大模型，主要升级：更强的事实性、文本问答、翻译、伦理拒答等能力全面提升！更多更新内容请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)
 
@@ -125,7 +127,7 @@ chinese_llama_lora_7b/
 
 ## 合并模型
 
-为了将LoRA模型与原版LLaMA进行合并，目前提供了两种方式：
+为了将LoRA模型与原版LLaMA进行合并以便进行推理或继续训练，目前提供了两种方式：
 
 - 在线转换：适合Google Colab用户，可利用notebook进行在线转换并量化模型
 
@@ -135,11 +137,12 @@ chinese_llama_lora_7b/
 
 ## 本地推理与快速部署
 
-本项目中的模型主要支持以下三种推理和部署方式：
+本项目中的模型主要支持以下四种推理和部署方式：
 
 - llama.cpp：提供了一种模型量化和在本地CPU上部署方式
 - 🤗Transformers：提供原生transformers推理接口，支持CPU/GPU上进行模型推理
 - text-generation-webui：提供了一种可实现前端UI界面的部署方式
+- LlamaChat：提供了一种macOS下的图形交互界面
 
 相关文档已移至本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型推理与部署)
 
@@ -208,6 +211,7 @@ chinese_llama_lora_7b/
 - alpaca-lora by @tloen: https://github.com/tloen/alpaca-lora
 - llama.cpp by @ggerganov: https://github.com/ggerganov/llama.cpp
 - pCLUE and translation data by @brightmart: https://github.com/brightmart/nlp_chinese_corpus
+- LlamaChat by @alexrozanski: https://github.com/alexrozanski/LlamaChat
 
 Episode: Logo中的小羊驼是由[midjourney](http://midjourney.com)自动生成，并由Mac自带的预览工具自动抠出来的。
 
