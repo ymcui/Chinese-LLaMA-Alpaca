@@ -41,7 +41,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-**[2023/04/17] Release v2.2: Add LlamaChat support (macOS UI) , documentations are migrated to GitHub Wiki. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)**
+**[2023/04/18] Release v2.2: Add LlamaChat support (macOS UI), tokenizer merging scripts, documentations are migrated to GitHub Wiki. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)**
 
 [2023/04/13] Release v2.1: Add HuggingFace-transformers and text-generation-webui interfances. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
 

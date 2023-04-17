@@ -38,7 +38,7 @@
 
 ## 新闻
 
-**[2023/04/17] Release v2.2：添加LlamaChat支持（macOS图形界面）、中文词表以及LLaMA Tokenizer的词表扩充脚本、文档移至GitHub Wiki。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)**
+**[2023/04/18] Release v2.2：添加LlamaChat支持（macOS图形界面）、中文词表以及LLaMA Tokenizer的词表扩充脚本、文档移至GitHub Wiki、添加技术报告等。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)**
 
 [2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
 
@@ -191,15 +191,14 @@ chinese_llama_lora_7b/
 
 ## 引用
 
-如果您觉得本项目对您的研究有所帮助或使用了本项目的代码或数据，请参考以下引用（临时）：
+如果您觉得本项目对您的研究有所帮助或使用了本项目的代码或数据，请参考引用本项目的技术报告：
 ```
-@misc{chinese-llama-alpaca,
-  author = {Yiming Cui and Ziqing Yang},
-  title = {Chinese LLaMA and Alpaca LLMs},
-  year = {2023},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/ymcui/Chinese-LLaMA-Alpaca}},
+@article{chinese-llama-alpaca,
+      title={Efficient and Effective Text Encoding for Chinese LLaMA and Alpaca}, 
+      author={Cui, Yiming and Yang, Ziqing and Yao, Xin},
+      journal={arXiv preprint arXiv:2304.xxxxx},
+      url={},
+      year={2023}
 }
 ```
 
