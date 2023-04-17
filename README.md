@@ -37,7 +37,7 @@
 
 ## 新闻
 
-**[2023/04/17] Release v2.2：添加LlamaChat支持（macOS图形界面）、LLaMA Tokenizer的词表扩充脚本、文档移至GitHub Wiki。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)**
+**[2023/04/17] Release v2.2：添加LlamaChat支持（macOS图形界面）、中文词表以及LLaMA Tokenizer的词表扩充脚本、文档移至GitHub Wiki。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)**
 
 [2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
 
