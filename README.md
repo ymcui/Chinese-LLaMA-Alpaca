@@ -26,7 +26,7 @@
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地量化和部署体验大模型
 - 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat)等生态
 
-💡 下图给出了中文Alpaca-7B模型在本地CPU量化部署后的实际体验效果（动画未经加速，Apple M1 Max下实测）。
+💡 下图是中文Alpaca-7B模型在本地CPU量化部署后的实际体验效果（GIF未加速，M1 Max下实测）。
 
 ![](./pics/screencast.gif)
 
@@ -215,7 +215,7 @@ Episode: Logo中的小羊驼是由[midjourney](http://midjourney.com)自动生�
 
 ## 免责声明
 
-**本项目相关资源仅供学术研究之用，严禁用于商业用途。**使用涉及第三方代码的部分时，请严格遵循相应的开源协议。模型生成的内容受模型计算、随机性和量化精度损失等因素影响，本项目不对其准确性作出保证。对于模型输出的任何内容，本项目不承担任何法律责任，亦不对因使用相关资源和输出结果而可能产生的任何损失承担责任。
+**本项目相关资源仅供学术研究之用，严禁用于商业用途。** 使用涉及第三方代码的部分时，请严格遵循相应的开源协议。模型生成的内容受模型计算、随机性和量化精度损失等因素影响，本项目不对其准确性作出保证。对于模型输出的任何内容，本项目不承担任何法律责任，亦不对因使用相关资源和输出结果而可能产生的任何损失承担责任。
 
 本项目由个人及协作者业余时间发起并维护，因此无法保证能及时回复解决相应问题。
 
