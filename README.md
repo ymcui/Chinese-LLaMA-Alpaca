@@ -17,7 +17,7 @@
 
 以ChatGPT、GPT-4等为代表的大语言模型（Large Language Model, LLM）掀起了新一轮自然语言处理领域的研究浪潮，展现出了类通用人工智能（AGI）的能力，受到业界广泛关注。然而，由于大语言模型的训练和部署都极为昂贵，为构建透明且开放的学术研究造成了一定的阻碍。
 
-为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力。
+为了促进大模型在中文NLP社区的开放研究，本项目开源了**中文LLaMA模型和指令精调的Alpaca大模型**。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力。详细内容请参考技术报告[(Cui, Yang, and Yao, 2023)](https://arxiv.org/abs/2304.08177)。
 
 **本项目主要内容：**
 
@@ -189,13 +189,13 @@ chinese_llama_lora_7b/
 
 ## 引用
 
-如果您觉得本项目对您的研究有所帮助或使用了本项目的代码或数据，请参考引用本项目的技术报告：
+如果您觉得本项目对您的研究有所帮助或使用了本项目的代码或数据，请参考引用本项目的技术报告：https://arxiv.org/abs/2304.08177
 ```
 @article{chinese-llama-alpaca,
       title={Efficient and Effective Text Encoding for Chinese LLaMA and Alpaca}, 
       author={Cui, Yiming and Yang, Ziqing and Yao, Xin},
-      journal={arXiv preprint arXiv:2304.xxxxx},
-      url={},
+      journal={arXiv preprint arXiv:2304.08177},
+      url={https://arxiv.org/abs/2304.08177},
       year={2023}
 }
 ```
