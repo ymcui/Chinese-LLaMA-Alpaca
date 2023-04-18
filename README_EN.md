@@ -64,6 +64,24 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 The official [LLaMA models released by Facebook prohibits commercial use](https://github.com/facebookresearch/llama), and the official model weights have not been open-sourced (although there are many third-party download links available online). In order to comply with the relevant licenses, it is currently not possible to release the complete model weights. We appreciate your understanding. After Facebook fully opens up the model weights, this project will update its policies accordingly. **What is released here are the LoRA weights**, which can be seen as a "patch" for the original LLaMA model, and the complete weights can be obtained by merging the two.
 
+### Which model should I use?
+
+The following table provides a basic comparison of the Chinese LLaMA and Alpaca models, as well as recommended usage scenarios (including, but not limited to):
+
+| Comparison Item        | Chinese LLaMA                                                | Chinese Alpaca                                               |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Training Method        | Traditional CLM (trained on general corpus)                  | Instruction Fine-tuning (trained on instruction data)        |
+| Input Template         | Not required                                                 | Must meet template requirements (llama.cpp/LlamaChat/[inference_hf.py](./scripts/inference_hf.py) are built-in) |
+| Suitable Scenarios ✔️   | Text continuation: Given a context, let the model continue writing | 1. Instruction understanding (Q&A, writing, advice, etc.)<br/>2. Multi-turn context understanding (chat, etc.) |
+| Unsuitable Scenarios ❌ | Instruction understanding, multi-turn chat, etc.             | Unrestricted free text generation                            |
+| llama.cpp              | Use `-p` parameter to specify context                        | Use `-ins` parameter to enable instruction understanding + chat mode |
+| text-generation-webui  | Not suitable for chat mode                                   | Use `--cpu` to run without a GPU; if not satisfied with generated content, consider modifying prompt |
+| LlamaChat              | Choose "LLaMA" when loading the model                        | Choose "Alpaca" when loading the model                       |
+| inference_hf.py        | No additional startup parameters required                    | Add `--with_prompt` parameter when launching                 |
+| Known Issues           | If not controlled for termination, it will continue writing until reaching the output length limit. | Current version of the model generates relatively shorter texts, being more concise. |
+
+*Note: If you encounter issues such as low-quality model responses, nonsensical answers, or failure to understand questions, please check whether you are using the correct model and startup parameters for the scenario.*
+
 
 ### Chinese LLaMA
 
