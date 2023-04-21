@@ -38,7 +38,7 @@
 
 ## 新闻
 
-**[2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)**
+[2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
 
 [2023/04/07] Release v2.0：发布13B版本中文LLaMA、Alpaca大模型，主要升级：更强的事实性、文本问答、翻译、伦理拒答等能力全面提升！更多更新内容请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)
 
@@ -76,6 +76,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | :---------------- | :--: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
 | Chinese-LLaMA-7B  | 通用 | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
 | Chinese-LLaMA-13B | 通用 | 原版LLaMA-13B<sup>[1]</sup> |         1G         | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |  3d6dee......e5199b  |
+| Chinese-LLaMA-33B | 通用 | 原版LLaMA-33B<sup>[1]</sup> |         -          |                              -                               |          -           |
 
 
 ### 中文Alpaca模型
@@ -86,6 +87,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
 | Chinese-Alpaca-7B  | 指令精调 | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
 | Chinese-Alpaca-13B | 指令精调 | 原版LLaMA-13B<sup>[1]</sup> |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |  45c92e......682d91  |
+| Chinese-Alpaca-33B | 指令精调 | 原版LLaMA-33B<sup>[1]</sup> |         -          |                              -                               |          -           |
 
 ### Model Hub
 
@@ -95,8 +97,10 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | ------------------ | :--------------------------------: | :----------------------------------------------------------: |
 | Chinese-LLaMA-7B   |  ziqingyang/chinese-llama-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
 | Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
+| Chinese-LLaMA-33B  |                 -                  |                              -                               |
 | Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
 | Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
+| Chinese-Alpaca-33B |                 -                  |                              -                               |
 
 ### 脚注及其他说明
 
