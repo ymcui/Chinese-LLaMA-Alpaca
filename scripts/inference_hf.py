@@ -89,9 +89,9 @@ if __name__ == '__main__':
     model.to(device)
     model.eval()
 
-
     with torch.no_grad():
         if args.interactive:
+            print("Start inference with interactive mode.")
             while True:
                 raw_input_text = input("Input:")
                 if len(raw_input_text.strip())==0:
@@ -117,6 +117,7 @@ if __name__ == '__main__':
                 print("Response: ",response)
                 print("\n")
         else:
+            print("Start inference.")
             results = []
             for index, example in enumerate(examples):
                 if args.with_prompt is True:
