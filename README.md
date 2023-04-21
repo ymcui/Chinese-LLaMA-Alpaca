@@ -1,4 +1,4 @@
-[**中文**](./README.md) | [**English**](./README_EN.md)
+[**中文**](./README.md) | [**English**](./README_EN.md) | [**文档/Docs**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)
 
 <p align="center">
     <br>
@@ -8,7 +8,6 @@
 <p align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/ymcui/Chinese-LLaMA-Alpaca.svg?color=blue&style=flat-square">
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ymcui/Chinese-LLaMA-Alpaca">
-    <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
     <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v2.2-green"></a>
