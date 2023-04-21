@@ -64,16 +64,14 @@
 
 ### 用户须知（必读）
 
-Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，目前暂时无法发布完整的模型权重，敬请各位理解（目前国外也是一样）。Facebook完全开放模型权重之后，本项目会及时更新相关策略。**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者进行合并即可获得完整版权重。
-
-提醒：以下中文LLaMA/Alpaca LoRA模型无法单独使用，需要搭配原版LLaMA模型<sup>[1]</sup>。请参考本项目给出的[合并模型](#合并模型)步骤重构模型。
+Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，目前暂时无法发布完整的模型权重，敬请各位理解（目前国外也是一样）。Facebook完全开放模型权重之后，本项目会及时更新相关策略。**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者进行合并即可获得完整版权重。以下中文LLaMA/Alpaca LoRA模型无法单独使用，需要搭配[原版LLaMA模型](https://github.com/facebookresearch/llama)。请参考本项目给出的[合并模型](#合并模型)步骤重构模型。
 
 ### 我应该选什么模型？
 
 下面是中文LLaMA和Alpaca模型的基本对比以及建议使用场景（包括但不限于），更多细节见[训练细节](#训练细节)。
 
 | 对比项                | 中文LLaMA                                              | 中文Alpaca                                                   |
-| --------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| :-------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
 | 训练方式              | 传统CLM                            | 指令精调                                                     |
 | 训练语料 | 无标注通用语料 | 有标注指令数据 |
 | 输入模板              | 不需要                                                 | 需要符合模板要求<sup>[1]</sup> |
@@ -190,7 +188,10 @@ chinese_llama_lora_7b/
 
 ## 训练细节
 
-整个训练流程包括词表扩充、预训练和指令精调三部分。词表扩充的代码请参考[merge_tokenizers.py](scripts/merge_tokenizers.py)。预训练和指令精调代码参考了🤗transformers中的[run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py)和[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)项目中数据集处理的相关部分。
+整个训练流程包括词表扩充、预训练和指令精调三部分。
+
+- 本项目的模型均在原LLaMA词表的基础上扩充了中文单词，代码请参考[merge_tokenizers.py](scripts/merge_tokenizers.py)
+- 预训练和指令精调代码参考了🤗transformers中的[run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py)和[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)项目中数据集处理的相关部分
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
 
