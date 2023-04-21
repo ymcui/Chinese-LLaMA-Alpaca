@@ -71,16 +71,18 @@ The following table provides a basic comparison of the Chinese LLaMA and Alpaca 
 | Comparison Item        | Chinese LLaMA                                                | Chinese Alpaca                                               |
 | ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Training Method        | Traditional CLM (trained on general corpus)                  | Instruction Fine-tuning (trained on instruction data)        |
-| Input Template         | Not required                                                 | Must meet template requirements (llama.cpp/LlamaChat/[inference_hf.py](./scripts/inference_hf.py) are built-in) |
+| Input Template         | Not required                                                 | Must meet template requirements<sup>[1]</sup>                |
 | Suitable Scenarios ✔️   | Text continuation: Given a context, let the model continue writing | 1. Instruction understanding (Q&A, writing, advice, etc.)<br/>2. Multi-turn context understanding (chat, etc.) |
 | Unsuitable Scenarios ❌ | Instruction understanding, multi-turn chat, etc.             | Unrestricted free text generation                            |
 | llama.cpp              | Use `-p` parameter to specify context                        | Use `-ins` parameter to enable instruction understanding + chat mode |
 | text-generation-webui  | Not suitable for chat mode                                   | Use `--cpu` to run without a GPU; if not satisfied with generated content, consider modifying prompt |
 | LlamaChat              | Choose "LLaMA" when loading the model                        | Choose "Alpaca" when loading the model                       |
 | inference_hf.py        | No additional startup parameters required                    | Add `--with_prompt` parameter when launching                 |
-| Known Issues           | If not controlled for termination, it will continue writing until reaching the output length limit. | Current version of the model generates relatively shorter texts, being more concise. |
+| Known Issues           | If not controlled for termination, it will continue writing until reaching the output length limit.<sup>[2]</sup> | Current version of the model generates relatively shorter texts, being more concise.<sup>[2]</sup> |
 
-*Note: If you encounter issues such as low-quality model responses, nonsensical answers, or failure to understand questions, please check whether you are using the correct model and startup parameters for the scenario.*
+*[1] Templates are built-in for (llama.cpp/LlamaChat/[inference_hf.py](./scripts/inference_hf.py).*
+
+*[2] If you encounter issues such as low-quality model responses, nonsensical answers, or failure to understand questions, please check whether you are using the correct model and startup parameters for the scenario.*
 
 
 ### Chinese LLaMA
@@ -144,8 +146,8 @@ The following is the size of each original model and 4-bit quantization. When co
 
 In order to merge the LoRA model with the original LLaMA for further tuning or inference, two methods are currently provided:
 
-- Online conversion: suitable for Google Colab users, can use notebook for online conversion and model quantization.
-- Manual conversion: suitable for offline conversion, generates models in different formats for quantization or further fine-tuning.
+- [Online conversion](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Online-conversion-with-Colab): suitable for Google Colab users, can use notebook for online conversion and model quantization.
+- [Manual conversion](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Manual-Conversion): suitable for offline conversion, generates models in different formats for quantization or further fine-tuning.
 
 Related documentation has been moved to the project's >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Model-Reconstruction).
 
@@ -153,10 +155,10 @@ Related documentation has been moved to the project's >>> [📚GitHub Wiki](http
 
 We mainly provide the following three ways for inference and local deployment.
 
-- llama.cpp：a tool for quantizing model and deploying on local CPU
-- 🤗Transformers：original transformers inference method, support CPU/GPU
-- text-generation-webui：a tool for deploying model as a web UI
-- LlamaChat: a macOS app that allows you to chat with LLaMA, Alpaca, etc.
+- [llama.cpp](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/llama.cpp-Deployment): a tool for quantizing model and deploying on local CPU
+- [🤗Transformers](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Inference-with-Transformers): original transformers inference method, support CPU/GPU
+- [text-generation-webui](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/text-generation-webui): a tool for deploying model as a web UI
+- [LlamaChat](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Using-LlamaChat-Interface): a macOS app that allows you to chat with LLaMA, Alpaca, etc.
 
 Related documentation has been moved to the project's >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Model-Inference-and-Deployment).
 
@@ -188,6 +190,8 @@ Please refer to our  >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaM
 
 
 ## FAQ
+
+FAQ provides answers to frequent questions. Please see our FAQ before submitting an issue.
 
 Please refer to our  >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ).
 
@@ -237,5 +241,6 @@ This project is initiated and maintained by individuals and collaborators in the
 If you have any questions, please submit them in GitHub Issues.
 
 - Before submitting a question, please check if the FAQ can solve the problem and consult past issues to see if they can help.
+- Please use our dedicated issue template for submitting.
 - Duplicate and unrelated issues will be handled by [stable-bot](https://github.com/marketplace/stale); please understand.
 - Raise questions politely and help build a harmonious discussion community.

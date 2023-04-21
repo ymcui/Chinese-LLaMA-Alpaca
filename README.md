@@ -71,25 +71,28 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 ### 我应该选什么模型？
 
-以下给出了中文LLaMA和Alpaca模型的基本对比以及建议使用场景（包括但不限于）。
+以下给出了中文LLaMA和Alpaca模型的基本对比以及建议使用场景（包括但不限于）。更多细节请参考[训练细节](#训练细节)一节。
 
 | 对比项                | 中文LLaMA                                              | 中文Alpaca                                                   |
 | --------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
-| 训练方式              | 传统CLM （在通用语料上训练）                            | 指令精调 （在指令数据上训练）                                                     |
-| 输入模板              | 不需要                                                 | 需要符合模板要求（llama.cpp/LlamaChat/[HF推理代码](./scripts/inference_hf.py)等已内嵌） |
+| 训练方式              | 传统CLM                            | 指令精调                                                     |
+| 训练语料 | 无标注通用语料 | 有标注指令数据 |
+| 输入模板              | 不需要                                                 | 需要符合模板要求<sup>[1]</sup> |
 | 适用场景 ✔️            | 文本续写：给定上文内容，让模型继续写下去，生成下文            | 1、指令理解（问答、写作、建议等）<br/>2、多轮上下文理解（聊天等） |
 | 不适用场景 ❌          | 指令理解 、多轮聊天等                                  |  文本无限制自由生成                                                       |
 | llama.cpp             | 使用`-p`参数指定上文                                   | 使用`-ins`参数启动指令理解+聊天模式                          |
 | text-generation-webui |  不适合chat模式                              |    使用`--cpu`可在无显卡形式下运行，若生成内容不满意，建议修改prompt                                                          |
 | LlamaChat             | 加载模型时选择"LLaMA"                                  | 加载模型时选择"Alpaca"                                       |
 | [HF推理代码](./scripts/inference_hf.py) | 无需添加额外启动参数 | 启动时添加参数 `--with_prompt`        |
-| 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。 | 目前版本模型生成的文本长度相对短一些，比较惜字如金。         |
+| 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | 目前版本模型生成的文本长度相对短一些，比较惜字如金。<sup>[2]</sup> |
 
-*注：如果出现了模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否针对场景使用了正确的模型和正确的启动参数。*
+*[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference_hf.py)等已内嵌，无需手动添加模板。*<br/>
+*[2] 如果出现了模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否针对场景使用了正确的模型和正确的启动参数。*
+
 
 ### 中文LLaMA模型
 
-中文LLaMA模型在原版的基础上扩充了中文词表，使用了中文纯文本数据进行二次预训练，具体见[训练细节](#训练细节)一节。
+中文LLaMA模型在原版的基础上扩充了中文词表，使用了中文通用纯文本数据进行二次预训练。
 
 | 模型名称          | 类型 |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :---------------- | :--: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
@@ -99,7 +102,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 ### 中文Alpaca模型
 
-中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调，具体见[训练细节](#训练细节)一节。如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。
+中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调。**如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
 
 | 模型名称           |   类型   |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
 | :----------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
@@ -147,22 +150,22 @@ chinese_llama_lora_7b/
 
 为了将LoRA模型与原版LLaMA进行合并以便进行推理或继续训练，目前提供了两种方式：
 
-- 在线转换：适合Google Colab用户，可利用notebook进行在线转换并量化模型
+- [在线转换](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/在线模型合并与转换)：适合Google Colab用户，可利用notebook进行在线转换并量化模型
 
-- 手动转换：适合离线方式转换，生成不同格式的模型，以便进行量化或进一步精调
+- [手动转换](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/手动模型合并与转换)：适合离线方式转换，生成不同格式的模型，以便进行量化或进一步精调
 
-具体步骤请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型合并与转换)
+具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型合并与转换)
 
 ## 本地推理与快速部署
 
 本项目中的模型主要支持以下四种推理和部署方式：
 
-- llama.cpp：提供了一种模型量化和在本地CPU上部署方式
-- 🤗Transformers：提供原生transformers推理接口，支持CPU/GPU上进行模型推理
-- text-generation-webui：提供了一种可实现前端UI界面的部署方式
-- LlamaChat：提供了一种macOS下的图形交互界面
+- [llama.cpp](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/llama.cpp量化部署)：提供了一种模型量化和在本地CPU上的部署方式
+- [🤗Transformers](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用Transformers推理)：提供原生transformers推理接口，支持CPU/GPU上进行模型推理
+- [text-generation-webui](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用text-generation-webui搭建界面)：提供了一种可实现前端Web UI界面的部署方式
+- [LlamaChat](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用LlamaChat图形界面（macOS）)：提供了一种macOS下的图形交互界面，可加载LLaMA、Alpaca等模型
 
-相关文档已移至本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型推理与部署)
+具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型推理与部署)
 
 
 ## 系统效果
@@ -190,11 +193,13 @@ chinese_llama_lora_7b/
 
 整个训练流程包括词表扩充、预训练和指令精调三部分。词表扩充的代码请参考[merge_tokenizers.py](scripts/merge_tokenizers.py)。预训练和指令精调代码参考了🤗transformers中的[run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py)和[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)项目中数据集处理的相关部分。
 
-关于相关模型的训练细节，请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
+具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
 
 ## FAQ
 
-常见问题的解答已移至本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/常见问题)
+FAQ中给出了常见问题的解答，请在提Issue前务必先查看FAQ。
+
+具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/常见问题)
 
 
 ## 局限性
@@ -243,5 +248,6 @@ Episode: Logo中的小羊驼是由[midjourney](http://midjourney.com)自动生�
 如有问题，请在GitHub Issue中提交。
 
 - 在提交问题之前，请先查看FAQ能否解决问题，同时建议查阅以往的issue是否能解决你的问题。
+- 提交问题请使用本项目设置的Issue模板
 - 重复以及与本项目无关的issue会被[stable-bot](https://github.com/marketplace/stale)处理，敬请谅解。
 - 礼貌地提出问题，构建和谐的讨论社区。
