@@ -1,4 +1,5 @@
 cff-version: 1.2.0
+preferred-citation: "article"
 message: "If you find our resources useful, please cite our paper as below."
 authors:
 - family-names: "Cui"
