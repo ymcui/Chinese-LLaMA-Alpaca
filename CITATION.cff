@@ -1,14 +1,28 @@
 cff-version: 1.2.0
-preferred-citation: "article"
 message: "If you find our resources useful, please cite our paper as below."
 authors:
 - family-names: "Cui"
   given-names: "Yiming"
-  orcid: "0000-0002-2452-375X"
+  orcid: "https://orcid.org/0000-0002-2452-375X"
 - family-names: "Yang"
   given-names: "Ziqing"
 - family-names: "Yao"
   given-names: "Xin"  
-title: "Efficient and Effective Text Encoding for Chinese LLaMA and Alpaca"
-date-released: 2023-04-17
-url: "https://arxiv.org/abs/2304.08177"
+title: "Chinese LLaMA and Alpaca"
+version: 2.2
+date-released: 2023-03-28
+url: "https://github.com/ymcui/Chinese-LLaMA-Alpaca"
+preferred-citation: 
+  type: article
+  authors:
+  - family-names: "Cui"
+    given-names: "Yiming"
+    orcid: "https://orcid.org/0000-0002-2452-375X"
+  - family-names: "Yang"
+    given-names: "Ziqing"
+  - family-names: "Yao"
+    given-names: "Xin"  
+  title: "Efficient and Effective Text Encoding for Chinese LLaMA and Alpaca"
+  journal: "arXiv pre-print"
+  year: 2023
+  url: "https://arxiv.org/abs/2304.08177"
