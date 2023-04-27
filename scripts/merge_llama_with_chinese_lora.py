@@ -236,7 +236,7 @@ if __name__=='__main__':
         first_weight = base_model.model.layers[0].self_attn.q_proj.weight
         first_weight_old = first_weight.clone()
 
-        if False: #hasattr(peft.LoraModel,'merge_and_unload'):
+        if hasattr(peft.LoraModel,'merge_and_unload'):
             lora_model = PeftModel.from_pretrained(
                 base_model,
                 lora_model_path,
