@@ -1,6 +1,6 @@
-# 中文Alpaca-7B/13B量化版本输出示例
+# 中文Alpaca效果评测
 
-为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B和中文Alpaca-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。
+为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-7B-Plus的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。
 
 说明：
 
@@ -27,14 +27,15 @@
 
 #### 运行参数
 
-测试中使用了统一的解码参数（可能并不适合所有任务）：
+测试中使用了统一的解码参数：
 ```bash
-./main -m zh-alpaca-models/7B/ggml-model-q4_0.bin --color -f ./prompts/alpaca.txt -ins \
-  -b 24 -c 2048 -n 512 -t 6 \
+./main -m zh-alpaca-models/7B/ggml-model-q8_0.bin --color -f ./prompts/alpaca.txt -ins \
+  -b 16 -c 2048 -n 512 -t 6 \
   --temp 0.2 --top_k 40 --top_p 0.9 \
-  --repeat_penalty 1.3
+  --repeat_penalty 1.1
 ```
 
+*注：可能并不适合所有任务，例如对话、写作类可适当调高temp。*
 
 #### 打分方式
 
@@ -55,4 +56,4 @@ System2:
 <system2-output>
 ```
 
-*注：优先使用GPT-4打分。由于GPT-4的交互次数限制，一部分打分由ChatGPT进行。*
+*注：优先使用GPT-4打分。由于GPT-4的交互次数限制，一部分打分由ChatGPT（gpt-3.5-turbo）进行。*
