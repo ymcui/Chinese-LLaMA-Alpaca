@@ -91,22 +91,22 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 中文LLaMA模型在原版的基础上扩充了中文词表，使用了中文通用纯文本数据进行二次预训练。
 
-| 模型名称                | 训练数据 |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
-| :---------------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-LLaMA-7B        |   通用   | 原版LLaMA-7B<sup>[1]</sup>  |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
-| Chinese-LLaMA-7B-Plus ⭐️ |   通用   | 原版LLaMA-7B<sup>[1]</sup>  |                    |                          uploading                           |                      |
-| Chinese-LLaMA-13B       |   通用   | 原版LLaMA-13B<sup>[1]</sup> |         1G         | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |  3d6dee......e5199b  |
+| 模型名称                | 训练数据 | 重构所需模型<sup>[1]</sup> | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
+| :---------------------- | :------: | :------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
+| Chinese-LLaMA-7B        |   通用   |          LLaMA-7B          |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |  39b86b......fe0e60  |
+| Chinese-LLaMA-7B-Plus ⭐️ |   通用   |          LLaMA-7B          |                    |                          uploading                           |                      |
+| Chinese-LLaMA-13B       |   通用   |         LLaMA-13B          |         1G         | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |  3d6dee......e5199b  |
 
 
 ### 中文Alpaca模型
 
 中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调。**如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
 
-| 模型名称                 | 训练数据 |        重构所需模型         | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
-| :----------------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
-| Chinese-Alpaca-7B        |   指令   | 原版LLaMA-7B<sup>[1]</sup>  |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
-| Chinese-Alpaca-7B-Plus ⭐️ |   指令   | 原版LLaMA-7B<sup>[1]</sup>  |                    |                          uploading                           |                      |
-| Chinese-Alpaca-13B       |   指令   | 原版LLaMA-13B<sup>[1]</sup> |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |  45c92e......682d91  |
+| 模型名称                 | 训练数据 | 重构所需模型<sup>[1]</sup> | 大小<sup>[2]</sup> |                         LoRA下载地址                         | SHA256<sup>[3]</sup> |
+| :----------------------- | :------: | :------------------------: | :----------------: | :----------------------------------------------------------: | :------------------: |
+| Chinese-Alpaca-7B        |   指令   |          LLaMA-7B          |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |  9bb5b6......ce2d87  |
+| Chinese-Alpaca-7B-Plus ⭐️ |   指令   |          LLaMA-7B          |                    |                          uploading                           |                      |
+| Chinese-Alpaca-13B       |   指令   |         LLaMA-13B          |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |  45c92e......682d91  |
 
 ### Model Hub
 
