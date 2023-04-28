@@ -189,7 +189,7 @@ In order to quickly evaluate the actual performance of related models, this proj
 
 | Task                           |                     Samples                     |  #   | Alpaca-7B | Alpaca-13B | Alpaca-Plus-7B |
 | ------------------------------ | :---------------------------------------------: | :--: | :-------: | :--------: | :------------: |
-| **💯 Overall** |                   -                    |  200   |     65.1      |      70.6      |     **👍🏻75.3**     |
+| **💯 Overall** |                   -                    |  200   |     65.3     |      70.9      |     **👍🏻75.3**     |
 | Question Answering |            [QA.md](./examples/QA.md)            |   20   |      66       |       74       |      **👍🏻80**      |
 | Open QA |           [OQA.md](./OQA.md)           |   20   |   **👍🏻79**    |       74       |      **👍🏻78**      |
 | Computation, Reasoning |     [REASONING.md](./examples/REASONING.md)     |   20   |      31       |    **👍🏻50**    |         45         |
@@ -199,7 +199,7 @@ In order to quickly evaluate the actual performance of related models, this proj
 | Translation |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   20   |      76       |       78       |      **👍🏻82**      |
 | Multi-turn Dialogue |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   20   |   **👍🏻83**    |       73       |      **👍🏻84**      |
 | Coding   |          [CODE.md](./examples/CODE.md)          |   20   |      57       |    **👍🏻64**    |         59         |
-| Ethics |        [ETHICS.md](./examples/ETHICS.md)        |   20   |      47       |       65       |      **👍🏻89**      |
+| Ethics |        [ETHICS.md](./examples/ETHICS.md)        |   20   |      49      |       68       |      **👍🏻89**      |
 
 *Note: for results on **4-bit quantized models**, please refer to [./examples-q4/README.md](./examples-q4/README.md).*
 
