@@ -14,6 +14,7 @@ import torch
 import peft
 from peft import PeftModel
 from transformers import LlamaForCausalLM, LlamaTokenizer
+from huggingface_hub import hf_hub_download
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, required=True,
@@ -250,8 +251,15 @@ if __name__=='__main__':
             print(f"Merging with merge_and_unload...")
             base_model = lora_model.merge_and_unload()
         else:
+            
             base_model_sd = base_model.state_dict()
-            lora_model_sd = torch.load(os.path.join(lora_model_path,'adapter_model.bin'),map_location='cpu')
+            try:
+                lora_model_sd = torch.load(os.path.join(lora_model_path,'adapter_model.bin'),map_location='cpu')
+            except FileNotFoundError:
+                print("Cannot find lora model on the disk. Downloading lora model from hub...")
+                filename = hf_hub_download(repo_id=lora_model_path,filename='adapter_model.bin')
+                lora_model_sd = torch.load(filename,map_location='cpu')
+
             lora_config = peft.LoraConfig.from_pretrained(lora_model_path)
             lora_scaling = lora_config.lora_alpha / lora_config.r
             fan_in_fan_out = lora_config.fan_in_fan_out
