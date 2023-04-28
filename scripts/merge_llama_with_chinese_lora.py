@@ -18,8 +18,8 @@ from transformers import LlamaForCausalLM, LlamaTokenizer
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, required=True,
                     type=str, help="Please specify a base_model")
-parser.add_argument('--lora_model', default=None, required=True, nargs='+',
-                    type=str, help="Please specify LoRA models to be merged (ordered); use spaces to separate multiple LoRA models.")
+parser.add_argument('--lora_model', default=None, required=True,
+                    type=str, help="Please specify LoRA models to be merged (ordered); use commas to separate multiple LoRA models.")
 parser.add_argument('--offload_dir', default=None, type=str,
                     help="(Optional) Please specify a temp folder for offloading (useful for low-RAM machines). Default None (disable offload).")
 parser.add_argument('--output_type', default='pth',choices=['pth','huggingface'], type=str,
@@ -192,10 +192,13 @@ if __name__=='__main__':
 
     args = parser.parse_args()
     base_model_path = args.base_model
-    lora_model_paths = args.lora_model
+    lora_model_paths = [s.strip() for s in args.lora_model.split(',') if len(s.strip())!=0]
     output_dir = args.output_dir
     output_type = args.output_type
     offload_dir = args.offload_dir
+
+    print(f"Base model: {base_model_path}")
+    print(f"LoRA model(s) {lora_model_paths}:")
 
     if offload_dir is not None:
         # Load with offloading, which is useful for low-RAM machines.
