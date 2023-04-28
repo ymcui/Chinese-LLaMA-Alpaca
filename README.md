@@ -37,7 +37,7 @@
 
 ## 新闻
 
-**[2023/04/28] [Release v3.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): 发布中文LLaMA/Alpaca Plus版本（7B），使用了更大的语料进行训练，相比基础版各项能力显著提升。**
+**[2023/04/28] [Release v3.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): 发布中文LLaMA/Alpaca Plus版本（7B），使用了更大的语料进行训练，相比基础版各项能力显著提升。另外还进一步完善了评测流程、添加了预训练脚本等。**
 
 [2023/04/18] Release v2.2：添加LlamaChat支持、中文词表以及LLaMA Tokenizer的词表扩充脚本、添加技术报告等。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)
 
