@@ -251,7 +251,6 @@ if __name__=='__main__':
             print(f"Merging with merge_and_unload...")
             base_model = lora_model.merge_and_unload()
         else:
-            
             base_model_sd = base_model.state_dict()
             try:
                 lora_model_sd = torch.load(os.path.join(lora_model_path,'adapter_model.bin'),map_location='cpu')
