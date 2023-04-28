@@ -48,7 +48,6 @@
 <details>
 <summary><b>往期新闻</b></summary>
 [2023/04/03] 添加了模型合并和量化的notebook，Colab Pro(+)用户可在线合并和下载模型。请参考：[合并模型](#合并模型)
-
 [2023/03/31] Release v1.1：简化模型合并步骤、添加指令数据爬取脚本、关于新版本llama.cpp的重要提示。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v1.1)
 
 [2023/03/28] 正式开源中文LLaMA、Alpaca大模型，目前提供7B版本下载体验
