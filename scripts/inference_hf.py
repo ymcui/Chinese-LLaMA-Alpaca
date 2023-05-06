@@ -7,9 +7,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, type=str, required=True)
 parser.add_argument('--lora_model', default=None, type=str,help="If None, perform inference on the base model")
 parser.add_argument('--tokenizer_path',default=None,type=str)
-parser.add_argument('--data_file',default=None, type=str,help="file that contains instructions (one instruction per line).")
-parser.add_argument('--with_prompt',action='store_true')
-parser.add_argument('--interactive',action='store_true')
+parser.add_argument('--data_file',default=None, type=str,help="A file that contains instructions (one instruction per line)")
+parser.add_argument('--with_prompt',action='store_true',help="wrap the input with the prompt automatically")
+parser.add_argument('--interactive',action='store_true',help="run in the instruction mode (single-turn)")
 parser.add_argument('--predictions_file', default='./predictions.json', type=str)
 args = parser.parse_args()
 
@@ -91,7 +91,16 @@ if __name__ == '__main__':
 
     with torch.no_grad():
         if args.interactive:
-            print("Start inference with interactive mode.")
+            print("Start inference with instruction mode.")
+
+            print('='*85)
+            print("+ 该模式下仅支持单轮问答，无多轮对话能力。\n"
+                  "+ 如要进行多轮对话，请使用llama.cpp或llamachat工具。")
+            print('-'*85)
+            print("+ This mode only supports single-turn QA.\n"
+                  "+ If you want to experience multi-turn dialogue, please use llama.cpp or llamachat.")
+            print('='*85)
+
             while True:
                 raw_input_text = input("Input:")
                 if len(raw_input_text.strip())==0:
