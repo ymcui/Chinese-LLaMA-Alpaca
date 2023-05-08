@@ -10,8 +10,9 @@
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
-    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v2.2-green"></a>
+    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.0-green"></a>
 </p>
+
 
 
 Large Language Models (LLM), represented by ChatGPT and GPT-4, have sparked a new wave of research in the field of natural language processing, demonstrating capabilities of Artificial General Intelligence (AGI) and attracting widespread attention from the industry. However, the expensive training and deployment of large language models have posed certain obstacles to building transparent and open academic research.
@@ -188,7 +189,7 @@ In order to quickly evaluate the actual performance of related models, this proj
 
 | Task                           |                     Samples                     |  #   | Alpaca-7B | Alpaca-13B | Alpaca-Plus-7B |
 | ------------------------------ | :---------------------------------------------: | :--: | :-------: | :--------: | :------------: |
-| **💯 Overall** |                   -                    |  200   |     65.1      |      70.6      |     **👍🏻75.3**     |
+| **💯 Overall** |                   -                    |  200   |     65.3     |      70.9      |     **👍🏻75.3**     |
 | Question Answering |            [QA.md](./examples/QA.md)            |   20   |      66       |       74       |      **👍🏻80**      |
 | Open QA |           [OQA.md](./OQA.md)           |   20   |   **👍🏻79**    |       74       |      **👍🏻78**      |
 | Computation, Reasoning |     [REASONING.md](./examples/REASONING.md)     |   20   |      31       |    **👍🏻50**    |         45         |
@@ -198,7 +199,7 @@ In order to quickly evaluate the actual performance of related models, this proj
 | Translation |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   20   |      76       |       78       |      **👍🏻82**      |
 | Multi-turn Dialogue |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   20   |   **👍🏻83**    |       73       |      **👍🏻84**      |
 | Coding   |          [CODE.md](./examples/CODE.md)          |   20   |      57       |    **👍🏻64**    |         59         |
-| Ethics |        [ETHICS.md](./examples/ETHICS.md)        |   20   |      47       |       65       |      **👍🏻89**      |
+| Ethics |        [ETHICS.md](./examples/ETHICS.md)        |   20   |      49      |       68       |      **👍🏻89**      |
 
 *Note: for results on **4-bit quantized models**, please refer to [./examples-q4/README.md](./examples-q4/README.md).*
 

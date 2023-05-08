@@ -10,7 +10,7 @@
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
-    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v2.2-green"></a>
+    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.0-green"></a>
 </p>
 
 
@@ -186,7 +186,7 @@ chinese_llama_lora_7b/
 
 | 测试任务         |                    详细样例                     | 样例数 | Alpaca-7B | Alpaca-13B | Alpaca-Plus-7B |
 | ---------------- | :---------------------------------------------: | :----: | :-------: | :--------: | :------------: |
-| **💯总平均分**    |                        -                        |  200   |   65.1    |    70.6    |   **👍🏻75.3**   |
+| **💯总平均分**    |                        -                        |  200   |   65.3    |    70.9    |   **👍🏻75.3**   |
 | 知识问答         |            [QA.md](./examples/QA.md)            |   20   |    66     |     74     |    **👍🏻80**    |
 | 开放式问答       |           [OQA.md](./examples/OQA.md)           |   20   | **👍🏻79**  |     74     |    **👍🏻78**    |
 | 数值计算、推理   |     [REASONING.md](./examples/REASONING.md)     |   20   |    31     |  **👍🏻50**  |       45       |
@@ -196,7 +196,7 @@ chinese_llama_lora_7b/
 | 文本翻译         |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   20   |    76     |     78     |    **👍🏻82**    |
 | 多轮交互         |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   20   | **👍🏻83**  |     73     |    **👍🏻84**    |
 | 代码编程         |          [CODE.md](./examples/CODE.md)          |   20   |    57     |  **👍🏻64**  |       59       |
-| 伦理、拒答       |        [ETHICS.md](./examples/ETHICS.md)        |   20   |    47     |     65     |    **👍🏻89**    |
+| 伦理、拒答       |        [ETHICS.md](./examples/ETHICS.md)        |   20   |    49     |     68     |    **👍🏻89**    |
 
 *注：旧版Q4量化对比，请查看[./examples-q4/README.md](./examples-q4/README.md)。*
 

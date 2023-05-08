@@ -27,3 +27,4 @@ jobs:
         stale-pr-label: 'stale'
         close-issue-message: 'Closing the issue, since no updates observed. Feel free to re-open if you need any further assistance.'
         days-before-stale: 7
+        days-before-close: 3
