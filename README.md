@@ -25,7 +25,7 @@
 - 🚀 开源了使用中文文本数据预训练的中文LLaMA以及经过指令精调的中文Alpaca
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地量化和部署体验大模型
 - 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat)等生态
-- 目前已开源的模型版本：7B（标准版、**Plus版**）、13B（标准版）
+- 目前已开源的模型版本：7B（标准版、**Plus版**）、13B（标准版、**Plus版**）
 
 💡 下图是中文Alpaca-7B模型在本地CPU量化部署后的实际体验效果（GIF未加速，M1 Max下实测）。
 
@@ -98,35 +98,39 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 中文LLaMA模型在原版的基础上扩充了中文词表，使用了中文通用纯文本数据进行二次预训练。
 
-| 模型名称                | 训练数据 | 重构模型<sup>[1]</sup> | 大小<sup>[2]</sup> |                    LoRA下载<sup>[3]</sup>                    |
-| :---------------------- | :------: | :--------------------: | :----------------: | :----------------------------------------------------------: |
-| Chinese-LLaMA-7B        | 通用20G  |      原版LLaMA-7B      |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |
-| Chinese-LLaMA-Plus-7B ⭐️ | 通用120G |      原版LLaMA-7B      |        790M        | [[百度网盘]](https://pan.baidu.com/s/1zvyX9FN-WSRDdrtMARxxfw?pwd=2gtr)</br>[[Google Drive]](https://drive.google.com/file/d/1N97m3rBj-rp-J1X8rgRfluyomEscfAq0/view?usp=sharing) |
-| Chinese-LLaMA-13B       | 通用20G  |     原版LLaMA-13B      |         1G         | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |
+| 模型名称                 | 训练数据 | 重构模型<sup>[1]</sup> | 大小<sup>[2]</sup> |                    LoRA下载<sup>[3]</sup>                    |
+| :----------------------- | :------: | :--------------------: | :----------------: | :----------------------------------------------------------: |
+| Chinese-LLaMA-7B         | 通用20G  |      原版LLaMA-7B      |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |
+| Chinese-LLaMA-Plus-7B ⭐️  | 通用120G |      原版LLaMA-7B      |        790M        | [[百度网盘]](https://pan.baidu.com/s/1zvyX9FN-WSRDdrtMARxxfw?pwd=2gtr)</br>[[Google Drive]](https://drive.google.com/file/d/1N97m3rBj-rp-J1X8rgRfluyomEscfAq0/view?usp=sharing) |
+| Chinese-LLaMA-13B        | 通用20G  |     原版LLaMA-13B      |         1G         | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |
+| Chinese-LLaMA-Plus-13B ⭐️ | 通用120G |     原版LLaMA-13B      |                    |                                                              |
 
 
 ### 中文Alpaca模型
 
 中文Alpaca模型在上述中文LLaMA模型的基础上进一步使用了指令数据进行精调。**如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
 
-| 模型名称                 | 训练数据 |           重构模型<sup>[1]</sup>           | 大小<sup>[2]</sup> |                    LoRA下载<sup>[3]</sup>                    |
-| :----------------------- | :------: | :----------------------------------------: | :----------------: | :----------------------------------------------------------: |
-| Chinese-Alpaca-7B        |  指令2M  |                原版LLaMA-7B                |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |
-| Chinese-Alpaca-Plus-7B ⭐️ |  指令4M  | *原版LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B* |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
-| Chinese-Alpaca-13B       |  指令3M  |               原版LLaMA-13B                |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
+| 模型名称                  | 训练数据 |            重构模型<sup>[1]</sup>            | 大小<sup>[2]</sup> |                    LoRA下载<sup>[3]</sup>                    |
+| :------------------------ | :------: | :------------------------------------------: | :----------------: | :----------------------------------------------------------: |
+| Chinese-Alpaca-7B         |  指令2M  |                 原版LLaMA-7B                 |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |
+| Chinese-Alpaca-Plus-7B ⭐️  |  指令4M  |  *原版LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B*  |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
+| Chinese-Alpaca-13B        |  指令3M  |                原版LLaMA-13B                 |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
+| Chinese-Alpaca-Plus-13B ⭐️ |  指令4M  | *原版LLaMA-13B &<br/>Chinese-LLaMA-Plus-13B* |                    |                                                              |
 
 ### Model Hub
 
 可以在🤗Model Hub下载以上所有模型，并且使用[transformers](https://github.com/huggingface/transformers)和[PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。以下模型调用名称指的是使用`.from_pretrained()`中指定的模型名称。
 
-| 模型名                 | 模型调用名称                           |                             链接                             |
-| ---------------------- | :------------------------------------- | :----------------------------------------------------------: |
-| Chinese-LLaMA-7B       | ziqingyang/chinese-llama-lora-7b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
-| Chinese-LLaMA-Plus-7B  | ziqingyang/chinese-llama-plus-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-7b) |
-| Chinese-LLaMA-13B      | ziqingyang/chinese-llama-lora-13b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
-| Chinese-Alpaca-7B      | ziqingyang/chinese-alpaca-lora-7b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
-| Chinese-Alpaca-Plus-7B | ziqingyang/chinese-alpaca-plus-lora-7b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-7b) |
-| Chinese-Alpaca-13B     | ziqingyang/chinese-alpaca-lora-13b     | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
+| 模型名                  | 模型调用名称                           |                             链接                             |
+| ----------------------- | :------------------------------------- | :----------------------------------------------------------: |
+| Chinese-LLaMA-7B        | ziqingyang/chinese-llama-lora-7b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
+| Chinese-LLaMA-Plus-7B   | ziqingyang/chinese-llama-plus-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-7b) |
+| Chinese-LLaMA-13B       | ziqingyang/chinese-llama-lora-13b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
+| Chinese-LLaMA-Plus-13B  |                                        |                                                              |
+| Chinese-Alpaca-7B       | ziqingyang/chinese-alpaca-lora-7b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
+| Chinese-Alpaca-Plus-7B  | ziqingyang/chinese-alpaca-plus-lora-7b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-7b) |
+| Chinese-Alpaca-13B      | ziqingyang/chinese-alpaca-lora-13b     | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
+| Chinese-Alpaca-Plus-13B |                                        |                                                              |
 
 ### 脚注及其他说明
 
@@ -182,21 +186,21 @@ chinese_llama_lora_7b/
 
 ## 系统效果
 
-为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-Plus-7B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples/README.md](./examples/README.md)。
+为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-Plus-7B、中文Alpaca-Plus-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples/README.md](./examples/README.md)。
 
-| 测试任务         |                    详细样例                     | 样例数 | Alpaca-7B | Alpaca-13B | Alpaca-Plus-7B |
-| ---------------- | :---------------------------------------------: | :----: | :-------: | :--------: | :------------: |
-| **💯总平均分**    |                        -                        |  200   |   65.3    |    70.9    |   **👍🏻75.3**   |
-| 知识问答         |            [QA.md](./examples/QA.md)            |   20   |    66     |     74     |    **👍🏻80**    |
-| 开放式问答       |           [OQA.md](./examples/OQA.md)           |   20   | **👍🏻79**  |     74     |    **👍🏻78**    |
-| 数值计算、推理   |     [REASONING.md](./examples/REASONING.md)     |   20   |    31     |  **👍🏻50**  |       45       |
-| 诗词、文学、哲学 |    [LITERATURE.md](./examples/LITERATURE.md)    |   20   |    68     |     73     |    **👍🏻76**    |
-| 音乐、体育、娱乐 | [ENTERTAINMENT.md](./examples/ENTERTAINMENT.md) |   20   |    68     |     74     |    **👍🏻79**    |
-| 写信、写文章     |    [GENERATION.md](./examples/GENERATION.md)    |   20   |    76     |  **👍🏻81**  |    **👍🏻81**    |
-| 文本翻译         |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   20   |    76     |     78     |    **👍🏻82**    |
-| 多轮交互         |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   20   | **👍🏻83**  |     73     |    **👍🏻84**    |
-| 代码编程         |          [CODE.md](./examples/CODE.md)          |   20   |    57     |  **👍🏻64**  |       59       |
-| 伦理、拒答       |        [ETHICS.md](./examples/ETHICS.md)        |   20   |    49     |     68     |    **👍🏻89**    |
+| 测试任务         |                    详细样例                     | 样例数 | Alpaca-7B | Alpaca-13B | Alpaca-Plus-7B | Alpaca-Plus-13B |
+| ---------------- | :---------------------------------------------: | :----: | :-------: | :--------: | :------------: | :-------------: |
+| **💯总平均分**    |                        -                        |  200   |   65.3    |    70.9    |   **👍🏻75.3**   |                 |
+| 知识问答         |            [QA.md](./examples/QA.md)            |   20   |    66     |     74     |    **👍🏻80**    |                 |
+| 开放式问答       |           [OQA.md](./examples/OQA.md)           |   20   | **👍🏻79**  |     74     |    **👍🏻78**    |                 |
+| 数值计算、推理   |     [REASONING.md](./examples/REASONING.md)     |   20   |    31     |  **👍🏻50**  |       45       |                 |
+| 诗词、文学、哲学 |    [LITERATURE.md](./examples/LITERATURE.md)    |   20   |    68     |     73     |    **👍🏻76**    |                 |
+| 音乐、体育、娱乐 | [ENTERTAINMENT.md](./examples/ENTERTAINMENT.md) |   20   |    68     |     74     |    **👍🏻79**    |                 |
+| 写信、写文章     |    [GENERATION.md](./examples/GENERATION.md)    |   20   |    76     |  **👍🏻81**  |    **👍🏻81**    |                 |
+| 文本翻译         |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   20   |    76     |     78     |    **👍🏻82**    |                 |
+| 多轮交互         |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   20   | **👍🏻83**  |     73     |    **👍🏻84**    |                 |
+| 代码编程         |          [CODE.md](./examples/CODE.md)          |   20   |    57     |  **👍🏻64**  |       59       |                 |
+| 伦理、拒答       |        [ETHICS.md](./examples/ETHICS.md)        |   20   |    49     |     68     |    **👍🏻89**    |                 |
 
 *注：旧版Q4量化对比，请查看[./examples-q4/README.md](./examples-q4/README.md)。*
 
