@@ -37,7 +37,9 @@
 
 ## 新闻
 
-**[2023/04/28] [Release v3.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): 发布中文LLaMA/Alpaca Plus版本（7B），使用了更大的语料进行训练，相比基础版各项能力显著提升。另外还进一步完善了评测流程、添加了预训练脚本等。**
+**[2023/05/??] [Release v3.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): 发布中文LLaMA/Alpaca Plus版本（13B），使用了更大的语料进行训练，相比基础版各项能力显著提升。**
+
+[2023/04/28] [Release v3.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): 发布中文LLaMA/Alpaca Plus版本（7B），使用了更大的语料进行训练，相比基础版各项能力显著提升。另外还进一步完善了评测流程、添加了预训练脚本等。
 
 [2023/04/18] Release v2.2：添加LlamaChat支持、中文词表以及LLaMA Tokenizer的词表扩充脚本、添加技术报告等。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)
 
@@ -188,19 +190,19 @@ chinese_llama_lora_7b/
 
 为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-Plus-7B、中文Alpaca-Plus-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples/README.md](./examples/README.md)。
 
-| 测试任务         |                    详细样例                     | 样例数 | Alpaca-7B | Alpaca-13B | Alpaca-Plus-7B | Alpaca-Plus-13B |
-| ---------------- | :---------------------------------------------: | :----: | :-------: | :--------: | :------------: | :-------------: |
-| **💯总平均分**    |                        -                        |  200   |   65.3    |    70.9    |   **👍🏻75.3**   |                 |
-| 知识问答         |            [QA.md](./examples/QA.md)            |   20   |    66     |     74     |    **👍🏻80**    |                 |
-| 开放式问答       |           [OQA.md](./examples/OQA.md)           |   20   | **👍🏻79**  |     74     |    **👍🏻78**    |                 |
-| 数值计算、推理   |     [REASONING.md](./examples/REASONING.md)     |   20   |    31     |  **👍🏻50**  |       45       |                 |
-| 诗词、文学、哲学 |    [LITERATURE.md](./examples/LITERATURE.md)    |   20   |    68     |     73     |    **👍🏻76**    |                 |
-| 音乐、体育、娱乐 | [ENTERTAINMENT.md](./examples/ENTERTAINMENT.md) |   20   |    68     |     74     |    **👍🏻79**    |                 |
-| 写信、写文章     |    [GENERATION.md](./examples/GENERATION.md)    |   20   |    76     |  **👍🏻81**  |    **👍🏻81**    |                 |
-| 文本翻译         |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   20   |    76     |     78     |    **👍🏻82**    |                 |
-| 多轮交互         |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   20   | **👍🏻83**  |     73     |    **👍🏻84**    |                 |
-| 代码编程         |          [CODE.md](./examples/CODE.md)          |   20   |    57     |  **👍🏻64**  |       59       |                 |
-| 伦理、拒答       |        [ETHICS.md](./examples/ETHICS.md)        |   20   |    49     |     68     |    **👍🏻89**    |                 |
+| 测试任务         |                    详细样例                     | 样例数 | Alpaca<br/>7B | Alpaca<br/>13B | Alpaca<br/>Plus-7B | Alpaca<br/>Plus-13B |
+| ---------------- | :---------------------------------------------: | :----: | :-----------: | :------------: | :----------------: | :-----------------: |
+| **💯总平均分**    |                        -                        |  200   |     65.3      |      70.9      |     **👍🏻75.3**     |                     |
+| 知识问答         |            [QA.md](./examples/QA.md)            |   20   |      66       |       74       |      **👍🏻80**      |                     |
+| 开放式问答       |           [OQA.md](./examples/OQA.md)           |   20   |   **👍🏻79**    |       74       |      **👍🏻78**      |                     |
+| 数值计算、推理   |     [REASONING.md](./examples/REASONING.md)     |   20   |      31       |    **👍🏻50**    |         45         |                     |
+| 诗词、文学、哲学 |    [LITERATURE.md](./examples/LITERATURE.md)    |   20   |      68       |       73       |      **👍🏻76**      |                     |
+| 音乐、体育、娱乐 | [ENTERTAINMENT.md](./examples/ENTERTAINMENT.md) |   20   |      68       |       74       |      **👍🏻79**      |                     |
+| 写信、写文章     |    [GENERATION.md](./examples/GENERATION.md)    |   20   |      76       |    **👍🏻81**    |      **👍🏻81**      |                     |
+| 文本翻译         |   [TRANSLATION.md](./examples/TRANSLATION.md)   |   20   |      76       |       78       |      **👍🏻82**      |                     |
+| 多轮交互         |      [DIALOGUE.md](./examples/DIALOGUE.md)      |   20   |   **👍🏻83**    |       73       |      **👍🏻84**      |                     |
+| 代码编程         |          [CODE.md](./examples/CODE.md)          |   20   |      57       |    **👍🏻64**    |         59         |                     |
+| 伦理、拒答       |        [ETHICS.md](./examples/ETHICS.md)        |   20   |      49       |       68       |      **👍🏻89**      |                     |
 
 *注：旧版Q4量化对比，请查看[./examples-q4/README.md](./examples-q4/README.md)。*
 
