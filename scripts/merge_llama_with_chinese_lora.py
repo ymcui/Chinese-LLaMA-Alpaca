@@ -134,8 +134,12 @@ def save_shards(model_sd, num_shards: int):
                         splits = v.split(v.size(1)//num_shards,dim=1)
                     elif new_k=='output.weight':
                         print(f"Processing {new_k}")
-                        splits = v.split(v.size(0)//num_shards,dim=0)
-
+                        if v.size(0)%num_shards==0:
+                            splits = v.split(v.size(0)//num_shards,dim=0)
+                        else:
+                            size_list = [v.size(0)//num_shards] * num_shards
+                            size_list[-1] += v.size(0)%num_shards
+                            splits = v.split(size_list, dim=0) # 13B: size_list == [24976,24977]
                     elif new_k=='norm.weight':
                         print(f"Processing {new_k}")
                         splits = [v] * num_shards
