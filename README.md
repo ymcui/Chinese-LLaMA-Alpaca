@@ -41,7 +41,7 @@
 
 [2023/04/18] Release v2.2：添加LlamaChat支持、中文词表以及LLaMA Tokenizer的词表扩充脚本、添加技术报告等。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)
 
-[2023/04/13] Release v2.1：添加HuggingFace推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
+[2023/04/13] Release v2.1：添加Hugging Face推理接口、text-generation-webui接口。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
 
 [2023/04/07] Release v2.0：发布13B版本中文LLaMA、Alpaca大模型，主要升级：更强的事实性、文本问答、翻译、伦理拒答等能力全面提升！更多更新内容请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)
 
