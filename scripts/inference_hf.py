@@ -9,7 +9,10 @@ parser.add_argument('--with_prompt',action='store_true',help="wrap the input wit
 parser.add_argument('--interactive',action='store_true',help="run in the instruction mode (single-turn)")
 parser.add_argument('--predictions_file', default='./predictions.json', type=str)
 parser.add_argument('--gpus', default="0", type=str)
+parser.add_argument('--only_cpu',action='store_true',help='only use CPU for inference even though GPUs are available')
 args = parser.parse_args()
+if args.only_cpu is True:
+    args.gpus = ""
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
 import torch
 from transformers import LlamaForCausalLM, LlamaTokenizer
