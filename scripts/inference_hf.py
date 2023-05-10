@@ -1,4 +1,3 @@
-
 import argparse
 import json, os
 parser = argparse.ArgumentParser()
@@ -9,7 +8,7 @@ parser.add_argument('--data_file',default=None, type=str,help="A file that conta
 parser.add_argument('--with_prompt',action='store_true',help="wrap the input with the prompt automatically")
 parser.add_argument('--interactive',action='store_true',help="run in the instruction mode (single-turn)")
 parser.add_argument('--predictions_file', default='./predictions.json', type=str)
-parser.add_argument('--gpus', default="4,5,6,7", type=str)
+parser.add_argument('--gpus', default="0", type=str)
 args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
 import torch
