@@ -1,6 +1,3 @@
-import torch
-from transformers import LlamaForCausalLM, LlamaTokenizer
-from peft import  PeftModel
 import argparse
 import json, os
 parser = argparse.ArgumentParser()
@@ -11,7 +8,16 @@ parser.add_argument('--data_file',default=None, type=str,help="A file that conta
 parser.add_argument('--with_prompt',action='store_true',help="wrap the input with the prompt automatically")
 parser.add_argument('--interactive',action='store_true',help="run in the instruction mode (single-turn)")
 parser.add_argument('--predictions_file', default='./predictions.json', type=str)
+parser.add_argument('--gpus', default="0", type=str)
+parser.add_argument('--only_cpu',action='store_true',help='only use CPU for inference')
 args = parser.parse_args()
+if args.only_cpu is True:
+    args.gpus = ""
+os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
+import torch
+from transformers import LlamaForCausalLM, LlamaTokenizer
+from peft import  PeftModel
+
 
 generation_config = dict(
     temperature=0.2,
@@ -58,6 +64,7 @@ if __name__ == '__main__':
         load_in_8bit=False,
         torch_dtype=load_type,
         low_cpu_mem_usage=True,
+        device_map='auto',
         )
 
     model_vocab_size = base_model.get_input_embeddings().weight.size(0)
@@ -70,7 +77,7 @@ if __name__ == '__main__':
         base_model.resize_token_embeddings(tokenzier_vocab_size)
     if args.lora_model is not None:
         print("loading peft model")
-        model = PeftModel.from_pretrained(base_model, args.lora_model,torch_dtype=load_type)
+        model = PeftModel.from_pretrained(base_model, args.lora_model,torch_dtype=load_type,device_map='auto',)
     else:
         model = base_model
 
@@ -85,8 +92,6 @@ if __name__ == '__main__':
         print("first 10 examples:")
         for example in examples[:10]:
             print(example)
-
-    model.to(device)
     model.eval()
 
     with torch.no_grad():
