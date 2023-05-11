@@ -229,6 +229,8 @@ Q4: Why expand the vocabulary? Can't you just pre-train the original LLaMA with 
 Q5: The reply is very short
 Q6: Under Windows, the model cannot understand Chinese, the generation speed is very slow, etc.
 Q7: Chinese-LLaMA 13B model cannot be launched with llama.cpp, reporting inconsistent dimensions.
+Q8: Chinese-Alpaca-Plus does not show better performance than the others.
+Q9: The model does not perform well on NLU tasks, such as text classification.
 ```
 
 Please refer to our  >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ).
