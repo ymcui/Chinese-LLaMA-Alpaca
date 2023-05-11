@@ -1,4 +1,4 @@
-[**中文**](./README.md) | [**English**](./README_EN.md) | [**文档/Docs**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)
+[**🇨🇳中文**](./README.md) | [**🌐English**](./README_EN.md) | [**📖文档/Docs**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki) | [**❓提问/Issues**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues) | [**💬讨论/Discussions**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions)
 
 <p align="center">
     <br>
