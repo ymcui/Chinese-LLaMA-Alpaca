@@ -2,7 +2,7 @@
 
 <p align="center">
     <br>
-    <img src="./pics/banner.png" width="800"/>
+    <img src="./pics/banner.png" width="700"/>
     <br>
 </p>
 <p align="center">
@@ -12,6 +12,7 @@
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
     <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.1-green"></a>
 </p>
+
 
 
 Large Language Models (LLM), represented by ChatGPT and GPT-4, have sparked a new wave of research in the field of natural language processing, demonstrating capabilities of Artificial General Intelligence (AGI) and attracting widespread attention from the industry. However, the expensive training and deployment of large language models have posed certain obstacles to building transparent and open academic research.
