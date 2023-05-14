@@ -344,9 +344,10 @@ def main():
         n_params = sum({p.data_ptr(): p.numel() for p in model.parameters()}.values())
         logger.info(f"Training new model from scratch - Total size={n_params/2**20:.2f}M params")
 
-    print(f"len(tokenizer):{len(tokenizer)}")
+    logger.info(f"len(tokenizer):{len(tokenizer)}")
 
-    if training_args.force_resize_embeddings or (model.base_model.get_input_embeddings().weight.size(0)!=len(tokenizer) and training_args.do_eval and not training_args.do_train):
+    if training_args.force_resize_embeddings or (model.base_model.get_input_embeddings().weight.size(0) != len(tokenizer) and training_args.do_train):
+        logger.info("resize the embedding size by the size of the tokenizer")
         model.resize_token_embeddings(len(tokenizer))
 
     if training_args.peft_path is not None:
@@ -359,8 +360,8 @@ def main():
         lora_rank = training_args.lora_rank
         lora_dropout = training_args.lora_dropout
         lora_alpha = training_args.lora_alpha
-        print(target_modules)
-        print(lora_rank)
+        logger.info(f"target_modules: {target_modules}")
+        logger.info(f"lora_rank: {lora_rank}")
         peft_config = LoraConfig(
             task_type=TaskType.CAUSAL_LM, 
             target_modules=target_modules,
@@ -370,12 +371,9 @@ def main():
             modules_to_save=modules_to_save)
         model = get_peft_model(model, peft_config)
 
-    if model.base_model.get_input_embeddings().weight.size(0)!=len(tokenizer) and training_args.do_train:
-        model.base_model.resize_token_embeddings(len(tokenizer))
-
     #model.base_model.tie_weights()
     model.print_trainable_parameters()
-    print("model.modules_to_save:", model.modules_to_save)
+    logger.info("model.modules_to_save:", model.modules_to_save)
     old_state_dict = model.state_dict
     model.state_dict = (
         lambda self, *_, **__: get_peft_model_state_dict(self, old_state_dict())
