@@ -57,7 +57,6 @@ base_model = LlamaForCausalLM.from_pretrained(
     load_in_8bit=False,
     torch_dtype=load_type,
     low_cpu_mem_usage=True,
-    offload_folder='offload', #debug
     device_map='auto',
     )
 
@@ -113,15 +112,12 @@ def predict(
     now_input = input
     chatbot.append((input, ""))
     history = history or []
-    print("History-predict-in:",history)
     if len(history) != 0:
         input = "".join(["### Instruction:\n" + i[0] +"\n\n" + "### Response: " + i[1] + "\n\n" for i in history]) + \
         "### Instruction:\n" + input
         input = input[len("### Instruction:\n"):]
         if len(input) > max_memory:
             input = input[-max_memory:]
-    print(input)
-    print(len(input))
     prompt = generate_prompt(input)
     inputs = tokenizer(prompt, return_tensors="pt")
     input_ids = inputs["input_ids"].to(device)
@@ -146,7 +142,6 @@ def predict(
     output = output.split("### Response:")[-1].strip()
     history.append((now_input, output))
     chatbot[-1] = (now_input, output)
-    print("History-predict-out:",history)
     return chatbot, history
 
 with gr.Blocks() as demo:
