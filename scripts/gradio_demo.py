@@ -1,7 +1,6 @@
 import sys
 import gradio as gr
 import argparse
-import warnings
 import os
 import mdtex2html
 
@@ -9,11 +8,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, type=str, required=True)
 parser.add_argument('--lora_model', default=None, type=str,help="If None, perform inference on the base model")
 parser.add_argument('--tokenizer_path',default=None,type=str)
-parser.add_argument('--data_file',default=None, type=str,help="A file that contains instructions (one instruction per line)")
-parser.add_argument('--with_prompt',action='store_true',help="wrap the input with the prompt automatically")
-parser.add_argument('--predictions_file', default='./predictions.json', type=str)
 parser.add_argument('--gpus', default="0", type=str)
+parser.add_argument('--only_cpu',action='store_true',help='only use CPU for inference')
 args = parser.parse_args()
+if args.only_cpu is True:
+    args.gpus = ""
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
 
 import torch
@@ -39,7 +38,7 @@ generation_config = dict(
     top_p=0.9,
     do_sample=True,
     num_beams=1,
-    repetition_penalty=1.3,
+    repetition_penalty=1.1,
     max_new_tokens=400
     )
 load_type = torch.float16
@@ -58,6 +57,7 @@ base_model = LlamaForCausalLM.from_pretrained(
     load_in_8bit=False,
     torch_dtype=load_type,
     low_cpu_mem_usage=True,
+    offload_folder='offload', #debug
     device_map='auto',
     )
 
@@ -86,24 +86,13 @@ def reset_user_input():
 def reset_state():
     return [], []
 
-def generate_prompt(instruction, input=None):
-    if input:
-        return f"""The following is a conversation between an AI assistant called Assistant and a human user called User.
-
+def generate_prompt(instruction):
+    return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
+    
 ### Instruction:
 {instruction}
 
-### Input:
-{input}
-
-### Response:"""
-    else:
-        return f"""The following is a conversation between an AI assistant called Assistant and a human user called User.
-
-### Instruction:
-{instruction}
-
-### Response:"""
+### Response: """
 
 if torch.__version__ >= "2" and sys.platform != "win32":
     model = torch.compile(model)
@@ -124,8 +113,11 @@ def predict(
     now_input = input
     chatbot.append((input, ""))
     history = history or []
+    print("History-predict-in:",history)
     if len(history) != 0:
-        input = "\n".join(["User:" + i[0]+"\n"+"Assistant:" + i[1] for i in history]) + "\n" + "User:" + input
+        input = "".join(["### Instruction:\n" + i[0] +"\n\n" + "### Response: " + i[1] + "\n\n" for i in history]) + \
+        "### Instruction:\n" + input
+        input = input[len("### Instruction:\n"):]
         if len(input) > max_memory:
             input = input[-max_memory:]
     print(input)
@@ -145,19 +137,16 @@ def predict(
             input_ids=input_ids,
             generation_config=generation_config,
             return_dict_in_generate=True,
-            output_scores=True,
+            output_scores=False,
             max_new_tokens=max_new_tokens,
             repetition_penalty=float(repetition_penalty),
         )
     s = generation_output.sequences[0]
-    output = tokenizer.decode(s)
-    output = output.split("### Response:")[1].strip()
-    # output = output.replace("Belle", "Vicuna")
-    if 'User:' in output:
-        output = output.split("User:")[0]
+    output = tokenizer.decode(s, skip_special_tokens=True)
+    output = output.split("### Response:")[-1].strip()
     history.append((now_input, output))
     chatbot[-1] = (now_input, output)
-    print(history)
+    print("History-predict-out:",history)
     return chatbot, history
 
 with gr.Blocks() as demo:
@@ -184,7 +173,7 @@ with gr.Blocks() as demo:
 
     history = gr.State([])  # (message, bot_message)
 
-    submitBtn.click(predict, [user_input, chatbot, chatbot, max_length, top_p, temperature], [chatbot, history],
+    submitBtn.click(predict, [user_input, chatbot, history, max_length, top_p, temperature], [chatbot, history],
                     show_progress=True)
     submitBtn.click(reset_user_input, [], [user_input])
 
