@@ -345,8 +345,8 @@ def main():
         logger.info(f"Training new model from scratch - Total size={n_params/2**20:.2f}M params")
 
     logger.info(f"len(tokenizer):{len(tokenizer)}")
-
-    if training_args.force_resize_embeddings or (model.base_model.get_input_embeddings().weight.size(0) != len(tokenizer) and training_args.do_train):
+    embedding_size = model.get_input_embeddings().weight.shape[0]
+    if len(tokenizer) != embedding_size:
         logger.info("resize the embedding size by the size of the tokenizer")
         model.resize_token_embeddings(len(tokenizer))
 
