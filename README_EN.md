@@ -2,7 +2,7 @@
 
 <p align="center">
     <br>
-    <img src="./pics/banner.png" width="600"/>
+    <img src="./pics/banner.png" width="800"/>
     <br>
 </p>
 <p align="center">
@@ -12,7 +12,6 @@
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
     <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.1-green"></a>
 </p>
-
 
 
 Large Language Models (LLM), represented by ChatGPT and GPT-4, have sparked a new wave of research in the field of natural language processing, demonstrating capabilities of Artificial General Intelligence (AGI) and attracting widespread attention from the industry. However, the expensive training and deployment of large language models have posed certain obstacles to building transparent and open academic research.
@@ -73,7 +72,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ### ⚠️ User Notice (Must Read)
 
-The official [LLaMA models released by Facebook prohibits commercial use](https://github.com/facebookresearch/llama), and the official model weights have not been open-sourced (although there are many third-party download links available online). In order to comply with the relevant licenses, it is currently not possible to release the complete model weights. We appreciate your understanding. After Facebook fully opens up the model weights, this project will update its policies accordingly. **What is released here are the LoRA weights**, which can be seen as a "patch" for the original LLaMA model, and the complete weights can be obtained by merging the two.
+The official [LLaMA models released by Facebook prohibit commercial use](https://github.com/facebookresearch/llama), and the official model weights have not been open-sourced (although there are many third-party download links available online). In order to comply with the relevant licenses, it is currently not possible to release the complete model weights. We appreciate your understanding. After Facebook fully opens up the model weights, this project will update its policies accordingly. **What is released here are the LoRA weights**, which can be seen as a "patch" for the original LLaMA model, and the complete weights can be obtained by merging the two.
 
 ### Which model should I use?
 
@@ -215,7 +214,7 @@ In order to quickly evaluate the actual performance of related models, this proj
 
 The entire training process includes three parts: vocabulary expansion, pre-training, and instruction fine-tuning. Please refer to [merge_tokenizers.py](scripts/merge_tokenizers.py) for vocabulary expansion; refer to [run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py) in 🤗transformers and the relevant parts of dataset processing in the [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) project for pre-training and self-instruct fine-tuning.
 
-We have open sourced the scripts for pre-training and instruction finetuning (SFT): 
+We have open-sourced the scripts for pre-training and instruction finetuning (SFT): 
 
 - Pre-training: [scripts/run_clm_pt_with_peft.py](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/scripts/run_clm_pt_with_peft.py), refer to [Pre-training Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Pretraining-Script)
 
@@ -252,7 +251,7 @@ Although the models in this project have significantly improved Chinese understa
 
 ## Citation
 
-If you find the model, data, code in our project useful, please consider cite our work as follows: https://arxiv.org/abs/2304.08177
+If you find the model, data, code in our project useful, please consider citing our work as follows: https://arxiv.org/abs/2304.08177
 
 ```
 @article{chinese-llama-alpaca,
