@@ -25,7 +25,7 @@ jobs:
         stale-pr-message: 'This PR has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your consideration.'
         stale-issue-label: 'stale'
         stale-pr-label: 'stale'
-        operations-per-run: 100
+        operations-per-run: 500
         close-issue-message: 'Closing the issue, since no updates observed. Feel free to re-open if you need any further assistance.'
         days-before-stale: 7
         days-before-close: 3
