@@ -545,8 +545,8 @@ def main():
         lora_rank = training_args.lora_rank
         lora_dropout = training_args.lora_dropout
         lora_alpha = training_args.lora_alpha
-        print(target_modules)
-        print(lora_rank)
+        logger.info(f"target_modules: {target_modules}")
+        logger.info(f"lora_rank: {lora_rank}")
         peft_config = LoraConfig(
             task_type=TaskType.CAUSAL_LM,
             target_modules=target_modules,
