@@ -38,7 +38,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-**[May 10, 2023] [Release v3.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): LLaMA/Alpaca Plus 13B versions are available, more training data used than basic ones. **
+**[May 10, 2023] [Release v3.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): LLaMA/Alpaca Plus 13B versions are available, more training data used than basic ones.**
 
 [Apr 28, 2023] [Release v3.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): LLaMA/Alpaca Plus versions are available, more training data used than basic ones. 
 
