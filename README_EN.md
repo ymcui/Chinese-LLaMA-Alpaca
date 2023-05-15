@@ -25,7 +25,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 - 🚀 Open-sourced the Chinese LLaMA (general purpose) and Alpaca (instruction-tuned)   (7B, 13B)
 - 🚀 Open-sourced the pre-training and instruction finetuning (SFT) scripts for further tuning on user's data
 - 🚀 Quickly deploy and experience the quantized version of the large model on CPU/GPU of your laptop (personal PC) 
-- 🚀 Support [🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), etc.
+- 🚀 Support [🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), etc.
 - Released versions: 7B (basic, **Plus**), 13B (basic, **Plus**)
 
 💡 The following image shows the actual experience effect of the 7B version model after local deployment (animation unaccelerated, tested on Apple M1 Max).
@@ -188,6 +188,9 @@ We mainly provide the following three ways for inference and local deployment.
 | [**🤗Transformers**](https://github.com/huggingface/transformers) | original transformers inference method, support CPU/GPU      | General  |  ✅   |  ✅   |      ✅       |  ✅   | [link](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Inference-with-Transformers) |
 | [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | a tool for deploying model as a web UI                       | General  |  ✅   |  ✅   |      ✅       |  ✅   | [link](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/text-generation-webui) |
 | [**LlamaChat**](https://github.com/alexrozanski/LlamaChat)   | a macOS app that allows you to chat with LLaMA, Alpaca, etc. |  MacOS   |  ✅   |  ❌   |      ✅       |  ✅   | [link](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Using-LlamaChat-Interface) |
+| [**LangChain**](https://github.com/hwchase17/langchain)      | LLM application development framework, suitable for secondary development | General | ✅<sup>†</sup> |  ✅   | ✅<sup>†</sup> |    ❌     | [link](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Integrated-with-LangChain) |
+
+<sup>†</sup>: Supported by LangChain, but not implemented in the tutorial. Please refer to the official LangChain Documentation for details.
 
 Related documentation has been moved to the project's >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Model-Inference-and-Deployment).
 

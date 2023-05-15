@@ -25,7 +25,7 @@
 - 🚀 开源了使用中文文本数据预训练的中文LLaMA以及经过指令精调的中文Alpaca
 - 🚀 开源了预训练脚本、指令精调脚本，用户可根据需要自行进一步训练
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地量化和部署体验大模型
-- 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat)等生态
+- 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain)等生态
 - 目前已开源的模型版本：7B（标准版、**Plus版**）、13B（标准版、**Plus版**）
 
 💡 下图是中文Alpaca-7B模型在本地CPU量化部署后的实际体验效果（GIF未加速，M1 Max下实测）。
@@ -187,6 +187,9 @@ chinese_llama_lora_7b/
 | [**🤗Transformers**](https://github.com/huggingface/transformers) | 原生transformers推理接口                     | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用Transformers推理) |
 | [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | 前端Web UI界面的部署方式                     | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用text-generation-webui搭建界面) |
 | [**LlamaChat**](https://github.com/alexrozanski/LlamaChat)   | macOS下的图形交互界面（需搭配llama.cpp模型） | MacOS |  ✅   |  ❌   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用LlamaChat图形界面（macOS）) |
+| [**LangChain**](https://github.com/hwchase17/langchain)      | LLM应用开发框架，适用于进行二次开发          | 通用  | ✅<sup>†</sup> |  ✅   | ✅<sup>†</sup> |    ❌     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/与LangChain进行集成) |
+
+<sup>†</sup>: LangChain框架支持，但教程中未实现；详细说明请参考LangChain官方文档。
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型推理与部署)
 

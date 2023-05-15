@@ -4,7 +4,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--file_path',required=True,type=str)
 parser.add_argument('--model_path',required=True,type=str)
 parser.add_argument('--gpus', default="0", type=str)
-parser.add_argument('--chain_type', default="stuff", type=str)
+parser.add_argument('--chain_type', default="refine", type=str)
 args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
 # os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION']='python'
