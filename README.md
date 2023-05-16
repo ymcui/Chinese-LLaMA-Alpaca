@@ -93,9 +93,11 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | text-generation-webui |  不适合chat模式                              |    使用`--cpu`可在无显卡形式下运行，若生成内容不满意，建议修改prompt                                                          |
 | LlamaChat             | 加载模型时选择"LLaMA"                                  | 加载模型时选择"Alpaca"                                       |
 | [HF推理代码](./scripts/inference_hf.py) | 无需添加额外启动参数 | 启动时添加参数 `--with_prompt`        |
+| [web-demo代码](./scripts/gradio_demo.py) | 不适用 | 直接提供Alpaca模型位置即可；支持多轮对话 |
+| [LangChain示例](./scripts/langchain_demo) | 不适用 | 直接提供Alpaca模型位置即可 |
 | 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | 目前版本模型生成的文本长度相对短一些，比较惜字如金。可在指令中要求详细回答。<sup>[2]</sup> |
 
-*[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference_hf.py)等已内嵌，无需手动添加模板。*<br/>
+*[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference_hf.py)/[web-demo代码](./scripts/gradio_demo.py)/[LangChain示例](./scripts/langchain_demo)等已内嵌，无需手动添加模板。*<br/>
 *[2] 如果出现了模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否针对场景使用了正确的模型和正确的启动参数。*
 
 
