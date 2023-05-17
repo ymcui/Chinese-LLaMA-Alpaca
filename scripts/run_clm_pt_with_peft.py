@@ -303,7 +303,7 @@ class MyTrainingArguments(TrainingArguments):
     lora_rank : Optional[int] = field(default=8)
     lora_dropout : Optional[float] = field(default=0.1)
     lora_alpha : Optional[float] = field(default=32.)
-    modules_to_save : Optional[str] = field(default='embed_tokens,lm_head')
+    modules_to_save : Optional[str] = field(default=None)
     debug_mode : Optional[bool] = field(default=False)
     peft_path : Optional[str] = field(default=None)
 
@@ -541,12 +541,14 @@ def main():
     else:
         logger.info("Init new peft model")
         target_modules = training_args.trainable.split(',')
-        modules_to_save = training_args.modules_to_save.split(',')
+        modules_to_save = training_args.modules_to_save
+        if modules_to_save is not None:
+            modules_to_save = modules_to_save.split(',')
         lora_rank = training_args.lora_rank
         lora_dropout = training_args.lora_dropout
         lora_alpha = training_args.lora_alpha
-        print(target_modules)
-        print(lora_rank)
+        logger.info(f"target_modules: {target_modules}")
+        logger.info(f"lora_rank: {lora_rank}")
         peft_config = LoraConfig(
             task_type=TaskType.CAUSAL_LM,
             target_modules=target_modules,
