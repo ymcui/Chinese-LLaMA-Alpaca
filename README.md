@@ -10,7 +10,7 @@
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
-    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.1-green"></a>
+    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.2-green"></a>
 </p>
 
 
@@ -38,18 +38,20 @@
 
 ## 新闻
 
-**[2023/05/10] [v3.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): 发布中文LLaMA/Alpaca Plus-13B，使用了更大的语料进行训练，相比基础版各项能力显著提升。**
+**[2023/05/16] [v3.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): 添加指令精调脚本、LangChain支持、基于Gradio的本地Demo等。**
+
+[2023/05/10] [v3.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): 发布中文LLaMA/Alpaca Plus-13B，使用了更大语料训练，相比基础版各项能力显著提升。
 
 [2023/04/28] [v3.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): 发布中文LLaMA/Alpaca Plus版本（7B），使用了更大的语料进行训练，相比基础版各项能力显著提升。另外还进一步完善了评测流程、添加了预训练脚本等。
+
+<details>
+<summary><b>往期新闻</b></summary>
 
 [2023/04/18] [v2.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)：添加LlamaChat支持、中文词表、LLaMA Tokenizer词表扩充脚本、添加技术报告等。
 
 [2023/04/13] [v2.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)：添加HuggingFace推理接口、text-generation-webui接口。
 
 [2023/04/07] [v2.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)：发布13B版本中文LLaMA、Alpaca大模型，主要升级：更强的事实性、文本问答、翻译、伦理拒答等能力全面提升。
-
-<details>
-<summary><b>往期新闻</b></summary>
 
 [2023/04/03] 添加了模型合并和量化的notebook，Colab Pro(+)用户可在线合并和下载模型。请参考：[合并模型](#合并模型)
 

@@ -10,7 +10,7 @@
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
-    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.1-green"></a>
+    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v3.2-green"></a>
 </p>
 
 
@@ -38,18 +38,20 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-**[May 10, 2023] [Release v3.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): LLaMA/Alpaca Plus 13B versions are available, more training data used than basic ones.**
+**[May 16, 2023] [Release v3.2](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): Add SFT scripts, LangChain supports, Gradio-based web demo, etc.**
+
+[May 10, 2023] [Release v3.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): LLaMA/Alpaca Plus 13B versions are available, more training data used than basic ones.
 
 [Apr 28, 2023] [Release v3.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): LLaMA/Alpaca Plus versions are available, more training data used than basic ones. 
+
+<details>
+<summary><b>Previous News</b></summary>
 
 [Apr 18, 2023] Release v2.2: Add LlamaChat support (macOS UI), tokenizer merging scripts, documentations are migrated to GitHub Wiki. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)
 
 [Apr 13, 2023] Release v2.1: Add HuggingFace-transformers and text-generation-webui interfances. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)
 
 [Apr 07, 2023] Release v2.0: Release 13B versions of Chinese LLaMA and Alpaca model. Main upgrades: stronger factuality, better performance on QA, translation and more. Refer to [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)
-
-<details>
-<summary><b>Previous News</b></summary>
 
 [Mar 31, 2023] Release v1.1, major updates: simplification of model merging steps, addition of instruction data crawling script, and important notes about the new version of llama.cpp. See [Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v1.1).
 
