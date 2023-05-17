@@ -9,8 +9,12 @@ parser.add_argument('--base_model', default=None, type=str, required=True)
 parser.add_argument('--lora_model', default=None, type=str,help="If None, perform inference on the base model")
 parser.add_argument('--tokenizer_path',default=None,type=str)
 parser.add_argument('--gpus', default="0", type=str)
+parser.add_argument('--share', default=True, help='share gradio domain name')
+parser.add_argument('--load_in_8bit',action='store_true', help='use 8 bit model')
 parser.add_argument('--only_cpu',action='store_true',help='only use CPU for inference')
 args = parser.parse_args()
+share = args.share
+load_in_8bit = args.load_in_8bit
 if args.only_cpu is True:
     args.gpus = ""
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
@@ -54,7 +58,7 @@ tokenizer = LlamaTokenizer.from_pretrained(args.tokenizer_path)
 
 base_model = LlamaForCausalLM.from_pretrained(
     args.base_model, 
-    load_in_8bit=False,
+    load_in_8bit=load_in_8bit,
     torch_dtype=load_type,
     low_cpu_mem_usage=True,
     device_map='auto',
@@ -173,4 +177,4 @@ with gr.Blocks() as demo:
     submitBtn.click(reset_user_input, [], [user_input])
 
     emptyBtn.click(reset_state, outputs=[chatbot, history], show_progress=True)
-demo.queue().launch(share=False, inbrowser=True, server_name = '0.0.0.0', server_port=19324)
+demo.queue().launch(share=share, inbrowser=True, server_name = '0.0.0.0', server_port=19324)
