@@ -14,7 +14,7 @@ embedding_path = args.embedding_path
 model_path = args.model_path
 
 import torch
-from langchain import HuggingFacePipeline
+from langchain.llms import LlamaCpp
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.document_loaders import TextLoader
@@ -71,16 +71,7 @@ if __name__ == '__main__':
     docsearch = FAISS.from_documents(texts, embeddings)
 
     print("loading LLM...")
-    model = HuggingFacePipeline.from_model_id(model_id=model_path,
-            task="text-generation",
-            model_kwargs={
-                          "torch_dtype" : load_type,
-                          "low_cpu_mem_usage" : True,
-                          "temperature": 0.2,
-                          "max_length": 1000,
-                          "device_map": "auto",
-                          "repetition_penalty":1.1}
-            )
+    model = LlamaCpp(model_path=model_path, n_ctx=1000)
 
     if args.chain_type == "stuff":
         PROMPT = PromptTemplate(
