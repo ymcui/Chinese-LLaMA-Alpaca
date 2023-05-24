@@ -25,7 +25,7 @@
 - 🚀 开源了使用中文文本数据预训练的中文LLaMA以及经过指令精调的中文Alpaca
 - 🚀 开源了预训练脚本、指令精调脚本，用户可根据需要自行进一步训练
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地量化和部署体验大模型
-- 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain)等生态
+- 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), [privateGPT](https://github.com/imartinez/privateGPT)等生态
 - 目前已开源的模型版本：7B（标准版、**Plus版**）、13B（标准版、**Plus版**）
 
 💡 下图是中文Alpaca-7B模型在本地CPU量化部署后的实际体验效果（GIF未加速，M1 Max下实测）。
@@ -96,7 +96,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | LlamaChat             | 加载模型时选择"LLaMA"                                  | 加载模型时选择"Alpaca"                                       |
 | [HF推理代码](./scripts/inference_hf.py) | 无需添加额外启动参数 | 启动时添加参数 `--with_prompt`        |
 | [web-demo代码](./scripts/gradio_demo.py) | 不适用 | 直接提供Alpaca模型位置即可；支持多轮对话 |
-| [LangChain示例](./scripts/langchain_demo) | 不适用 | 直接提供Alpaca模型位置即可 |
+| [LangChain示例](./scripts/langchain_demo) / privateGPT | 不适用 | 直接提供Alpaca模型位置即可 |
 | 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | 目前版本模型生成的文本长度相对短一些，比较惜字如金。可在指令中要求详细回答。<sup>[2]</sup> |
 
 *[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference_hf.py)/[web-demo代码](./scripts/gradio_demo.py)/[LangChain示例](./scripts/langchain_demo)等已内嵌，无需手动添加模板。*<br/>
@@ -192,6 +192,7 @@ chinese_llama_lora_7b/
 | [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | 前端Web UI界面的部署方式                     | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用text-generation-webui搭建界面) |
 | [**LlamaChat**](https://github.com/alexrozanski/LlamaChat)   | macOS下的图形交互界面（需搭配llama.cpp模型） | MacOS |  ✅   |  ❌   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用LlamaChat图形界面（macOS）) |
 | [**LangChain**](https://github.com/hwchase17/langchain)      | LLM应用开发框架，适用于进行二次开发          | 通用  | ✅<sup>†</sup> |  ✅   | ✅<sup>†</sup> |    ❌     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/与LangChain进行集成) |
+| [**privateGPT**](https://github.com/imartinez/privateGPT) | 基于LangChain的多文档本地问答框架 | 通用 | ✅ | ✅ | ✅ | ❌ | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用privateGPT进行多文档问答) |
 
 <sup>†</sup>: LangChain框架支持，但教程中未实现；详细说明请参考LangChain官方文档。
 
