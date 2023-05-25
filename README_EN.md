@@ -86,6 +86,8 @@ The following table provides a basic comparison of the Chinese LLaMA and Alpaca 
 | Comparison Item                                         | Chinese LLaMA                                                | Chinese Alpaca                                               |
 | ------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Training Method                                         | Traditional CLM (trained on general corpus)                  | Instruction Fine-tuning (trained on instruction data)        |
+| Training Data                                           | unsupervised free text                                       | supervised instruction data                                  |
+| Vocab size<sup>[3]</sup>                                | 4995**3**                                                    | 4995**4**=49953+1 (pad token)                                |
 | Input Template                                          | Not required                                                 | Must meet template requirements<sup>[1]</sup>                |
 | Suitable Scenarios ✔️                                    | Text continuation: Given a context, let the model continue writing | 1. Instruction understanding (Q&A, writing, advice, etc.)<br/>2. Multi-turn context understanding (chat, etc.) |
 | Unsuitable Scenarios ❌                                  | Instruction understanding, multi-turn chat, etc.             | Unrestricted free text generation                            |
@@ -100,6 +102,8 @@ The following table provides a basic comparison of the Chinese LLaMA and Alpaca 
 *[1] Templates are built-in for (llama.cpp/LlamaChat/[inference_hf.py](./scripts/inference_hf.py)/[web-demo](./scripts/gradio_demo.py)/[LangChain-demo](./scripts/langchain_demo).*
 
 *[2] If you encounter issues such as low-quality model responses, nonsensical answers, or failure to understand questions, please check whether you are using the correct model and startup parameters for the scenario.*
+
+*[3] Alpaca model has an additional pad token in vocabulary than LLaMA. **Please do not mix LLaMA/Alpaca tokenizers**.*
 
 
 ### Chinese LLaMA
