@@ -22,9 +22,9 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 
-prompt_template = """Below is an instruction that describes a task. 
-                    Write a response that appropriately completes the request.\n\n
-                    ### Instruction:\n{context}\n{question}\n\n### Response: """
+prompt_template = ("Below is an instruction that describes a task. "
+                   "Write a response that appropriately completes the request.\n\n"
+                   "### Instruction:\n{context}\n{question}\n\n### Response: ")
 
 
 refine_prompt_template = (
