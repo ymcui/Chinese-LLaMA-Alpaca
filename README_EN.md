@@ -22,11 +22,11 @@ To promote open research of large models in the Chinese NLP community, this proj
 **Main contents of this project:**
 
 - 🚀 Extended Chinese vocabulary on top of original LLaMA with significant encode/decode efficiency
-- 🚀 Open-sourced the Chinese LLaMA (general purpose) and Alpaca (instruction-tuned)   (7B, 13B)
+- 🚀 Open-sourced the Chinese LLaMA (general purpose) and Alpaca (instruction-tuned) 
 - 🚀 Open-sourced the pre-training and instruction finetuning (SFT) scripts for further tuning on user's data
 - 🚀 Quickly deploy and experience the quantized version of the large model on CPU/GPU of your laptop (personal PC) 
 - 🚀 Support [🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), , [privateGPT](https://github.com/imartinez/privateGPT), etc.
-- Released versions: 7B (basic, **Plus**), 13B (basic, **Plus**)
+- Released versions: 7B (basic, **Plus**), 13B (basic, **Plus**) , 33B (basic)
 
 💡 The following image shows the actual experience effect of the 7B version model after local deployment (animation unaccelerated, tested on Apple M1 Max).
 
@@ -38,7 +38,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-**[May 16, 2023] [Release v3.2](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): Add SFT scripts, LangChain supports, Gradio-based web demo, etc.**
+[May 16, 2023] [Release v3.2](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): Add SFT scripts, LangChain supports, Gradio-based web demo, etc.
 
 [May 10, 2023] [Release v3.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): LLaMA/Alpaca Plus 13B versions are available, more training data used than basic ones.
 
@@ -116,6 +116,7 @@ The Chinese LLaMA model has expanded the Chinese vocabulary on the basis of the 
 | Chinese-LLaMA-Plus-7B ⭐️ | general 120G |      LLaMA-7B      |        790M        | [[BaiduDisk]](https://pan.baidu.com/s/1zvyX9FN-WSRDdrtMARxxfw?pwd=2gtr)</br>[[Google Drive]](https://drive.google.com/file/d/1N97m3rBj-rp-J1X8rgRfluyomEscfAq0/view?usp=sharing) |
 | Chinese-LLaMA-13B | general 20G | LLaMA-13B |         1G         | [[BaiduDisk]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |
 | Chinese-LLaMA-Plus-13B ⭐️ | general 120G | LLaMA-13B | 1G | [[BaiduDisk]](https://pan.baidu.com/s/1VGpNlrLx5zHuNzLOcTG-xw?pwd=8cvd)<br/>[[Google Drive]](https://drive.google.com/file/d/1q0L5Me_1j_9iiRRNfuEFUt3SOjQo3-g3/view?usp=share_link) |
+| Chinese-LLaMA-33B | general 20G | LLaMA-33B<sup>[5]</sup> | 2.68G |  |
 
 ### Chinese Alpaca
 
@@ -126,9 +127,10 @@ The Chinese Alpaca model further uses instruction data for fine-tuning on the ba
 | Model                     |       Type       |        Required Original Model<sup>[1]</sup>         | Size<sup>[2]</sup> |                 Download Links<sup>[3]</sup>                 |
 | :------------------------ | :--------------: | :--------------------------------------------------: | :----------------: | :----------------------------------------------------------: |
 | Chinese-Alpaca-7B         |  Instruction 2M  |                       LLaMA-7B                       |        790M        | [[BaiduDisk]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |
-| Chinese-Alpaca-Plus-7B ⭐️  |  Instruction 4M  | *LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B*<sup>[4]</sup> |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
+| Chinese-Alpaca-Plus-7B ⭐️  |  Instruction 4M  | *LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B*<sup>[4]</sup> |        1.1G        | [[BaiduDisk]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
 | Chinese-Alpaca-13B        |  Instruction 3M  |                       LLaMA-7B                       |        1.1G        | [[BaiduDisk]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
-| Chinese-Alpaca-Plus-13B ⭐️ | Instruction 4.3M | *LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B<sup>[4]</sup>* |        1.3G        | [[百度网盘]](https://pan.baidu.com/s/1Mew4EjBlejWBBB6_WW6vig?pwd=mf5w)<br/> [[Google Drive]](https://drive.google.com/file/d/1CcLJvY7XsFAOjfSIqCpDI7jf3EEPDcEF/view?usp=share_link) |
+| Chinese-Alpaca-Plus-13B ⭐️ | Instruction 4.3M | *LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B<sup>[4]</sup>* |        1.3G        | [[BaiduDisk]](https://pan.baidu.com/s/1Mew4EjBlejWBBB6_WW6vig?pwd=mf5w)<br/> [[Google Drive]](https://drive.google.com/file/d/1CcLJvY7XsFAOjfSIqCpDI7jf3EEPDcEF/view?usp=share_link) |
+| Chinese-Alpaca-33B |  | LLaMA-33B<sup>[5]</sup> |  |  |
 
 ### Model Hub
 
@@ -140,10 +142,12 @@ You can download all the above models in 🤗Model Hub, and use [🤗transformer
 | Chinese-LLaMA-Plus-7B   | ziqingyang/chinese-llama-plus-lora-7b   | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-7b) |
 | Chinese-LLaMA-13B       | ziqingyang/chinese-llama-lora-13b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
 | Chinese-LLaMA-Plus-13B  | ziqingyang/chinese-llama-plus-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-13b) |
+| Chinese-LLaMA-33B | ziqingyang/chinese-llama-lora-33b |  |
 | Chinese-Alpaca-7B       | ziqingyang/chinese-alpaca-lora-7b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
 | Chinese-Alpaca-Plus-7B  | ziqingyang/chinese-alpaca-plus-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-7b) |
 | Chinese-Alpaca-13B      | ziqingyang/chinese-alpaca-lora-13b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
 | Chinese-Alpaca-Plus-13B | ziqingyang/chinese-alpaca-plus-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-13b) |
+| Chinese-Alpaca-33B | ziqingyang/chinese-alpaca-lora-33b |  |
 
 
 ### Footnote and Others
@@ -154,7 +158,9 @@ You can download all the above models in 🤗Model Hub, and use [🤗transformer
 
 **[3]** After downloading, be sure to check whether the SHA256 of the ZIP file is consistent; for the full value, please see [SHA256.md](./SHA256.md).
 
-**[4]** Merging steps for Alpaca-Plus are different from others, please refer to [wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Manual-Conversion#multiple-lora-weights-merging-applicable-to-chinese-alpaca-plus)。
+**[4]** Merging steps for Alpaca-Plus are different from others, please refer to [wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Manual-Conversion#multiple-lora-weights-merging-applicable-to-chinese-alpaca-plus).
+
+**[5]** Also known as 30B model in elsewhere. There was a naming typo in release this model by Facebook. We stick to their original paper naming convention here (and also the actual numbers of weights).
 
 The file directory inside the ZIP file is as follows (using Chinese-LLaMA as an example):
 
