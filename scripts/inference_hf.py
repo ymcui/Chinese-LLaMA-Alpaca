@@ -1,17 +1,23 @@
-import torch
-from transformers import LlamaForCausalLM, LlamaTokenizer
-from peft import  PeftModel
 import argparse
 import json, os
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, type=str, required=True)
 parser.add_argument('--lora_model', default=None, type=str,help="If None, perform inference on the base model")
 parser.add_argument('--tokenizer_path',default=None,type=str)
-parser.add_argument('--data_file',default=None, type=str,help="file that contains instructions (one instruction per line).")
-parser.add_argument('--with_prompt',action='store_true')
-parser.add_argument('--interactive',action='store_true')
+parser.add_argument('--data_file',default=None, type=str,help="A file that contains instructions (one instruction per line)")
+parser.add_argument('--with_prompt',action='store_true',help="wrap the input with the prompt automatically")
+parser.add_argument('--interactive',action='store_true',help="run in the instruction mode (single-turn)")
 parser.add_argument('--predictions_file', default='./predictions.json', type=str)
+parser.add_argument('--gpus', default="0", type=str)
+parser.add_argument('--only_cpu',action='store_true',help='only use CPU for inference')
 args = parser.parse_args()
+if args.only_cpu is True:
+    args.gpus = ""
+os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
+import torch
+from transformers import LlamaForCausalLM, LlamaTokenizer
+from peft import  PeftModel
+
 
 generation_config = dict(
     temperature=0.2,
@@ -58,6 +64,7 @@ if __name__ == '__main__':
         load_in_8bit=False,
         torch_dtype=load_type,
         low_cpu_mem_usage=True,
+        device_map='auto',
         )
 
     model_vocab_size = base_model.get_input_embeddings().weight.size(0)
@@ -70,7 +77,7 @@ if __name__ == '__main__':
         base_model.resize_token_embeddings(tokenzier_vocab_size)
     if args.lora_model is not None:
         print("loading peft model")
-        model = PeftModel.from_pretrained(base_model, args.lora_model,torch_dtype=load_type)
+        model = PeftModel.from_pretrained(base_model, args.lora_model,torch_dtype=load_type,device_map='auto',)
     else:
         model = base_model
 
@@ -85,13 +92,20 @@ if __name__ == '__main__':
         print("first 10 examples:")
         for example in examples[:10]:
             print(example)
-
-    model.to(device)
     model.eval()
-
 
     with torch.no_grad():
         if args.interactive:
+            print("Start inference with instruction mode.")
+
+            print('='*85)
+            print("+ 该模式下仅支持单轮问答，无多轮对话能力。\n"
+                  "+ 如要进行多轮对话，请使用llama.cpp或llamachat工具。")
+            print('-'*85)
+            print("+ This mode only supports single-turn QA.\n"
+                  "+ If you want to experience multi-turn dialogue, please use llama.cpp or llamachat.")
+            print('='*85)
+
             while True:
                 raw_input_text = input("Input:")
                 if len(raw_input_text.strip())==0:
@@ -117,6 +131,7 @@ if __name__ == '__main__':
                 print("Response: ",response)
                 print("\n")
         else:
+            print("Start inference.")
             results = []
             for index, example in enumerate(examples):
                 if args.with_prompt is True:
