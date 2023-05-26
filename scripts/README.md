@@ -41,12 +41,3 @@ Script for merging LLaMA/Alpaca LoRA. Wiki: https://github.com/ymcui/Chinese-LLa
 指令数据爬取脚本，Wiki：[https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节#训练数据](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节#训练数据)
 
 Crawl prompt script, Wiki: https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Training-Details#training-data
-
-
-
-
-
-
-
-
-
