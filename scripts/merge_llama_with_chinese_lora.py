@@ -240,7 +240,11 @@ if __name__=='__main__':
         print(f"base_model vocab size: {base_model.get_input_embeddings().weight.size(0)}")
         print(f"tokenizer vocab size: {len(tokenizer)}")
 
-        if base_model.get_input_embeddings().weight.size(0) != len(tokenizer):
+        model_vocab_size = base_model.get_input_embeddings().weight.size(0)
+        assert len(tokenizer) >= model_vocab_size, \
+        (f"The vocab size of the tokenizer {len(tokenizer)} is smaller than the vocab size of the base model {model_vocab_size}\n"
+        "This is not the intended use. Please check your model and tokenizer.")
+        if model_vocab_size != len(tokenizer):
             base_model.resize_token_embeddings(len(tokenizer))
             print(f"Extended vocabulary size to {len(tokenizer)}")
 
