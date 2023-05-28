@@ -256,6 +256,7 @@ Q6: Under Windows, the model cannot understand Chinese, the generation speed is 
 Q7: Chinese-LLaMA 13B model cannot be launched with llama.cpp, reporting inconsistent dimensions.
 Q8: Chinese-Alpaca-Plus does not show better performance than the others.
 Q9: The model does not perform well on NLU tasks, such as text classification.
+Q10: Why 33B not 30B?
 ```
 
 Please refer to our  >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ).
