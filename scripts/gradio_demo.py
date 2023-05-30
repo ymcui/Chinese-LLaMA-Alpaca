@@ -2,7 +2,6 @@ import sys
 import gradio as gr
 import argparse
 import os
-import mdtex2html
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, type=str, required=True)
@@ -22,19 +21,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
 import torch
 from transformers import LlamaForCausalLM, LlamaTokenizer, GenerationConfig
 from peft import PeftModel
-
-def postprocess(self, y):
-    if y is None:
-        return []
-    for i, (message, response) in enumerate(y):
-        y[i] = (
-            None if message is None else mdtex2html.convert((message)),
-            None if response is None else mdtex2html.convert(response),
-        )
-    return y
-
-
-gr.Chatbot.postprocess = postprocess
 
 generation_config = dict(
     temperature=0.2,
