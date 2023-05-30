@@ -410,6 +410,15 @@ def main():
         trainer.save_metrics("train", metrics)
         trainer.save_state()
 
+    import shutil
+    lora_path=os.path.join(training_args.output_dir,'sft_lora_model')
+    os.makedirs(lora_path, exist_ok=True)
+    model.peft_config['default'].save_pretrained(lora_path)
+    shutil.copyfile(
+        os.path.join(training_args.output_dir,'pytorch_model.bin'),
+        os.path.join(lora_path,'adapter_model.bin'))
+    tokenizer.save_pretrained(lora_path)
+
     # Evaluation
     if training_args.do_eval:
         logger.info("*** Evaluate ***")
