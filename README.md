@@ -27,7 +27,7 @@
 - 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), [privateGPT](https://github.com/imartinez/privateGPT)等生态
 - 目前已开源的模型版本：7B（基础版、**Plus版**）、13B（基础版、**Plus版**）、33B（基础版）
 
-💡 下图是中文Alpaca-7B模型在本地CPU量化部署后的实际体验效果（GIF未加速，M1 Max下实测）。
+💡 下图是中文Alpaca-Plus-7B模型在本地CPU量化部署后的实际体验速度和效果。
 
 ![](./pics/screencast.gif)
 
