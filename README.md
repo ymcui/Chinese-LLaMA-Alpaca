@@ -26,7 +26,7 @@
 - 🚀 开源了预训练脚本、指令精调脚本，用户可根据需要自行进一步训练
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地量化和部署体验大模型
 - 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), [privateGPT](https://github.com/imartinez/privateGPT)等生态
-- 目前已开源的模型版本：7B（标准版、**Plus版**）、13B（标准版、**Plus版**）、33B（标准版）
+- 目前已开源的模型版本：7B（基础版、**Plus版**）、13B（基础版、**Plus版**）、33B（基础版）
 
 💡 下图是中文Alpaca-7B模型在本地CPU量化部署后的实际体验效果（GIF未加速，M1 Max下实测）。
 
@@ -37,6 +37,8 @@
 [多模态VLE](https://github.com/iflytek/VLE) | [中文MiniRBT](https://github.com/iflytek/MiniRBT) | [中文LERT](https://github.com/ymcui/LERT) | [中英文PERT](https://github.com/ymcui/PERT) | [中文MacBERT](https://github.com/ymcui/MacBERT) | [中文ELECTRA](https://github.com/ymcui/Chinese-ELECTRA) | [中文XLNet](https://github.com/ymcui/Chinese-XLNet) | [中文BERT](https://github.com/ymcui/Chinese-BERT-wwm) | [知识蒸馏工具TextBrewer](https://github.com/airaria/TextBrewer) | [模型裁剪工具TextPruner](https://github.com/airaria/TextPruner)
 
 ## 新闻
+
+**[2023/??/??] [v4.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.0): release note 4.0 being added.**
 
 [2023/05/16] [v3.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): 添加指令精调脚本、LangChain支持、基于Gradio的本地Demo等。
 
@@ -95,12 +97,12 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | llama.cpp             | 使用`-p`参数指定上文                                   | 使用`-ins`参数启动指令理解+聊天模式                          |
 | text-generation-webui |  不适合chat模式                              |    使用`--cpu`可在无显卡形式下运行，若生成内容不满意，建议修改prompt                                                          |
 | LlamaChat             | 加载模型时选择"LLaMA"                                  | 加载模型时选择"Alpaca"                                       |
-| [HF推理代码](./scripts/inference_hf.py) | 无需添加额外启动参数 | 启动时添加参数 `--with_prompt`        |
-| [web-demo代码](./scripts/gradio_demo.py) | 不适用 | 直接提供Alpaca模型位置即可；支持多轮对话 |
+| [HF推理代码](./scripts/inference/inference_hf.py) | 无需添加额外启动参数 | 启动时添加参数 `--with_prompt`        |
+| [web-demo代码](./scripts/inference/gradio_demo.py) | 不适用 | 直接提供Alpaca模型位置即可；支持多轮对话 |
 | [LangChain示例](./scripts/langchain_demo) / privateGPT | 不适用 | 直接提供Alpaca模型位置即可 |
 | 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | 目前版本模型生成的文本长度相对短一些，比较惜字如金。可在指令中要求详细回答。<sup>[2]</sup> |
 
-*[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference_hf.py)/[web-demo代码](./scripts/gradio_demo.py)/[LangChain示例](./scripts/langchain_demo)等已内嵌，无需手动添加模板。*<br/>
+*[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference/inference_hf.py)/[web-demo代码](./scripts/inference/gradio_demo.py)/[LangChain示例](./scripts/langchain_demo)等已内嵌，无需手动添加模板。*<br/>
 *[2] 如果出现了模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否针对场景使用了正确的模型和正确的启动参数。*<br/>
 *[3] 经过指令精调的Alpaca会比LLaMA多一个pad token，**因此请勿混用LLaMA/Alpaca词表**。*
 
@@ -113,9 +115,9 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | :----------------------- | :------: | :-------------------------: | :----------------: | :----------------------------------------------------------: |
 | Chinese-LLaMA-7B         | 通用20G  |        原版LLaMA-7B         |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |
 | Chinese-LLaMA-Plus-7B ⭐️  | 通用120G |        原版LLaMA-7B         |        790M        | [[百度网盘]](https://pan.baidu.com/s/1zvyX9FN-WSRDdrtMARxxfw?pwd=2gtr)</br>[[Google Drive]](https://drive.google.com/file/d/1N97m3rBj-rp-J1X8rgRfluyomEscfAq0/view?usp=sharing) |
-| Chinese-LLaMA-13B        | 通用20G  |        原版LLaMA-13B        |         1G         | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |
-| Chinese-LLaMA-Plus-13B ⭐️ | 通用120G |        原版LLaMA-13B        |         1G         | [[百度网盘]](https://pan.baidu.com/s/1VGpNlrLx5zHuNzLOcTG-xw?pwd=8cvd)<br/>[[Google Drive]](https://drive.google.com/file/d/1q0L5Me_1j_9iiRRNfuEFUt3SOjQo3-g3/view?usp=share_link) |
-| Chinese-LLaMA-33B        | 通用20G  | 原版LLaMA-33B<sup>[5]</sup> |       2.68G        |                                                              |
+| Chinese-LLaMA-13B        | 通用20G  |        原版LLaMA-13B        |        1.0G        | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |
+| Chinese-LLaMA-Plus-13B ⭐️ | 通用120G |        原版LLaMA-13B        |        1.0G        | [[百度网盘]](https://pan.baidu.com/s/1VGpNlrLx5zHuNzLOcTG-xw?pwd=8cvd)<br/>[[Google Drive]](https://drive.google.com/file/d/1q0L5Me_1j_9iiRRNfuEFUt3SOjQo3-g3/view?usp=share_link) |
+| Chinese-LLaMA-33B        | 通用20G  | 原版LLaMA-33B<sup>[5]</sup> |        2.7G        |                                                              |
 
 
 ### 中文Alpaca模型
@@ -128,7 +130,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-Alpaca-Plus-7B ⭐️  |  指令4M  |  *原版LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B*<sup>[4]</sup>  |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
 | Chinese-Alpaca-13B        |  指令3M  |                       原版LLaMA-13B                        |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
 | Chinese-Alpaca-Plus-13B ⭐️ | 指令4.3M | *原版LLaMA-13B &<br/>Chinese-LLaMA-Plus-13B<sup>[4]</sup>* |        1.3G        | [[百度网盘]](https://pan.baidu.com/s/1Mew4EjBlejWBBB6_WW6vig?pwd=mf5w)<br/> [[Google Drive]](https://drive.google.com/file/d/1CcLJvY7XsFAOjfSIqCpDI7jf3EEPDcEF/view?usp=share_link) |
-| Chinese-Alpaca-33B        |          |                原版LLaMA-33B<sup>[5]</sup>                 |                    |                                                              |
+| Chinese-Alpaca-33B        |          |                原版LLaMA-33B<sup>[5]</sup>                 |        2.7G        |                                                              |
 
 ### Model Hub
 
@@ -140,10 +142,12 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-LLaMA-Plus-7B   | ziqingyang/chinese-llama-plus-lora-7b   | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-7b) |
 | Chinese-LLaMA-13B       | ziqingyang/chinese-llama-lora-13b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
 | Chinese-LLaMA-Plus-13B  | ziqingyang/chinese-llama-plus-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-13b) |
+| Chinese-LLaMA-33B       | ziqingyang/chinese-llama-lora-33b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-33b) |
 | Chinese-Alpaca-7B       | ziqingyang/chinese-alpaca-lora-7b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
 | Chinese-Alpaca-Plus-7B  | ziqingyang/chinese-alpaca-plus-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-7b) |
 | Chinese-Alpaca-13B      | ziqingyang/chinese-alpaca-lora-13b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
 | Chinese-Alpaca-Plus-13B | ziqingyang/chinese-alpaca-plus-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-13b) |
+| Chinese-Alpaca-33B      | ziqingyang/chinese-alpaca-lora-33b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-33b) |
 
 ### 脚注及其他说明
 
@@ -193,8 +197,8 @@ chinese_llama_lora_7b/
 
 | 推理和部署方式                                               | 特点                                         | 平台  | CPU  | GPU  | 量化加载 | 图形界面 |                             教程                             |
 | :----------------------------------------------------------- | -------------------------------------------- | :---: | :--: | :--: | :------: | :------: | :----------------------------------------------------------: |
-| [**llama.cpp**](https://github.com/ggerganov/llama.cp)       | 丰富的量化选项和高效本地推理                 | 通用  |  ✅   |  ✅   |    ✅     |    ❌     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/llama.cpp量化部署) |
-| [**🤗Transformers**](https://github.com/huggingface/transformers) | 原生transformers推理接口                     | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用Transformers推理) |
+| [**llama.cpp**](https://github.com/ggerganov/llama.cpp)      | 丰富的量化选项和高效本地推理                 | 通用  |  ✅   |  ✅   |    ✅     |    ❌     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/llama.cpp量化部署) |
+| [**🤗Transformers**](https://github.com/huggingface/transformers) | 原生transformers推理接口                    | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用Transformers推理) |
 | [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | 前端Web UI界面的部署方式                     | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用text-generation-webui搭建界面) |
 | [**LlamaChat**](https://github.com/alexrozanski/LlamaChat)   | macOS下的图形交互界面（需搭配llama.cpp模型） | MacOS |  ✅   |  ❌   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用LlamaChat图形界面（macOS）) |
 | [**LangChain**](https://github.com/hwchase17/langchain)      | LLM应用开发框架，适用于进行二次开发          | 通用  | ✅<sup>†</sup> |  ✅   | ✅<sup>†</sup> |    ❌     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/与LangChain进行集成) |
@@ -207,32 +211,34 @@ chinese_llama_lora_7b/
 
 ## 系统效果
 
-为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-Plus-7B、中文Alpaca-Plus-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples目录](./examples)。
+### 生成效果评测
 
-| 测试任务         | 样例数 | Alpaca-13B | Alpaca-Plus-7B | Alpaca-Plus-13B |
-| ---------------- | :----: | :--------: | :------------: | :-------------: |
-| **💯总平均分**    |  200   |    74.3    |      78.2      |   **👍🏻80.8**    |
-| 知识问答         |   20   |     70     |       74       |    **👍🏻79**     |
-| 开放式问答       |   20   |     77     |       77       |       77        |
-| 数值计算、推理   |   20   |     61     |       61       |       60        |
-| 诗词、文学、哲学 |   20   |     65     |    **👍🏻76**    |    **👍🏻76**     |
-| 音乐、体育、娱乐 |   20   |     68     |       73       |    **👍🏻80**     |
-| 写信、写文章     |   20   |     83     |       82       |    **👍🏻87**     |
-| 文本翻译         |   20   |     84     |       87       |    **👍🏻90**     |
-| 多轮交互         |   20   |     88     |       89       |       89        |
-| 代码编程         |   20   |     65     |       64       |    **👍🏻70**     |
-| 伦理、拒答       |   20   |     82     |    **👍🏻99**    |    **👍🏻100**    |
+为了快速评测相关模型的实际表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-33B、中文Alpaca-Plus-7B、中文Alpaca-Plus-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples目录](./examples)。
+
+| 测试任务         | 样例数 | Alpaca-Plus-7B | Alpaca-Plus-13B | Alpaca-33B |
+| ---------------- | :----: | :------------: | :-------------: | :--------: |
+| **💯总平均分**    |  200   |                |                 |            |
+| 知识问答         |   20   |                |                 |            |
+| 开放式问答       |   20   |                |                 |            |
+| 数值计算、推理   |   20   |                |                 |            |
+| 诗词、文学、哲学 |   20   |                |                 |            |
+| 音乐、体育、娱乐 |   20   |                |                 |            |
+| 写信、写文章     |   20   |                |                 |            |
+| 文本翻译         |   20   |                |                 |            |
+| 多轮交互         |   20   |                |                 |            |
+| 代码编程         |   20   |                |                 |            |
+| 伦理、拒答       |   20   |                |                 |            |
 
 
 ## 训练细节
 
 整个训练流程包括词表扩充、预训练和指令精调三部分。
 
-- 本项目的模型均在原LLaMA词表的基础上扩充了中文单词，代码请参考[merge_tokenizers.py](scripts/merge_tokenizers.py)
+- 本项目的模型均在原LLaMA词表的基础上扩充了中文单词，代码请参考[merge_tokenizers.py](./scripts/merge_tokenizer/merge_tokenizers.py)
 - 预训练和指令精调代码参考了🤗transformers中的[run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py)和[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)项目中数据集处理的相关部分
 - 已开源用于预训练和指令精调的训练脚本：
-  - 预训练脚本：[scripts/run_clm_pt_with_peft.py](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/scripts/run_clm_pt_with_peft.py)，相关使用教程请参考[预训练脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/预训练脚本)
-  - 指令精调脚本：[scripts/run_clm_sft_with_peft.py](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/scripts/run_clm_sft_with_peft.py)，相关使用教程请参考[指令精调脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/指令精调脚本)
+  - 预训练脚本：[scripts/training/run_clm_pt_with_peft.py](./scripts/training/run_clm_pt_with_peft.py)，相关使用教程请参考[预训练脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/预训练脚本)
+  - 指令精调脚本：[scripts/training/run_clm_sft_with_peft.py](./scripts/training/run_clm_sft_with_peft.py)，相关使用教程请参考[指令精调脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/指令精调脚本)
 
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
