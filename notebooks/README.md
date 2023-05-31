@@ -23,3 +23,9 @@ Example of running pre-training script on Colab.
 Colab上的指令精调脚本运行示例。
 
 Example of running instruction fine-tuning script on Colab.
+
+### gradio_web_demo.ipynb
+
+在Colab上运行的Gradio web展示示例。
+
+Example of  running the Gradio demo on Colab.
