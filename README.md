@@ -207,6 +207,15 @@ chinese_llama_lora_7b/
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型推理与部署)
 
+此外，也可打开下面的notebook，在Colab中快速体验：
+
+| Colab link                                                   | Descriptions                                         |
+| ------------------------------------------------------------ | ---------------------------------------------------- |
+| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) | 在Colab中启动基于Gradio的交互式Web服务，体验模型效果 |
+
+注意：
+1. 该demo中默认加载了由第三方转换的LLaMA权重。本项目不对其合规性和正确性负责。
+2. 该demo默认加载Chinese-Alpaca-7B模型。若想尝试其他模型，请先阅读[模型合并与转换](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型合并与转换)。
 
 ## 系统效果
 
@@ -241,12 +250,6 @@ chinese_llama_lora_7b/
 
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
-
-## 在colab快速体验
-
-| colab link                                                   | Descriptions                                                 |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [![Open In Colab](https://camo.githubusercontent.com/84f0493939e0c4de4e6dbe113251b4bfb5353e57134ffd9fcab6b8714514d4d1/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667)](https://colab.research.google.com/drive/1mG8CwGub-hcoeo79FjfoWtxqOuu3P_y1?usp=sharing) | 快速体验 |
 
 
 ## FAQ
