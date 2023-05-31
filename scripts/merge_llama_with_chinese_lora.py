@@ -31,10 +31,10 @@ parser.add_argument('--output_dir', default='./', type=str)
 emb_to_model_size = {
     4096 : '7B',
     5120 : '13B',
-    6656 : '30B',
+    6656 : '33B',
     8192 : '65B',
 }
-num_shards_of_models = {'7B': 1, '13B': 2}
+num_shards_of_models = {'7B': 1, '13B': 2, '33B': 4, '65B': 8}
 params_of_models = {
     '7B':
         {
@@ -52,6 +52,24 @@ params_of_models = {
         "n_heads": 40,
         "n_layers": 40,
         "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
+    '33B':
+        {
+        "dim": 6656,
+        "multiple_of": 256,
+        "n_heads": 52,
+        "n_layers": 60,
+        "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
+    '65B':
+        {
+        "dim": 8192,
+        "multiple_of": 256,
+        "n_heads": 64,
+        "n_layers": 80,
+        "norm_eps": 1e-05,
         "vocab_size": -1,
         },
 }
@@ -235,8 +253,11 @@ if __name__=='__main__':
     lora_model = None
     lora_model_sd = None
     for lora_index, lora_model_path in enumerate(lora_model_paths):
-        print(f"Loading LoRA {lora_model_path}")
+        print(f"Loading LoRA {lora_model_path}...")
         tokenizer = LlamaTokenizer.from_pretrained(lora_model_path)
+        print(f"base_model vocab size: {base_model.get_input_embeddings().weight.size(0)}")
+        print(f"tokenizer vocab size: {len(tokenizer)}")
+
         if base_model.get_input_embeddings().weight.size(0) != len(tokenizer):
             base_model.resize_token_embeddings(len(tokenizer))
             print(f"Extended vocabulary size to {len(tokenizer)}")
@@ -244,13 +265,21 @@ if __name__=='__main__':
         first_weight = base_model.model.layers[0].self_attn.q_proj.weight
         first_weight_old = first_weight.clone()
 
+        print(f"Loading LoRA weights")
         if hasattr(peft.LoraModel,'merge_and_unload'):
-            lora_model = PeftModel.from_pretrained(
-                base_model,
-                lora_model_path,
-                device_map={"": "cpu"},
-                torch_dtype=torch.float16,
-            )
+            try:
+                lora_model = PeftModel.from_pretrained(
+                    base_model,
+                    lora_model_path,
+                    device_map={"": "cpu"},
+                    torch_dtype=torch.float16,
+                )
+            except RuntimeError as e:
+                if '[49953, 4096]' in str(e):
+                    print("The vocab size of the tokenizer does not match the vocab size of the LoRA weight. \n"
+                           "Did you misuse the LLaMA tokenizer with the Alpaca-LoRA weight?\n"
+                           "Make sure that you use LLaMA tokenizer with the LLaMA-LoRA weight and Alpaca tokenizer with the Alpaca-LoRA weight!")
+                raise e
             assert torch.allclose(first_weight_old, first_weight)
             print(f"Merging with merge_and_unload...")
             base_model = lora_model.merge_and_unload()
@@ -262,6 +291,11 @@ if __name__=='__main__':
                 print("Cannot find lora model on the disk. Downloading lora model from hub...")
                 filename = hf_hub_download(repo_id=lora_model_path,filename='adapter_model.bin')
                 lora_model_sd = torch.load(filename,map_location='cpu')
+            if 'base_model.model.model.embed_tokens.weight' in lora_model_sd:
+                assert lora_model_sd['base_model.model.model.embed_tokens.weight'].shape[0]==len(tokenizer), \
+                ("The vocab size of the tokenizer does not match the vocab size of the LoRA weight. \n"
+                "Did you misuse the LLaMA tokenizer with the Alpaca-LoRA weight?\n"
+                "Make sure that you use LLaMA tokenizer with the LLaMA-LoRA weight and Alpaca tokenizer with the Alpaca-LoRA weight!")
 
             lora_config = peft.LoraConfig.from_pretrained(lora_model_path)
             lora_scaling = lora_config.lora_alpha / lora_config.r
