@@ -47,7 +47,6 @@
 
 <details>
 <summary><b>往期新闻</b></summary>
-
 [2023/04/18] [v2.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)：添加LlamaChat支持、中文词表、LLaMA Tokenizer词表扩充脚本、添加技术报告等。
 
 [2023/04/13] [v2.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)：添加HuggingFace推理接口、text-generation-webui接口。
@@ -116,7 +115,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-LLaMA-Plus-7B ⭐️  | 通用120G |        原版LLaMA-7B         |        790M        | [[百度网盘]](https://pan.baidu.com/s/1zvyX9FN-WSRDdrtMARxxfw?pwd=2gtr)</br>[[Google Drive]](https://drive.google.com/file/d/1N97m3rBj-rp-J1X8rgRfluyomEscfAq0/view?usp=sharing) |
 | Chinese-LLaMA-13B        | 通用20G  |        原版LLaMA-13B        |        1.0G        | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |
 | Chinese-LLaMA-Plus-13B ⭐️ | 通用120G |        原版LLaMA-13B        |        1.0G        | [[百度网盘]](https://pan.baidu.com/s/1VGpNlrLx5zHuNzLOcTG-xw?pwd=8cvd)<br/>[[Google Drive]](https://drive.google.com/file/d/1q0L5Me_1j_9iiRRNfuEFUt3SOjQo3-g3/view?usp=share_link) |
-| Chinese-LLaMA-33B        | 通用20G  | 原版LLaMA-33B<sup>[5]</sup> |        2.7G        |                                                              |
+| Chinese-LLaMA-33B        | 通用20G  | 原版LLaMA-33B<sup>[5]</sup> |        2.7G        |                [百度网盘]<br/>[Google Drive]                 |
 
 
 ### 中文Alpaca模型
@@ -129,7 +128,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-Alpaca-Plus-7B ⭐️  |  指令4M  |  *原版LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B*<sup>[4]</sup>  |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
 | Chinese-Alpaca-13B        |  指令3M  |                       原版LLaMA-13B                        |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
 | Chinese-Alpaca-Plus-13B ⭐️ | 指令4.3M | *原版LLaMA-13B &<br/>Chinese-LLaMA-Plus-13B<sup>[4]</sup>* |        1.3G        | [[百度网盘]](https://pan.baidu.com/s/1Mew4EjBlejWBBB6_WW6vig?pwd=mf5w)<br/> [[Google Drive]](https://drive.google.com/file/d/1CcLJvY7XsFAOjfSIqCpDI7jf3EEPDcEF/view?usp=share_link) |
-| Chinese-Alpaca-33B        |          |                原版LLaMA-33B<sup>[5]</sup>                 |        2.7G        |                                                              |
+| Chinese-Alpaca-33B        | 指令4.3M |                原版LLaMA-33B<sup>[5]</sup>                 |        2.8G        |                [百度网盘]<br/>[Google Drive]                 |
 
 ### Model Hub
 
@@ -228,6 +227,18 @@ chinese_llama_lora_7b/
 | 代码编程         |   20   |                |                 |            |
 | 伦理、拒答       |   20   |                |                 |            |
 
+### 客观效果评测
+
+除了生成效果评测之外，本项目还在“NLU”类客观评测集合上对相关模型进行了测试。这类评测的结果不具有主观性，只需要输出给定标签，因此可以从另外一个侧面了解大模型的能力。本项目在近期推出的[C-Eval评测数据集](https://cevalbenchmark.com)上测试了相关模型效果（测试集，5-shot）。
+
+| 模型（均指代本项目模型） | Average | Average (Hard) | STEM | Social Sciences | Humanities | Others |
+| ------------------------ | :-----: | :------------: | :--: | :-------------: | :--------: | :----: |
+| Alpaca-Plus-13B          |         |                |      |                 |            |        |
+| Alpaca-Plus-7B           |         |                |      |                 |            |        |
+| LLaMA-Plus-13B           |         |                |      |                 |            |        |
+| LLaMA-Plus-7B            |         |                |      |                 |            |        |
+
+需要注意的是，综合评估大模型能力仍然是亟待解决的重要课题，合理辩证地看待大模型相关各种评测结果有助于大模型技术的良性发展。推荐用户在自己关注的任务上进行测试，选择适配相关任务的模型。
 
 ## 训练细节
 
