@@ -38,7 +38,9 @@
 
 ## 新闻
 
-**[2023/05/16] [v3.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): 添加指令精调脚本、LangChain支持、基于Gradio的本地Demo等。**
+[2023/06/05] llama.cpp已支持Apple Silicon GPU解码，解码速度大幅提升，详见：[讨论区#开发者公告](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/505)
+
+[2023/05/16] [v3.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): 添加指令精调脚本、LangChain支持、基于Gradio的本地Demo等。
 
 [2023/05/10] [v3.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): 发布中文LLaMA/Alpaca Plus-13B，使用了更大语料训练，相比基础版各项能力显著提升。
 
