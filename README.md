@@ -22,7 +22,7 @@
 
 - 🚀 针对原版LLaMA模型扩充了中文词表，提升了中文编解码效率 
 - 🚀 开源了使用中文文本数据预训练的中文LLaMA以及经过指令精调的中文Alpaca
-- 🚀 开源了预训练脚本、指令精调脚本，用户可根据需要自行进一步训练
+- 🚀 开源了预训练脚本、指令精调脚本，用户可根据需要进一步训练模型
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地量化和部署体验大模型
 - 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), [privateGPT](https://github.com/imartinez/privateGPT)等生态
 - 目前已开源的模型版本：7B（基础版、**Plus版**）、13B（基础版、**Plus版**）、33B（基础版）
@@ -97,10 +97,10 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | LlamaChat             | 加载模型时选择"LLaMA"                                  | 加载模型时选择"Alpaca"                                       |
 | [HF推理代码](./scripts/inference/inference_hf.py) | 无需添加额外启动参数 | 启动时添加参数 `--with_prompt`        |
 | [web-demo代码](./scripts/inference/gradio_demo.py) | 不适用 | 直接提供Alpaca模型位置即可；支持多轮对话 |
-| [LangChain示例](./scripts/langchain_demo) / privateGPT | 不适用 | 直接提供Alpaca模型位置即可 |
+| [LangChain示例](./scripts/langchain) / privateGPT | 不适用 | 直接提供Alpaca模型位置即可 |
 | 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | 目前版本模型生成的文本长度相对短一些，比较惜字如金。可在指令中要求详细回答。<sup>[2]</sup> |
 
-*[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference/inference_hf.py)/[web-demo代码](./scripts/inference/gradio_demo.py)/[LangChain示例](./scripts/langchain_demo)等已内嵌，无需手动添加模板。*<br/>
+*[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference/inference_hf.py)/[web-demo代码](./scripts/inference/gradio_demo.py)/[LangChain示例](./scripts/langchain)等已内嵌，无需手动添加模板。*<br/>
 *[2] 如果出现了模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否针对场景使用了正确的模型和正确的启动参数。*<br/>
 *[3] 经过指令精调的Alpaca会比LLaMA多一个pad token，**因此请勿混用LLaMA/Alpaca词表**。*
 
