@@ -13,7 +13,7 @@
 ## 部署方式
 
 ``` shell
-python scripts/openai_api_server.py --base_model /path/to/base_model --lora_model /path/to/lora_model --gpus 0,1
+python scripts/openai_server_demo/openai_api_server.py --base_model /path/to/base_model --lora_model /path/to/lora_model --gpus 0,1
 ```
 
 ### 参数说明
@@ -69,19 +69,38 @@ json返回体：
 
 #### completion接口高级参数
 
+请求command：
+
 ``` shell
 curl http://localhost:19327/v1/completions \
   -H "Content-Type: application/json" \
   -d '{   
     "prompt": "告诉我中国和美国分别各有哪些优点缺点",
     "max_tokens": 90,
-    "temperature": 
+    "temperature": 0.7,
     "num_beams": 4,
-    "top_k": 40,
+    "top_k": 40
   }'
 ```
 
-#### 高级参数说明
+json返回体：
+
+``` json
+{
+    "id": "cmpl-PvVwfMq2MVWHCBKiyYJfKM",
+    "object": "text_completion",
+    "created": 1686149471,
+    "model": "chinese-llama-alpaca",
+    "choices": [
+        {
+            "index": 0,
+            "text": "中国的优点是拥有丰富的文化和历史，而美国的优点是拥有先进的科技和经济体系。"
+        }
+    ]
+}
+```
+
+#### completion接口高级参数说明
 
 > 有关Decoding策略，更加详细的细节可以参考 <https://towardsdatascience.com/the-three-decoding-methods-for-nlp-23ca59cb1e9d> 该文章详细讲述了三种Llama会用到的Decoding策略：Greedy Decoding、Random Sampling 和 Beam Search，Decoding策略是top_k、top_p、temperature、num_beam等高级参数的基础。
 
@@ -108,7 +127,7 @@ curl http://localhost:19327/v1/completions \
 请求command：
 
 ``` shell
-curl http://10.211.19.11:19327/v1/chat/completions \
+curl http://localhost:19327/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{   
     "messages": [
@@ -118,7 +137,7 @@ curl http://10.211.19.11:19327/v1/chat/completions \
   }'
 ```
 
-返回体：
+json返回体：
 
 ``` json
 {
@@ -162,7 +181,7 @@ curl http://localhost:19327/v1/chat/completions \
   }'
 ```
 
-返回体：
+json返回体：
 
 ``` json
 {
