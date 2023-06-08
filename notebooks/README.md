@@ -31,3 +31,11 @@ Colab上的指令精调脚本运行示例（仅供流程参考）。
 Example of running instruction fine-tuning script on Colab.
 
 建议查看最新Wiki教程 / Check latest wiki：[中文教程](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/指令精调脚本) / [English Tutorial](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/SFT-Script)
+
+### gradio_web_demo.ipynb
+
+Colab上的Gradio演示示例。
+
+Example of running the Gradio demo on Colab.
+
+在Colab中打开 / Open the notebook in Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) 
