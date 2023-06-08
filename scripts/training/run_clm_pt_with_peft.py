@@ -454,7 +454,7 @@ def main():
             files = [files[0]]
         for idx, file in enumerate(files):
             data_file = os.path.join(path, file)
-            filename = file.split(".")[0]
+            filename = ''.join(file.split(".")[:-1])
             cache_path = os.path.join(data_args.data_cache_dir, filename)
             os.makedirs(cache_path, exist_ok=True)
             try:
