@@ -414,7 +414,10 @@ def main():
     from transformers.modeling_utils import unwrap_model
     lora_path=os.path.join(training_args.output_dir,'sft_lora_model')
     os.makedirs(lora_path, exist_ok=True)
-    unwrap_model(model).peft_config.save_pretrained(lora_path)
+    try:
+        unwrap_model(model).peft_config.save_pretrained(lora_path)
+    except AttributeError:
+        unwrap_model(model).peft_config['default'].save_pretrained(lora_path)
     shutil.copyfile(
         os.path.join(training_args.output_dir,'pytorch_model.bin'),
         os.path.join(lora_path,'adapter_model.bin'))
