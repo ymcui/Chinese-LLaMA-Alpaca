@@ -232,7 +232,7 @@ In order to quickly evaluate the actual performance of related models, this proj
 
 ### NLU Performance Test
 
-This project also conducted tests on relevant models using the "NLU" objective evaluation dataset. The results of this type of evaluation are objective and only require the output of given labels, so they can provide insights into the capabilities of large models from another perspective. In the recently launched [C-Eval dataset](https://cevalbenchmark.com/), this project tested the performance of the relevant models. The test set contains 12.3K multiple-choice questions covering 52 subjects. The following are the evaluation results (average) of some models on the validation and test sets, and the complete results will be updated in the [technical report](#citation) later.
+This project also conducted tests on relevant models using the "NLU" objective evaluation dataset. The results of this type of evaluation are objective and only require the output of given labels, so they can provide insights into the capabilities of large models from another perspective. In the recently launched [C-Eval dataset](https://cevalbenchmark.com/), this project tested the performance of the relevant models. The test set contains 12.3K multiple-choice questions covering 52 subjects. The following are the evaluation results (average) of some models on the validation and test sets, and the complete results will be updated in the [technical report](https://arxiv.org/abs/2304.08177) later.
 
 | Models                  | Valid (zero-shot) | Valid (5-shot) | Test (zero-shot) | Test (5-shot) |
 | ----------------------- | :---------------: | :------------: | :--------------: | :-----------: |
