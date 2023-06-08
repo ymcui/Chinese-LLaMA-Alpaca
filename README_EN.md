@@ -214,7 +214,7 @@ Alternaltively, you can open the following notebook to experience the model in C
 
 | Colab link                                                   | Descriptions                       |
 | ------------------------------------------------------------ | ---------------------------------- |
-| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb.ipynb) | Running a Gradio web demo in Colab |
+| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) | Running a Gradio web demo in Colab |
 
 Warning：
 1. The demo loads a non-official LLaMA weight for convenience. However, this project is not responsible for the compliance and correctness of using non-official weight.
