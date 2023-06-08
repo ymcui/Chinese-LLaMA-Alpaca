@@ -255,7 +255,6 @@ chinese_llama_lora_7b/
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
 
-
 ## FAQ
 
 FAQ中给出了常见问题的解答，请在提Issue前务必先查看FAQ。
