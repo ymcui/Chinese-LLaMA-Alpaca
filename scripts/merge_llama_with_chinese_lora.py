@@ -31,10 +31,10 @@ parser.add_argument('--output_dir', default='./', type=str)
 emb_to_model_size = {
     4096 : '7B',
     5120 : '13B',
-    6656 : '30B',
+    6656 : '33B',
     8192 : '65B',
 }
-num_shards_of_models = {'7B': 1, '13B': 2}
+num_shards_of_models = {'7B': 1, '13B': 2, '33B': 4, '65B': 8}
 params_of_models = {
     '7B':
         {
@@ -52,6 +52,24 @@ params_of_models = {
         "n_heads": 40,
         "n_layers": 40,
         "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
+    '33B':
+        {
+        "dim": 6656,
+        "multiple_of": 256,
+        "n_heads": 52,
+        "n_layers": 60,
+        "norm_eps": 1e-06,
+        "vocab_size": -1,
+        },
+    '65B':
+        {
+        "dim": 8192,
+        "multiple_of": 256,
+        "n_heads": 64,
+        "n_layers": 80,
+        "norm_eps": 1e-05,
         "vocab_size": -1,
         },
 }
