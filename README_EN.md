@@ -66,13 +66,13 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 | Chapter                                       | Description                                                  |
 | --------------------------------------------- | ------------------------------------------------------------ |
-| [Download](#Download)                         | Download links for Chinese LLaMA and Alpaca                  |
+| [Download](#Model-Download)                         | Download links for Chinese LLaMA and Alpaca                  |
 | [Model Reconstruction](#Model-Reconstruction) | (Important) Explains how to merge downloaded LoRA models with the original LLaMA |
-| [Quick Deployment](#Quick=Deployment)         | Steps for quantize and deploy LLMs on personal computers     |
-| [Example Results](#Example-Results)           | Examples of the system output                                |
+| [Quick Deployment](#Quick-Deployment)         | Steps for quantize and deploy LLMs on personal computers     |
+| [Example Results](#System-Performance)           | Examples of the system output                                |
 | [Training Details](#Training-Details)         | Introduces the training details of Chinese LLaMA and Alpaca  |
 | [FAQ](#FAQ)                                   | Replies to some common questions                             |
-| [Limitations](Limitations)                    | Limitations of the models involved in this project           |
+| [Limitations](#Limitations)                    | Limitations of the models involved in this project           |
 
 ## Model Download
 
