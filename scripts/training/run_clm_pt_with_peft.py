@@ -58,29 +58,27 @@ from transformers.utils.versions import require_version
 from sklearn.metrics import accuracy_score
 from peft import LoraConfig, TaskType, get_peft_model, PeftModel, get_peft_model_state_dict
 from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
-from os.path import join
 
 
 class SavePeftModelCallback(transformers.TrainerCallback):
     def save_model(self, args, state, kwargs):
         if state.best_model_checkpoint is not None:
-            checkpoint_folder = os.path.join(state.best_model_checkpoint, "adapter_model")
+            checkpoint_folder = os.path.join(state.best_model_checkpoint, "pt_lora_model")
         else:
             checkpoint_folder = os.path.join(args.output_dir, f"{PREFIX_CHECKPOINT_DIR}-{state.global_step}")
-        peft_model_path = os.path.join(checkpoint_folder, "adapter_model")
+
+        peft_model_path = os.path.join(checkpoint_folder, "pt_lora_model")
         kwargs["model"].save_pretrained(peft_model_path)
+        kwargs["tokenizer"].save_pretrained(peft_model_path)
 
     def on_save(self, args, state, control, **kwargs):
         self.save_model(args, state, kwargs)
         return control
 
     def on_train_end(self, args, state, control, **kwargs):
-        def touch(fname, times=None):
-            with open(fname, 'a'):
-                os.utime(fname, times)
-
-        touch(join(args.output_dir, 'completed'))
-        self.save_model(args, state, kwargs)
+        peft_model_path = os.path.join(args.output_dir, "pt_lora_model")
+        kwargs["model"].save_pretrained(peft_model_path)
+        kwargs["tokenizer"].save_pretrained(peft_model_path)
 
 
 def accuracy(predictions, references, normalize=True, sample_weight=None):
