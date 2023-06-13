@@ -11,6 +11,8 @@ body:
       label: 提交前必须检查以下项目
       description: 请在提问前检查以下项目，善用搜索功能查找与自己问题相关的issue。
       options:
+        - label: 请确保使用的是仓库最新代码（git pull），一些问题已被解决和修复。
+          required: true      
         - label: 由于相关依赖频繁更新，请确保按照[Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)中的相关步骤执行
           required: true
         - label: 我已阅读[FAQ章节](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/常见问题)并且已在Issue中对问题进行了搜索，没有找到相似问题和解决方案

@@ -11,6 +11,8 @@ body:
       label: Check before submitting issues
       description: Please check the following items before asking questions. Use the search function to find issues related to your problem.
       options:
+        - label: Make sure to pull the latest code, as some issues and bugs have been fixed.
+          required: true         
         - label: Due to frequent dependency updates, please ensure you have followed the steps in our [Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)
           required: true
         - label: I have read the [FAQ section](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ) AND searched for similar issues and did not find a similar problem or solution
