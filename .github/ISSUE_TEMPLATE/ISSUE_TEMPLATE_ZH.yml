@@ -1,0 +1,74 @@
+name: 中文提问模板
+description: 与本项目相关的问题提问，我们优先会看内容相对完整的issue。
+
+body:
+  - type: markdown
+    attributes:
+      value: 💡 开放式讨论请移步[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions)，请勿以issue形式提问，谢谢。
+  - type: checkboxes
+    id: mustchecks
+    attributes:
+      label: 提交前必须检查以下项目
+      description: 请在提问前检查以下项目，善用搜索功能查找与自己问题相关的issue。
+      options:
+        - label: 由于相关依赖频繁更新，请确保按照[Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)中的相关步骤执行
+          required: true
+        - label: 我已阅读[FAQ章节](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/常见问题)并且已在Issue中对问题进行了搜索，没有找到相似问题和解决方案
+          required: true
+        - label: 第三方插件问题：例如[llama.cpp](https://github.com/ggerganov/llama.cpp)、[text-generation-webui](https://github.com/oobabooga/text-generation-webui)、[LlamaChat](https://github.com/alexrozanski/LlamaChat)等，同时建议到对应的项目中查找解决方案
+          required: true
+        - label: 模型正确性检查：务必检查模型的[SHA256.md](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/SHA256.md)，模型不对的情况下无法保证效果和正常运行
+          required: true
+  - type: dropdown
+    id: question-type
+    attributes:
+      label: 问题类型
+      description: 请选择最符合的问题类型
+      options:
+        - 下载问题
+        - 模型转换和合并
+        - 模型训练与精调
+        - 模型推理
+        - 模型量化和部署
+        - 效果问题
+        - 其他问题
+  - type: dropdown
+    id: model-type
+    attributes:
+      label: 基础模型
+      description: 请提供基础模型类型
+      options:
+        - LLaMA-7B
+        - LLaMA-13B
+        - LLaMA-33B
+        - LLaMA-Plus-7B
+        - LLaMA-Plus-13B
+        - Alpaca-7B
+        - Alpaca-13B
+        - Alpaca-33B
+        - Alpaca-Plus-7B
+        - Alpaca-Plus-13B
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: 操作系统
+      description: 请提供操作系统类型
+      options:
+        - Windows
+        - macOS
+        - Linux
+  - type: textarea
+    id: question-detailed
+    attributes:
+      label: 详细描述问题
+      description: 请尽量具体地描述遇到的问题，**代码类问题务必给出完整运行命令**，这将有助于快速定位问题所在。
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: 依赖情况（代码类问题务必提供）
+      description: 请提供transformers, peft, torch等常规依赖库的版本：pip list \| grep
+  - type: textarea
+    id: logs
+    attributes:
+      label: 运行日志或截图
+      description: 请提供文本形式的log（过长内容请上传文件），其次是截图形式的运行记录。
