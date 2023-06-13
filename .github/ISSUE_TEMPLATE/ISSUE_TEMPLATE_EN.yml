@@ -32,6 +32,7 @@ body:
         - Model quantization and deployment
         - Performance issue
         - Other issues
+  - type: dropdown    
     id: model-type
     attributes:
       label: Base Model
