@@ -1,0 +1,74 @@
+name: English Issue Template
+description: For questions related to this project, we will prioritize issues with relatively complete content.
+
+body:
+  - type: markdown
+    attributes:
+      value: 💡 For open discussions, please visit [Discussion Space](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions). Please do not open a discussion in Issue section. Thank you.
+  - type: checkboxes
+    id: mustchecks
+    attributes:
+      label: Check before submitting issues
+      description: Please check the following items before asking questions. Use the search function to find issues related to your problem.
+      options:
+        - label: Due to frequent dependency updates, please ensure you have followed the steps in our [Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)
+          required: true
+        - label: I have read the [FAQ section](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ) AND searched for similar issues and did not find a similar problem or solution
+          required: true
+        - label: Third-party plugin issues - e.g., [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), we recommend checking the corresponding project for solutions
+          required: true
+        - label: Model validity check - Be sure to check the model's [SHA256.md](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/SHA256.md). If the model is incorrect, we cannot guarantee its performance
+          required: true
+  - type: dropdown
+    id: question-type
+    attributes:
+      label: Type of Issue
+      description: Please select the type of issue that best matches your problem
+      options:
+        - Download issue
+        - Model conversion and merging
+        - Model training and fine-tuning
+        - Model inference
+        - Model quantization and deployment
+        - Performance issue
+        - Other issues
+  - type: dropdown    
+    id: model-type
+    attributes:
+      label: Base Model
+      description: Please provide the type of base model. For issues related to multiple models, please select the most appropriate one and specify all models in the main text.
+      options:
+        - LLaMA-7B
+        - LLaMA-13B
+        - LLaMA-33B
+        - LLaMA-Plus-7B
+        - LLaMA-Plus-13B
+        - Alpaca-7B
+        - Alpaca-13B
+        - Alpaca-33B
+        - Alpaca-Plus-7B
+        - Alpaca-Plus-13B
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating System
+      description: Please provide your operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+  - type: textarea
+    id: question-detailed
+    attributes:
+      label: Describe your issue in detail
+      description: Please describe your problem as detail as possible. **For code-related issues, please provide the complete command to reproduce the problem.** This will help us locate the issue quickly.
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies (must be provided for code-related issues)
+      description: Please provide the versions of common dependencies such as transformers, peft, torch, etc. Use `pip list | grep`
+  - type: textarea
+    id: logs
+    attributes:
+      label: Execution logs or screenshots
+      description: Please provide logs in text format (upload files if content is too long), or alternatively, screenshots of the execution record.
