@@ -36,7 +36,7 @@ body:
     id: model-type
     attributes:
       label: 基础模型
-      description: 请提供基础模型类型
+      description: 请提供基础模型类型。涉及多个模型时，请选择最相关的一项并在正文中补充内容。
       options:
         - LLaMA-7B
         - LLaMA-13B

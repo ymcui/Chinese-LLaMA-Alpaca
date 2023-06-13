@@ -35,7 +35,7 @@ body:
     id: model-type
     attributes:
       label: Base Model
-      description: Please provide the type of base model
+      description: Please provide the type of base model. For issues related to multiple models, please select the most appropriate one and specify all models in the main text.
       options:
         - LLaMA-7B
         - LLaMA-13B
