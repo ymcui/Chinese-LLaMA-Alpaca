@@ -308,10 +308,6 @@ if __name__=='__main__':
             weight_size = state_dict[k].numel() * dtype_byte_size(state_dict[k].dtype)
             total_size += weight_size
 
-        # did we do anything?
-        # assert not torch.allclose(first_weight_old, first_weight)
-        # first_weight = base_model.model.layers[0].self_attn.q_proj.weight
-        # first_weight_old = first_weight.clone()
         if output_type=='huggingface':
             print(f"Saving ckpt {filename} to {output_dir} in HF format...")
             torch.save(state_dict,os.path.join(output_dir, filename))
