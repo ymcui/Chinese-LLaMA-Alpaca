@@ -545,6 +545,21 @@ def main():
         n_params = sum({p.data_ptr(): p.numel() for p in model.parameters()}.values())
         logger.info(f"Training new model from scratch - Total size={n_params/2**20:.2f}M params")
 
+    model_vocab_size = model.get_output_embeddings().weight.size(0)
+    if not (
+       (model_vocab_size==32000 and len(tokenizer)==49953) or \
+       (model_vocab_size==32000 and len(tokenizer)==32000) or \
+       (model_vocab_size==49953 and len(tokenizer)==49953) or \
+       (model_vocab_size==49954 and len(tokenizer)==49954)
+    ):
+        raise ValueError(
+            f"The combination of base model (size: {model_vocab_size}) and tokenizer (size: {len(tokenizer)}) is not a valid configuration. Please check our project wiki for further information. \n"
+            "Valid configurations (base model / tokenizer):\n"
+            "- Continue pre-training original LLaMA: 32000 / 32000 \n"
+            "- Pre-training Chinese LLaMA based on original LLaMA: 32000 / 49953 \n"
+            "- Continue pre-training Chinese LLaMA: 49953 / 49953 \n"
+            "- Continue pre-training Chinese Alpaca: 49954 / 49954 \n")
+
     model.resize_token_embeddings(len(tokenizer))
     if training_args.peft_path is not None:
         logger.info("Peft from pre-trained model")

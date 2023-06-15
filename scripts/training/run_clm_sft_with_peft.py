@@ -304,11 +304,13 @@ def main():
             "You can do it from another script, save it, and load it from here, using --tokenizer_name."
         )
 
+    if (len(tokenizer))!=49954:
+        raise ValueError(f"The vocab size of the tokenizer must be 49954, but found {len(tokenizer)}.\n"
+                         "Please use Chinese Alpaca tokenizer!")
     if tokenizer.pad_token is None:
         num_new_tokens = smart_tokenizer_and_embedding_resize(
             special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
-            tokenizer=tokenizer,
-            model=None,)
+            tokenizer=tokenizer)
 
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
     eval_dataset=None
@@ -453,18 +455,6 @@ def smart_tokenizer_and_embedding_resize(
     Note: This is the unoptimized version that may make your embedding size not be divisible by 64.
     """
     num_new_tokens = tokenizer.add_special_tokens(special_tokens_dict)
-    if model is not None:
-        model.resize_token_embeddings(len(tokenizer))
-
-        if num_new_tokens > 0:
-            input_embeddings = model.get_input_embeddings().weight.data
-            output_embeddings = model.get_output_embeddings().weight.data
-
-            input_embeddings_avg = input_embeddings[:-num_new_tokens].mean(dim=0, keepdim=True)
-            output_embeddings_avg = output_embeddings[:-num_new_tokens].mean(dim=0, keepdim=True)
-
-            input_embeddings[-num_new_tokens:] = input_embeddings_avg
-            output_embeddings[-num_new_tokens:] = output_embeddings_avg
     return num_new_tokens
 
 
