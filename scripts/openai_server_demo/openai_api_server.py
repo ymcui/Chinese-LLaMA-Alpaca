@@ -1,4 +1,4 @@
-import sys
+import pdb
 import argparse
 import os
 from fastapi import FastAPI
@@ -152,7 +152,9 @@ def predict(
 def get_embedding(input):
     """Get embedding main function"""
     with torch.no_grad():
-        encoding = tokenizer.batch_encode_plus(
+        if tokenizer.pad_token == None:
+            tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+        encoding = tokenizer(
             input, padding=True, return_tensors="pt"
         )
         input_ids = encoding["input_ids"].to('cuda')
@@ -167,7 +169,7 @@ def get_embedding(input):
         seq_length = torch.sum(mask, dim=1)
         embedding = sum_embeddings / seq_length
         normalized_embeddings = F.normalize(embedding, p=2, dim=1)
-        ret = normalized_embeddings.tolist()
+        ret = normalized_embeddings.squeeze(0).tolist()
     return ret
 
 app = FastAPI()
@@ -213,10 +215,10 @@ async def create_completion(request: CompletionRequest):
 @app.post("/v1/embeddings")
 async def create_embeddings(request: EmbeddingsRequest):
     """Creates text embedding"""
-    embeddings = get_embedding(request.input)
+    embedding = get_embedding(request.input)
     data = [{
         "object": "embedding",
-        "embedding": embeddings[0],
+        "embedding": embedding,
         "index": 0
     }]
     return EmbeddingsResponse(data=data)
