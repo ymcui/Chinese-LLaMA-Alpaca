@@ -2,7 +2,7 @@
 Usage: 
 python merge_llama_with_chinese_lora_low_mem.py \
     --base_model path/to/llama/model \
-    --lora_model path/to/first/lora/model[,path/to/second/lora/model] \
+    --lora_model path/to/first/lora[,path/to/second/lora] \
     --output_type [pth|huggingface] \
     --output_dir path/to/output/dir
 """
@@ -12,19 +12,20 @@ import os
 import gc
 import torch
 import peft
-from transformers import LlamaConfig, LlamaTokenizer
+from transformers import LlamaTokenizer
 from transformers.modeling_utils import dtype_byte_size
 from huggingface_hub import snapshot_download
 import re
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, required=True,
-                    type=str, help="Please specify a base_model")
+                    type=str, help="Please specify a base model.")
 parser.add_argument('--lora_model', default=None, required=True,
-                    type=str, help="Please specify LoRA models to be merged (ordered); use commas to separate multiple LoRA models.")
+                    type=str, help="Please specify LoRA models to be merged (ordered); use commas to separate multiple LoRA models")
 parser.add_argument('--output_type', default='pth',choices=['pth','huggingface'], type=str,
-                    help="save the merged model in pth or huggingface format.")
-parser.add_argument('--output_dir', default='./', type=str)
+                    help="Save the merged model in pth or huggingface format")
+parser.add_argument('--output_dir', default='./merged_model', type=str)
+parser.add_argument('--verbose', default=False, action='store_true', help="Show detailed messages")
 
 
 emb_to_model_size = {
@@ -121,7 +122,7 @@ def unpermute(w):
     )
 
 
-def save_shards(model_sd, num_shards: int, prefix=""):
+def save_shards(model_sd, num_shards: int, prefix="", verbose=False):
     # Add the no_grad context manager
     with torch.no_grad():
         if num_shards == 1:
@@ -144,11 +145,9 @@ def save_shards(model_sd, num_shards: int, prefix=""):
                 new_k = translate_state_dict_key(k)
                 if new_k is not None:
                     if new_k=='tok_embeddings.weight':
-                        print(f"Processing {new_k}")
                         assert v.size(1)%num_shards==0
                         splits = v.split(v.size(1)//num_shards,dim=1)
                     elif new_k=='output.weight':
-                        print(f"Processing {new_k}")
                         if v.size(0)%num_shards==0:
                             splits = v.split(v.size(0)//num_shards,dim=0)
                         else:
@@ -156,42 +155,35 @@ def save_shards(model_sd, num_shards: int, prefix=""):
                             size_list[-1] += v.size(0)%num_shards
                             splits = v.split(size_list, dim=0) # 13B: size_list == [24976,24977]
                     elif new_k=='norm.weight':
-                        print(f"Processing {new_k}")
                         splits = [v] * num_shards
                     elif 'ffn_norm.weight' in new_k:
-                        print(f"Processing {new_k}")
                         splits = [v] * num_shards
                     elif 'attention_norm.weight' in new_k:
-                        print(f"Processing {new_k}")
                         splits = [v] * num_shards
 
 
                     elif 'w1.weight' in new_k:
-                        print(f"Processing {new_k}")
                         splits = v.split(v.size(0)//num_shards,dim=0)
                     elif 'w2.weight' in new_k:
-                        print(f"Processing {new_k}")
                         splits = v.split(v.size(1)//num_shards,dim=1)
                     elif 'w3.weight' in new_k:
-                        print(f"Processing {new_k}")
                         splits = v.split(v.size(0)//num_shards,dim=0)
 
 
                     elif 'wo.weight' in new_k:
-                        print(f"Processing {new_k}")
                         splits = v.split(v.size(1)//num_shards,dim=1)
 
                     elif 'wv.weight' in new_k:
-                        print(f"Processing {new_k}")
                         splits = v.split(v.size(0)//num_shards,dim=0)
 
                     elif "wq.weight" in new_k or "wk.weight" in new_k:
-                        print(f"Processing {new_k}")
                         v = unpermute(v)
                         splits = v.split(v.size(0)//num_shards,dim=0)
                     else:
                         print(f"Unexpected key {new_k}")
                         raise ValueError
+                    if verbose:
+                        print(f"Processing {new_k}")
                     for sd,split in zip(new_state_dicts,splits):
                         sd[new_k] = split.clone()
                         del split
@@ -248,6 +240,12 @@ if __name__=='__main__':
         tokenizer = LlamaTokenizer.from_pretrained(lora_model_path)
         lora_config = peft.LoraConfig.from_pretrained(lora_model_path)
         lora_state_dict = torch.load(os.path.join(lora_model_path,'adapter_model.bin'),map_location='cpu')
+        if 'base_model.model.model.embed_tokens.weight' in lora_state_dict:
+            lora_vocab_size = lora_state_dict['base_model.model.model.embed_tokens.weight'].shape[0]
+            assert lora_vocab_size==len(tokenizer), \
+            (f"The vocab size of the tokenizer {len(tokenizer)} does not match the vocab size of the LoRA weight {lora_vocab_size}.\n"
+            "Did you misuse the LLaMA tokenizer with the Alpaca-LoRA weight?\n"
+            "Make sure that you use LLaMA tokenizer with the LLaMA-LoRA weight and Alpaca tokenizer with the Alpaca-LoRA weight!")
         tokenizers_and_loras.append(
             {
                 "tokenizer"  :tokenizer,
@@ -256,6 +254,13 @@ if __name__=='__main__':
                 "scaling": lora_config.lora_alpha / lora_config.r,
                 "fan_in_fan_out" : lora_config.fan_in_fan_out,
             })
+    if len(tokenizers_and_loras)==2:
+        t1_vocab_size = len(tokenizers_and_loras[0]["tokenizer"])
+        t2_vocab_size = len(tokenizers_and_loras[1]["tokenizer"])
+        assert t1_vocab_size<=t2_vocab_size, \
+        (f"The vocab size of the first tokenizer is {t1_vocab_size}\n"
+         f"The vocab size of the second tokenizer is {t2_vocab_size}, found to be smaller than {t1_vocab_size}\n"
+        "This is not the intended use. Please check your model and tokenizer.")
 
     if not os.path.exists(base_model_path):
         print("Cannot find lora model on the disk. Downloading lora model from hub...")
@@ -282,16 +287,19 @@ if __name__=='__main__':
                 dims_per_head = dim // n_heads
                 base = 10000.0
                 inv_freq = 1.0 / (base ** (torch.arange(0, dims_per_head, 2).float() / dims_per_head))
+        print("Merging...")
         for k in state_dict:
             for ti, tandl in enumerate(tokenizers_and_loras):
                 saved_key = 'base_model.model.'+k
                 lora_key_A = saved_key.replace('.weight','.lora_A.weight')
                 if saved_key in tandl['state_dict']:
-                    print(f"copying {saved_key} from {ti}-th LoRA weight to {k}")
+                    if args.verbose:
+                        print(f"copying {saved_key} from {ti}-th LoRA weight to {k}")
                     state_dict[k] = tandl['state_dict'][saved_key].half().clone() # do we need half()?
                 if lora_key_A in tandl['state_dict']:
                     lora_key_B = lora_key_A.replace('lora_A.weight','lora_B.weight')
-                    print(f"merging {lora_key_A} and lora_B.weight form {ti}-th LoRA weight to {k}")
+                    if args.verbose:
+                        print(f"merging {lora_key_A} and lora_B.weight form {ti}-th LoRA weight to {k}")
                     state_dict[k] += (
                         transpose(
                             tandl['state_dict'][lora_key_B].float() 
@@ -308,8 +316,8 @@ if __name__=='__main__':
             print(f"Saving ckpt {filename} to {output_dir} in HF format...")
             torch.save(state_dict,os.path.join(output_dir, filename))
         elif output_type=='pth':
-            print(f"Saving ckpt {filename} to {output_dir} in pth format...")
-            save_shards(model_sd=state_dict, num_shards=num_shards,prefix=f"L{index+1}-")
+            print(f"Converting to pth format...")
+            save_shards(model_sd=state_dict, num_shards=num_shards,prefix=f"L{index+1}-", verbose=args.verbose)
         del state_dict
         gc.collect()    # Effectively enforce garbage collection
 
