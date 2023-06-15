@@ -28,6 +28,8 @@ python scripts/openai_server_demo/openai_api_server.py --base_model /path/to/bas
 
 `--gpus {gpu_ids}`: 指定使用的GPU设备编号，默认为0。如使用多张GPU，以逗号分隔，如0,1,2
 
+`--load_in_8bit`: 使用8bit模型进行推理，可节省显存，但可能影响模型效果
+
 ## API文档
 
 ### 文字接龙（completion）
