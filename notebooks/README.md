@@ -1,5 +1,13 @@
 # 笔记本示例 Notebooks
 
+###  ceval_example_for_chinese_alpaca.ipynb
+
+利用Chinese Alpaca模型解码C-Eval数据集的示例。
+
+Example of decoding C-Eval dataset with Chinese Alpaca.
+
+建议查看Colab上的最新版 / Check latest notebook：<a href="https://colab.research.google.com/drive/12YewimRT7JuqJGOejxN7YG8jq2de4DnF?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
 ###  convert_and_quantize_chinese_llama_and_alpaca.ipynb
 
 Colab上的转换和量化中文LLaMA/Alpaca（含Plus版本）的运行示例（仅供流程参考）。
