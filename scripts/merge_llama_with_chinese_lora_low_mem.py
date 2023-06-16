@@ -25,7 +25,7 @@ parser.add_argument('--lora_model', default=None, required=True,
 parser.add_argument('--output_type', default='pth',choices=['pth','huggingface'], 
                     type=str, help="Save the merged model in pth or huggingface format")
 parser.add_argument('--output_dir', default='./merged_model',
-                    type=str, help="The output folder where we save the merged mdoel")
+                    type=str, help="The output folder to save the merged model")
 parser.add_argument('--verbose', default=False, action='store_true',
                     help="Show detailed messages")
 
