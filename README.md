@@ -37,7 +37,9 @@
 
 ## 新闻
 
-**[2023/06/08] [v4.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.0): 发布中文LLaMA/Alpaca-33B、添加privateGPT使用示例、添加C-Eval结果等。**
+**[2023/06/16] [v4.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.1): 发布新版技术报告、添加C-Eval解码脚本、添加低资源模型合并脚本等。**
+
+[2023/06/08] [v4.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.0): 发布中文LLaMA/Alpaca-33B、添加privateGPT使用示例、添加C-Eval结果等。
 
 [2023/06/05] llama.cpp已支持Apple Silicon GPU解码，解码速度大幅提升，详见：[讨论区#开发者公告](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/505)
 
@@ -229,7 +231,7 @@ chinese_llama_lora_7b/
 
 ### 客观效果评测
 
-本项目还在“NLU”类客观评测集合上对相关模型进行了测试。这类评测的结果不具有主观性，只需要输出给定标签（需要设计标签mapping策略），因此可以从另外一个侧面了解大模型的能力。本项目在近期推出的[C-Eval评测数据集](https://cevalbenchmark.com)上测试了相关模型效果，其中测试集包含12.3K个选择题，涵盖52个学科。以下是部分模型的valid和test集评测结果（Average），完整结果后续将更新至[技术报告](https://arxiv.org/abs/2304.08177)。
+本项目还在“NLU”类客观评测集合上对相关模型进行了测试。这类评测的结果不具有主观性，只需要输出给定标签（需要设计标签mapping策略），因此可以从另外一个侧面了解大模型的能力。本项目在近期推出的[C-Eval评测数据集](https://cevalbenchmark.com)上测试了相关模型效果，其中测试集包含12.3K个选择题，涵盖52个学科。以下是部分模型的valid和test集评测结果（Average），完整结果请参考[技术报告](https://arxiv.org/abs/2304.08177)。
 
 | 模型                    | Valid (zero-shot) | Valid (5-shot) | Test (zero-shot) | Test (5-shot) |
 | ----------------------- | :---------------: | :------------: | :--------------: | :-----------: |
