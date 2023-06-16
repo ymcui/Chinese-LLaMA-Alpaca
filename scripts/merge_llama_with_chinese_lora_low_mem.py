@@ -19,13 +19,15 @@ import re
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--base_model', default=None, required=True,
-                    type=str, help="Please specify a base model.")
+                    type=str, help="Please specify a base model")
 parser.add_argument('--lora_model', default=None, required=True,
                     type=str, help="Please specify LoRA models to be merged (ordered); use commas to separate multiple LoRA models")
-parser.add_argument('--output_type', default='pth',choices=['pth','huggingface'], type=str,
-                    help="Save the merged model in pth or huggingface format")
-parser.add_argument('--output_dir', default='./merged_model', type=str)
-parser.add_argument('--verbose', default=False, action='store_true', help="Show detailed messages")
+parser.add_argument('--output_type', default='pth',choices=['pth','huggingface'], 
+                    type=str, help="Save the merged model in pth or huggingface format")
+parser.add_argument('--output_dir', default='./merged_model',
+                    type=str, help="The output folder where we save the merged mdoel")
+parser.add_argument('--verbose', default=False, action='store_true',
+                    help="Show detailed messages")
 
 
 emb_to_model_size = {
@@ -290,21 +292,21 @@ if __name__=='__main__':
                 inv_freq = 1.0 / (base ** (torch.arange(0, dims_per_head, 2).float() / dims_per_head))
         print("Merging...")
         for k in state_dict:
-            for tl_idx, tandl in enumerate(tokenizers_and_loras):
+            for tl_idx, t_and_l in enumerate(tokenizers_and_loras):
                 saved_key = 'base_model.model.'+k
                 lora_key_A = saved_key.replace('.weight','.lora_A.weight')
-                if saved_key in tandl['state_dict']:
+                if saved_key in t_and_l['state_dict']:
                     if args.verbose:
                         print(f"copying {saved_key} from {tl_idx}-th LoRA weight to {k}")
-                    state_dict[k] = tandl['state_dict'][saved_key].half().clone() # do we need half()?
-                if lora_key_A in tandl['state_dict']:
+                    state_dict[k] = t_and_l['state_dict'][saved_key].half().clone() # do we need half()?
+                if lora_key_A in t_and_l['state_dict']:
                     lora_key_B = lora_key_A.replace('lora_A.weight','lora_B.weight')
                     if args.verbose:
                         print(f"merging {lora_key_A} and lora_B.weight form {tl_idx}-th LoRA weight to {k}")
                     state_dict[k] += (
                         transpose(
-                            tandl['state_dict'][lora_key_B].float() 
-                          @ tandl['state_dict'][lora_key_A].float(), tandl['fan_in_fan_out']) * tandl['scaling']
+                            t_and_l['state_dict'][lora_key_B].float() 
+                          @ t_and_l['state_dict'][lora_key_A].float(), t_and_l['fan_in_fan_out']) * t_and_l['scaling']
                     )
             weight_size = state_dict[k].numel() * dtype_byte_size(state_dict[k].dtype)
             total_size += weight_size
