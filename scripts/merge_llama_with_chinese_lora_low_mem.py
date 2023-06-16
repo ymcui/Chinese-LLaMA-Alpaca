@@ -244,7 +244,6 @@ if __name__=='__main__':
             lora_vocab_size = lora_state_dict['base_model.model.model.embed_tokens.weight'].shape[0]
             assert lora_vocab_size==len(tokenizer), \
             (f"The vocab size of the tokenizer {len(tokenizer)} does not match the vocab size of the LoRA weight {lora_vocab_size}.\n"
-            "Did you misuse the LLaMA tokenizer with the Alpaca-LoRA weight?\n"
             "Make sure that you use LLaMA tokenizer with the LLaMA-LoRA weight and Alpaca tokenizer with the Alpaca-LoRA weight!")
         tokenizers_and_loras.append(
             {
