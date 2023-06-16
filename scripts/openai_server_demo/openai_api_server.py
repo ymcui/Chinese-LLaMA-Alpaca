@@ -58,7 +58,7 @@ base_model = LlamaForCausalLM.from_pretrained(
     load_in_8bit=load_in_8bit,
     torch_dtype=load_type,
     low_cpu_mem_usage=True,
-    device_map='auto',
+    device_map='auto' if not args.only_cpu else None,
     )
 
 model_vocab_size = base_model.get_input_embeddings().weight.size(0)
