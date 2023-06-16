@@ -123,7 +123,9 @@ def unpermute(w):
 
 
 def save_shards(model_sd, num_shards: int, prefix="", verbose=False):
-    # Add the no_grad context manager
+    """
+    Convert and save the HF format weights to PTH format weights
+    """
     with torch.no_grad():
         if num_shards == 1:
             new_state_dict = {}
@@ -288,17 +290,17 @@ if __name__=='__main__':
                 inv_freq = 1.0 / (base ** (torch.arange(0, dims_per_head, 2).float() / dims_per_head))
         print("Merging...")
         for k in state_dict:
-            for ti, tandl in enumerate(tokenizers_and_loras):
+            for tl_idx, tandl in enumerate(tokenizers_and_loras):
                 saved_key = 'base_model.model.'+k
                 lora_key_A = saved_key.replace('.weight','.lora_A.weight')
                 if saved_key in tandl['state_dict']:
                     if args.verbose:
-                        print(f"copying {saved_key} from {ti}-th LoRA weight to {k}")
+                        print(f"copying {saved_key} from {tl_idx}-th LoRA weight to {k}")
                     state_dict[k] = tandl['state_dict'][saved_key].half().clone() # do we need half()?
                 if lora_key_A in tandl['state_dict']:
                     lora_key_B = lora_key_A.replace('lora_A.weight','lora_B.weight')
                     if args.verbose:
-                        print(f"merging {lora_key_A} and lora_B.weight form {ti}-th LoRA weight to {k}")
+                        print(f"merging {lora_key_A} and lora_B.weight form {tl_idx}-th LoRA weight to {k}")
                     state_dict[k] += (
                         transpose(
                             tandl['state_dict'][lora_key_B].float() 
@@ -330,8 +332,10 @@ if __name__=='__main__':
         for config in configs:
             if os.path.exists(os.path.join(base_model_path, config)):
                 print(f"Saving {config}")
-                obj = json.load(open(os.path.join(base_model_path, config)))
+                with open(os.path.join(base_model_path, config),'r') as f:
+                    obj = json.load(f)
                 if config=='pytorch_model.bin.index.json':
                     obj['metadata']['total_size'] = total_size
-                json.dump(obj, open(os.path.join(output_dir, config),'w'), indent=2)
+                with open(os.path.join(output_dir, config), 'w') as f:
+                    json.dump(obj, f, indent=2)
     print("Done.")
