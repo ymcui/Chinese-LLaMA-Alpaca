@@ -24,7 +24,7 @@ python scripts/openai_server_demo/openai_api_server.py --base_model /path/to/bas
 
 `--tokenizer_path {tokenizer_path}`：存放对应tokenizer的目录。若不提供此参数，则其默认值与--lora_model相同；若也未提供--lora_model参数，则其默认值与--base_model相同
 
-`--use_cpu`: 仅使用CPU进行推理
+`--only_cpu`: 仅使用CPU进行推理
 
 `--gpus {gpu_ids}`: 指定使用的GPU设备编号，默认为0。如使用多张GPU，以逗号分隔，如0,1,2
 
