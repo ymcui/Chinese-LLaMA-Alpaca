@@ -88,9 +88,9 @@ if __name__ == "__main__":
     parser.add_argument("--constrained_decoding", choices=["False","True"], default="True")
     parser.add_argument("--temperature",type=float,default=0.2)
     parser.add_argument("--n_times", default=1,type=int)
-    parser.add_argument("--do_save_csv", action='store_true')
+    parser.add_argument("--do_save_csv", choices=["False","True"], default="False")
     parser.add_argument("--output_dir", type=str)
-    parser.add_argument("--do_test", action='store_true')
+    parser.add_argument("--do_test", choices=["False","True"], default="False")
     
 
     args = parser.parse_args()
@@ -99,6 +99,8 @@ if __name__ == "__main__":
     args.few_shot = args.few_shot == "True"
     args.with_prompt = args.with_prompt == "True"
     args.constrained_decoding = args.constrained_decoding == "True"
+    args.do_test = args.do_test == "True"
+    args.do_save_csv = args.do_save_csv == "True"
     if args.constrained_decoding is True:
         args.n_times=max(args.n_times,1)
     print(args)
