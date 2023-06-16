@@ -36,6 +36,12 @@ Code for extending Chinese vocabulary, Wiki: https://github.com/ymcui/Chinese-LL
 
 Script for merging LLaMA/Alpaca LoRA. Wiki: https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Manual-Conversion
 
+###  merge_llama_with_chinese_lora_low_mem.py
+
+（推荐）低资源版合并LLaMA/Alpaca LoRA脚本，Wiki: [https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/手动模型合并与转换](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/手动模型合并与转换)
+
+（recommended）Script for merging LLaMA/Alpaca LoRA (low-resource version). Wiki: https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Manual-Conversion
+
 ###  crawl_prompt.py
 
 指令数据爬取脚本，Wiki：[https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节#训练数据](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节#训练数据)
