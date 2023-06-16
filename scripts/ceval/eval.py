@@ -11,7 +11,8 @@ import time
 choices = ["A", "B", "C", "D"]
 
 def main(args, evaluator,take):
-
+    
+    assert os.path.exists("subject_mapping.json"), "subject_mapping.json not found!"
     with open("subject_mapping.json") as f:
         subject_mapping = json.load(f)
     filenames = os.listdir("data/val")
