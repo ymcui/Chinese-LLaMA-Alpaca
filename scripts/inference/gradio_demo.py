@@ -168,4 +168,4 @@ with gr.Blocks() as demo:
     submitBtn.click(reset_user_input, [], [user_input])
 
     emptyBtn.click(reset_state, outputs=[chatbot], show_progress=True)
-demo.queue().launch(share=share, inbrowser=True, server_name = '0.0.0.0', server_port=19327)
+demo.queue().launch(share=share, inbrowser=True, server_name = '0.0.0.0', server_port=19324)
