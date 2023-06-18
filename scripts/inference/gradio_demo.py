@@ -1,4 +1,3 @@
-import sys
 import gradio as gr
 import argparse
 import os
@@ -19,18 +18,17 @@ if args.only_cpu is True:
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
 
 import torch
-from transformers import LlamaForCausalLM, LlamaTokenizer, GenerationConfig
+from transformers import (
+    LlamaForCausalLM, 
+    LlamaTokenizer, 
+    LogitsProcessorList,
+    RepetitionPenaltyLogitsProcessor,
+    TemperatureLogitsWarper,
+    TopPLogitsWarper,
+    TopKLogitsWarper,
+)
 from peft import PeftModel
 
-generation_config = dict(
-    temperature=0.2,
-    top_k=40,
-    top_p=0.9,
-    do_sample=True,
-    num_beams=1,
-    repetition_penalty=1.1,
-    max_new_tokens=400
-    )
 load_type = torch.float16
 if torch.cuda.is_available():
     device = torch.device(0)
@@ -73,66 +71,63 @@ def reset_user_input():
     return gr.update(value='')
 
 def reset_state():
-    return [], []
+    return []
 
 def generate_prompt(instruction):
-    return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-    
-### Instruction:
+    return f"""
+Below is an instruction that describes a task. Write a response that appropriately completes the request.
 {instruction}
+ """
 
-### Response: """
+def user(user_message, history):
+    return gr.update(value="", interactive=False), history + [[user_message, None]]
 
-if torch.__version__ >= "2" and sys.platform != "win32":
-    model = torch.compile(model)
-
+@torch.no_grad()
 def predict(
-    input,
-    chatbot,
     history,
     max_new_tokens=128,
     top_p=0.75,
     temperature=0.1,
     top_k=40,
-    num_beams=4,
+    do_sample=True,
     repetition_penalty=1.0,
     max_memory=256,
-    **kwargs,
 ):
-    now_input = input
-    chatbot.append((input, ""))
-    history = history or []
+    history[-1][1] = ""
     if len(history) != 0:
-        input = "".join(["### Instruction:\n" + i[0] +"\n\n" + "### Response: " + i[1] + "\n\n" for i in history]) + \
-        "### Instruction:\n" + input
-        input = input[len("### Instruction:\n"):]
+        input = "".join(
+            ["### Instruction:\n" + i[0] +"\n\n" + "### Response: " + i[1] + ("\n\n" if i[1] != "" else "") for i in history]
+        )
         if len(input) > max_memory:
             input = input[-max_memory:]
     prompt = generate_prompt(input)
     inputs = tokenizer(prompt, return_tensors="pt")
     input_ids = inputs["input_ids"].to(device)
-    generation_config = GenerationConfig(
-        temperature=temperature,
-        top_p=top_p,
-        top_k=top_k,
-        num_beams=num_beams,
-        **kwargs,
+    original_size = len(input_ids[0])
+    logits_processor = LogitsProcessorList(
+        [
+            TemperatureLogitsWarper(temperature=temperature),
+            RepetitionPenaltyLogitsProcessor(penalty=float(repetition_penalty)),
+            TopPLogitsWarper(top_p=top_p),
+            TopKLogitsWarper(top_k=top_k)
+        ]
     )
-    with torch.no_grad():
-        generation_output = model.generate(
-            input_ids=input_ids,
-            generation_config=generation_config,
-            return_dict_in_generate=True,
-            output_scores=False,
-            max_new_tokens=max_new_tokens,
-            repetition_penalty=float(repetition_penalty),
-        )
-    s = generation_output.sequences[0]
-    output = tokenizer.decode(s, skip_special_tokens=True)
-    output = output.split("### Response:")[-1].strip()
-    history.append((now_input, output))
-    chatbot[-1] = (now_input, output)
-    return chatbot, history
+    eos_token_id = tokenizer.eos_token_id
+    while True:
+        logits = model(input_ids).logits
+        logits = logits[:, -1, :]
+        logits = logits_processor(input_ids, logits)
+        probs = torch.nn.functional.softmax(logits, dim=-1) 
+        next_token_id = torch.multinomial(probs, num_samples=1) \
+            if do_sample else torch.argmax(probs).unsqueeze(0).unsqueeze(0)
+        if next_token_id == eos_token_id:
+            break
+        next_token = tokenizer.decode(next_token_id[0], skip_special_tokens=True)
+        history[-1][1] += next_token
+        yield history
+        input_ids = torch.cat((input_ids, next_token_id), dim=1)
+        if len(input_ids[0]) >= original_size + max_new_tokens:
+            break
 
 with gr.Blocks() as demo:
     gr.HTML("""<h1 align="center">Chinese LLaMA & Alpaca LLM</h1>""")
@@ -143,24 +138,34 @@ with gr.Blocks() as demo:
     with gr.Row():
         with gr.Column(scale=4):
             with gr.Column(scale=12):
-                user_input = gr.Textbox(show_label=False, placeholder="Input...", lines=10).style(
-                    container=False)
+                user_input = gr.Textbox(show_label=False, placeholder="Shift + Enter发送消息...", lines=10).style(
+                    container=False
+                )
             with gr.Column(min_width=32, scale=1):
                 submitBtn = gr.Button("Submit", variant="primary")
         with gr.Column(scale=1):
             emptyBtn = gr.Button("Clear History")
-            max_length = gr.Slider(
-                0, 4096, value=128, step=1.0, label="Maximum length", interactive=True)
+            max_new_token = gr.Slider(
+                0, 4096, value=128, step=1.0, label="Maximum New Token Length", interactive=True)
             top_p = gr.Slider(0, 1, value=0.8, step=0.01,
                               label="Top P", interactive=True)
             temperature = gr.Slider(
                 0, 1, value=0.7, step=0.01, label="Temperature", interactive=True)
+            top_k = gr.Slider(1, 40, value=40, step=1,
+                              label="Top K", interactive=True)
+            do_sample = gr.Checkbox(value = True, label="Do Sample", info="use random sample strategy", interactive=True)
+            repetition_penalty = gr.Slider(1.0, 3.0, value=1.0, step=0.1,
+                              label="Repetition Penalty", interactive=True)
 
-    history = gr.State([])  # (message, bot_message)
+    submitBtn.click(user, [user_input, chatbot], [user_input, chatbot], queue=False).then(
+        predict, [chatbot, max_new_token, top_p, temperature, top_k, do_sample, repetition_penalty], chatbot
+    ).then(lambda: gr.update(interactive=True), None, [user_input], queue=False)
 
-    submitBtn.click(predict, [user_input, chatbot, history, max_length, top_p, temperature], [chatbot, history],
-                    show_progress=True)
+    user_input.submit(user, [user_input, chatbot], [user_input, chatbot], queue=False).then(
+        predict, [chatbot, max_new_token, top_p, temperature, top_k, do_sample, repetition_penalty], chatbot
+    ).then(lambda: gr.update(interactive=True), None, [user_input], queue=False)
+
     submitBtn.click(reset_user_input, [], [user_input])
 
-    emptyBtn.click(reset_state, outputs=[chatbot, history], show_progress=True)
-demo.queue().launch(share=share, inbrowser=True, server_name = '0.0.0.0', server_port=19324)
+    emptyBtn.click(reset_state, outputs=[chatbot], show_progress=True)
+demo.queue().launch(share=share, inbrowser=True, server_name = '0.0.0.0', server_port=19327)
