@@ -91,17 +91,20 @@ def generate_completion_prompt(instruction: str):
 
 def generate_chat_prompt(messages: list):
     """Generate prompt for chat completion"""
-    system_msg = '''A chat between a curious user and an artificial intelligence assistant. 
-    The assistant gives helpful, detailed, and polite answers to the user's questions.'''
+    system_msg = '''Below is an instruction that describes a task. Write a response that appropriately completes the request.'''
     for msg in messages:
         if msg.role == 'system':
             system_msg = msg.message
-    prompt = f"{system_msg} <\s>"
+    prompt = f"{system_msg}\n\n"
     for msg in messages:
         if msg.role == 'system':
             continue
-        prompt += f"{msg.role}: {msg.content} <\s>"
-    prompt += "assistant:"
+        if msg.role == 'assistant':
+            prompt += f"### Response: {msg.content}\n\n"
+        if msg.role == 'user':
+            prompt += f"### Instruction:\n{msg.content}\n\n"
+    prompt += "### Response: "
+    print(prompt)
     return prompt
 
 def predict(
@@ -143,10 +146,7 @@ def predict(
         )
     s = generation_output.sequences[0]
     output = tokenizer.decode(s, skip_special_tokens=True)
-    if type(input) == str:
-        output = output.split("### Response:")[-1].strip()
-    else:
-        output = output.split("assistant:")[-1].strip()
+    output = output.split("### Response:")[-1].strip()
     return output
 
 def get_embedding(input):
