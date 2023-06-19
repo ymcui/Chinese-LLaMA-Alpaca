@@ -8,7 +8,7 @@
 
 > 更加详细的OPENAI API信息：<https://platform.openai.com/docs/api-reference>
 
-这是一个使用fastapi实现的简易OPENAI API的服务器DEMO，您可以使用这个API DEMO来快速搭建基于中文大模型的个人网站以及其他有趣的WEB DEMO。
+这是一个使用fastapi实现的简易的仿OPENAI API风格的服务器DEMO，您可以使用这个API DEMO来快速搭建基于中文大模型的个人网站以及其他有趣的WEB DEMO。
 
 ## 部署方式
 
@@ -18,11 +18,11 @@ python scripts/openai_server_demo/openai_api_server.py --base_model /path/to/bas
 
 ### 参数说明
 
-`--base_model {base_model}`：存放HF格式的LLaMA模型权重和配置文件的目录。如果之前合并生成的是PyTorch格式模型，请转换为HF格式
+`--base_model {base_model}`：存放HF格式的LLaMA模型权重和配置文件的目录，可以是合并后的中文Alpaca或Alpaca Plus模型（此时无需提供`--lora_model`），也可以是转后HF格式后的原版LLaMA模型（需要提供`--lora_model`）
 
 `--lora_model {lora_model}`：中文Alpaca LoRA解压后文件所在目录，也可使用🤗Model Hub模型调用名称。若不提供此参数，则只加载--base_model指定的模型
 
-`--tokenizer_path {tokenizer_path}`：存放对应tokenizer的目录。若不提供此参数，则其默认值与--lora_model相同；若也未提供--lora_model参数，则其默认值与--base_model相同
+`--tokenizer_path {tokenizer_path}`：存放对应tokenizer的目录。若不提供此参数，则其默认值与`--lora_model`相同；若也未提供`--lora_model`参数，则其默认值与--base_model相同
 
 `--only_cpu`: 仅使用CPU进行推理
 
@@ -276,4 +276,4 @@ json返回体：
 }
 ```
 
-embedding的长度为4096
+embedding向量的长度与所使用模型hidden size相同。比如当使用7B模型时，embedding的长度为4096。
