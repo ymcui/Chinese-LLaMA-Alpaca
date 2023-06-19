@@ -157,8 +157,8 @@ def get_embedding(input):
         encoding = tokenizer(
             input, padding=True, return_tensors="pt"
         )
-        input_ids = encoding["input_ids"].to('cuda')
-        attention_mask = encoding["attention_mask"].to('cuda')
+        input_ids = encoding["input_ids"].to(device)
+        attention_mask = encoding["attention_mask"].to(device)
         model_output = model(
             input_ids, attention_mask, output_hidden_states=True
         )
@@ -222,7 +222,7 @@ async def create_embeddings(request: EmbeddingsRequest):
         "index": 0
     }]
     return EmbeddingsResponse(data=data)
-    
+
 
 if __name__ == "__main__":
     log_config = uvicorn.config.LOGGING_CONFIG
