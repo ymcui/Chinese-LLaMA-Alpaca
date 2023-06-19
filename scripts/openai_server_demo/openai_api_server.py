@@ -104,7 +104,6 @@ def generate_chat_prompt(messages: list):
         if msg.role == 'user':
             prompt += f"### Instruction:\n{msg.content}\n\n"
     prompt += "### Response: "
-    print(prompt)
     return prompt
 
 def predict(
