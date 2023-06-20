@@ -57,6 +57,29 @@ from transformers.utils.versions import require_version
 
 from sklearn.metrics import accuracy_score
 from peft import LoraConfig, TaskType, get_peft_model, PeftModel, get_peft_model_state_dict
+from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
+
+
+class SavePeftModelCallback(transformers.TrainerCallback):
+    def save_model(self, args, state, kwargs):
+        if state.best_model_checkpoint is not None:
+            checkpoint_folder = os.path.join(state.best_model_checkpoint, "pt_lora_model")
+        else:
+            checkpoint_folder = os.path.join(args.output_dir, f"{PREFIX_CHECKPOINT_DIR}-{state.global_step}")
+
+        peft_model_path = os.path.join(checkpoint_folder, "pt_lora_model")
+        kwargs["model"].save_pretrained(peft_model_path)
+        kwargs["tokenizer"].save_pretrained(peft_model_path)
+
+    def on_save(self, args, state, control, **kwargs):
+        self.save_model(args, state, kwargs)
+        return control
+
+    def on_train_end(self, args, state, control, **kwargs):
+        peft_model_path = os.path.join(args.output_dir, "pt_lora_model")
+        kwargs["model"].save_pretrained(peft_model_path)
+        kwargs["tokenizer"].save_pretrained(peft_model_path)
+
 
 def accuracy(predictions, references, normalize=True, sample_weight=None):
         return {
@@ -64,6 +87,8 @@ def accuracy(predictions, references, normalize=True, sample_weight=None):
                 accuracy_score(references, predictions, normalize=normalize, sample_weight=sample_weight)
             )
         }
+
+
 def compute_metrics(eval_preds):
     preds, labels = eval_preds
     # preds have the same shape as the labels, after the argmax(-1) has been calculated
@@ -71,6 +96,7 @@ def compute_metrics(eval_preds):
     labels = labels[:, 1:].reshape(-1)
     preds = preds[:, :-1].reshape(-1)
     return accuracy(predictions=preds, references=labels)
+
 
 def preprocess_logits_for_metrics(logits, labels):
     if isinstance(logits, tuple):
@@ -125,24 +151,6 @@ def fault_tolerance_data_collator(features: List) -> Dict[str, Any]:
                     batch[k] = torch.tensor([features[0][k]] * len(features))
 
     return batch
-
-class GroupTextsBuilder:
-    def __init__(self,max_seq_length):
-        self.max_seq_length = max_seq_length
-    def __call__(self, examples):
-        # Concatenate all texts.
-        firsts = {k:examples[k][0][0] for k in examples.keys()}
-        lasts = {k:examples[k][0][-1] for k in examples.keys()}
-        contents = {k:sum([vi[1:-1] for vi in v],[]) for k,v in examples.items()}
-        total_length = len(contents[list(examples.keys())[0]])
-
-        content_length = self.max_seq_length - 2
-        if total_length >= content_length:
-            total_length = (total_length // content_length ) * content_length
-        # Split by chunks of max_len.
-        result = {
-            k: [ [firsts[k]] + t[i : i + content_length] + [lasts[k]] for i in range(0, total_length, content_length)] for k, t in contents.items()}
-        return result
 
 
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_CAUSAL_LM_MAPPING.keys())
@@ -297,6 +305,7 @@ class DataTrainingArguments:
         if self.streaming:
             require_version("datasets>=2.0.0", "The streaming feature requires `datasets>=2.0.0`")
 
+
 @dataclass
 class MyTrainingArguments(TrainingArguments):
     trainable : Optional[str] = field(default="q_proj,v_proj")
@@ -307,7 +316,9 @@ class MyTrainingArguments(TrainingArguments):
     debug_mode : Optional[bool] = field(default=False)
     peft_path : Optional[str] = field(default=None)
 
+
 logger = logging.getLogger(__name__)
+
 
 def main():
 
@@ -454,7 +465,7 @@ def main():
             files = [files[0]]
         for idx, file in enumerate(files):
             data_file = os.path.join(path, file)
-            filename = file.split(".")[0]
+            filename = ''.join(file.split(".")[:-1])
             cache_path = os.path.join(data_args.data_cache_dir, filename)
             os.makedirs(cache_path, exist_ok=True)
             try:
@@ -534,6 +545,21 @@ def main():
         n_params = sum({p.data_ptr(): p.numel() for p in model.parameters()}.values())
         logger.info(f"Training new model from scratch - Total size={n_params/2**20:.2f}M params")
 
+    model_vocab_size = model.get_output_embeddings().weight.size(0)
+    if not (
+       (model_vocab_size==32000 and len(tokenizer)==49953) or \
+       (model_vocab_size==32000 and len(tokenizer)==32000) or \
+       (model_vocab_size==49953 and len(tokenizer)==49953) or \
+       (model_vocab_size==49954 and len(tokenizer)==49954)
+    ):
+        raise ValueError(
+            f"The combination of base model (size: {model_vocab_size}) and tokenizer (size: {len(tokenizer)}) is not a valid configuration. Please check our project wiki for further information. \n"
+            "Valid configurations (base model / tokenizer):\n"
+            "- Continue pre-training original LLaMA: 32000 / 32000 \n"
+            "- Pre-training Chinese LLaMA based on original LLaMA: 32000 / 49953 \n"
+            "- Continue pre-training Chinese LLaMA: 49953 / 49953 \n"
+            "- Continue pre-training Chinese Alpaca: 49954 / 49954 \n")
+
     model.resize_token_embeddings(len(tokenizer))
     if training_args.peft_path is not None:
         logger.info("Peft from pre-trained model")
@@ -576,7 +602,7 @@ def main():
         if training_args.do_eval and not is_torch_tpu_available()
         else None,
     )
-
+    trainer.add_callback(SavePeftModelCallback)
     # Training
     if training_args.do_train:
         checkpoint = None
@@ -585,7 +611,6 @@ def main():
         elif last_checkpoint is not None:
             checkpoint = last_checkpoint
         train_result = trainer.train(resume_from_checkpoint=checkpoint)
-        trainer.save_model()
 
         metrics = train_result.metrics
 
@@ -597,19 +622,6 @@ def main():
         trainer.log_metrics("train", metrics)
         trainer.save_metrics("train", metrics)
         trainer.save_state()
-
-    import shutil
-    from transformers.modeling_utils import unwrap_model
-    lora_path=os.path.join(training_args.output_dir,'pt_lora_model')
-    os.makedirs(lora_path, exist_ok=True)
-    try:
-        unwrap_model(model).peft_config.save_pretrained(lora_path)
-    except AttributeError:
-        unwrap_model(model).peft_config['default'].save_pretrained(lora_path)
-    shutil.copyfile(
-        os.path.join(training_args.output_dir,'pytorch_model.bin'),
-        os.path.join(lora_path,'adapter_model.bin'))
-    tokenizer.save_pretrained(lora_path)
 
     # Evaluation
     if training_args.do_eval:
@@ -627,8 +639,6 @@ def main():
 
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
-
-
 
 
 if __name__ == "__main__":
