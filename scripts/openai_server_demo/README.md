@@ -12,6 +12,12 @@
 
 ## 部署方式
 
+安装依赖
+``` shell
+pip install fastapi uvicorn shortuuid
+```
+
+启动脚本
 ``` shell
 python scripts/openai_server_demo/openai_api_server.py --base_model /path/to/base_model --lora_model /path/to/lora_model --gpus 0,1
 ```
