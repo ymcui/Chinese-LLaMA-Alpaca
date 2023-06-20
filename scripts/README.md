@@ -24,7 +24,7 @@ Inference using 🤗transformers, Wiki: https://github.com/ymcui/Chinese-LLaMA-A
 
 Using LangChain for Retrieval QA and Summarization, Wiki: https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Integrated-with-LangChain
 
-### openai_server_demo
+### openai_server_demo/
 
 使用fastapi实现的仿OPENAI API风格的服务器，Wiki：[https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API调用](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API调用)
 
