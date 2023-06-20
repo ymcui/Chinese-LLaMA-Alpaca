@@ -1,9 +1,3 @@
-<p align="center">
-    <br>
-    <img src="../../pics/banner.png" width="700"/>
-    <br>
-</p>
-
 # OPENAI API DEMO
 
 > 更加详细的OPENAI API信息：<https://platform.openai.com/docs/api-reference>
