@@ -24,15 +24,12 @@ Inference using 🤗transformers, Wiki: https://github.com/ymcui/Chinese-LLaMA-A
 
 Using LangChain for Retrieval QA and Summarization, Wiki: https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Integrated-with-LangChain
 
-<<<<<<< HEAD
 ### openai_server_demo
 
 使用fastapi实现的仿OPENAI API风格的服务器，Wiki：[https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API调用](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API调用)
 
 A server that implements OPENAI API using fastapi, Wiki: [https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API-Calls](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API-Calls)
 
-=======
->>>>>>> 034c8643a0a4a03caad3ea3e59ffd5d3c1aa5fb8
 ###  merge_tokenizer/
 
 中文词表扩充代码，Wiki: [https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节#准备工作词表扩充](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节#准备工作词表扩充)
