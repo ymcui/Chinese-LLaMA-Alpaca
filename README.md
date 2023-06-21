@@ -33,6 +33,8 @@
 
 ----
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/623a1af1bcab47a1a1a336821362d7fa)](https://app.codacy.com/gh/ymcui/Chinese-LLaMA-Alpaca?utm_source=github.com&utm_medium=referral&utm_content=ymcui/Chinese-LLaMA-Alpaca&utm_campaign=Badge_Grade)
+
 [多模态VLE](https://github.com/iflytek/VLE) | [中文MiniRBT](https://github.com/iflytek/MiniRBT) | [中文LERT](https://github.com/ymcui/LERT) | [中英文PERT](https://github.com/ymcui/PERT) | [中文MacBERT](https://github.com/ymcui/MacBERT) | [中文ELECTRA](https://github.com/ymcui/Chinese-ELECTRA) | [中文XLNet](https://github.com/ymcui/Chinese-XLNet) | [中文BERT](https://github.com/ymcui/Chinese-BERT-wwm) | [知识蒸馏工具TextBrewer](https://github.com/airaria/TextBrewer) | [模型裁剪工具TextPruner](https://github.com/airaria/TextPruner)
 
 ## 新闻
