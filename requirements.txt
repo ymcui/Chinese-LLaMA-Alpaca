@@ -1,4 +1,4 @@
 torch==1.13.1
-peft==0.3.0dev
+git+https://github.com/huggingface/peft.git@13e53fc
 transformers==4.30.0
 sentencepiece==0.1.97
