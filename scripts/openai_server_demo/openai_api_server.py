@@ -120,7 +120,7 @@ def predict(
     type(input) == str -> /v1/completions
     type(input) == list -> /v1/chat/completions
     """
-    if isinstance(input,str):
+    if isinstance(input, str):
         prompt = generate_completion_prompt(input)
     else:
         prompt = generate_chat_prompt(input)
