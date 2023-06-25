@@ -53,7 +53,7 @@ if args.tokenizer_path is None:
 tokenizer = LlamaTokenizer.from_pretrained(args.tokenizer_path)
 
 base_model = LlamaForCausalLM.from_pretrained(
-    args.base_model, 
+    args.base_model,
     load_in_8bit=load_in_8bit,
     torch_dtype=load_type,
     low_cpu_mem_usage=True,
@@ -189,7 +189,7 @@ async def create_chat_completion(request: ChatCompletionRequest):
         num_beams=request.num_beams,
         repetition_penalty=request.repetition_penalty,
     )
-    choices = [ChatCompletionResponseChoice(index = i, message = msg) 
+    choices = [ChatCompletionResponseChoice(index = i, message = msg)
                for i, msg in enumerate(msgs)]
     choices += [ChatCompletionResponseChoice(index = len(choices),
                                               message = ChatMessage(role='assistant',content=output))]
