@@ -22,21 +22,18 @@ https://huggingface.co/models?filter=text-generation
 # You can also adapt this script on your own causal language modeling task. Pointers for this are left as comments.
 
 import logging
-import numpy as np
 import math
 import os
 import sys
 from dataclasses import dataclass, field
-from typing import Optional, List, Dict, Any, Mapping
+from typing import Optional, Dict, Any, Mapping
 from pathlib import Path
 import datasets
-import json
 import torch
 from build_dataset import buid_instruction_dataset, DataCollatorForSupervisedDataset
 import transformers
 from transformers import (
     CONFIG_MAPPING,
-    MODEL_FOR_CAUSAL_LM_MAPPING,
     AutoConfig,
     AutoModelForCausalLM,
     LlamaForCausalLM,
@@ -47,23 +44,18 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
-from transformers.testing_utils import CaptureLogger
 from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
+from transformers.utils import send_example_telemetry
 from transformers.utils.versions import require_version
 
 from peft import LoraConfig, TaskType, get_peft_model, PeftModel, get_peft_model_state_dict
 from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
-
 
 IGNORE_INDEX = -100
 DEFAULT_PAD_TOKEN = "[PAD]"
 DEFAULT_EOS_TOKEN = "</s>"
 DEFAULT_BOS_TOKEN = "<s>"
 DEFAULT_UNK_TOKEN = "<unk>"
-
-# Will error if the minimal version of Transformers is not installed. Remove at your own risks.
-# check_min_version("4.28.0.dev0")
 
 require_version("datasets>=1.8.0", "To fix: pip install -r examples/pytorch/language-modeling/requirements.txt")
 
@@ -335,10 +327,10 @@ def main():
             files = [data_args.validation_file]
             logger.info(f"training files: {' '.join(files)}")
             eval_dataset = buid_instruction_dataset(
-                data_path=files, 
-                tokenizer=tokenizer, 
+                data_path=files,
+                tokenizer=tokenizer,
                 max_seq_length=data_args.max_seq_length,
-                data_cache_dir = None, 
+                data_cache_dir = None,
                 preprocessing_num_workers = data_args.preprocessing_num_workers)
         logger.info(f"Num eval_samples  {len(eval_dataset)}")
         logger.info("eval example:")
@@ -386,10 +378,10 @@ def main():
         logger.info(f"target_modules: {target_modules}")
         logger.info(f"lora_rank: {lora_rank}")
         peft_config = LoraConfig(
-            task_type=TaskType.CAUSAL_LM, 
+            task_type=TaskType.CAUSAL_LM,
             target_modules=target_modules,
-            inference_mode=False, 
-            r=lora_rank, lora_alpha=lora_alpha, 
+            inference_mode=False,
+            r=lora_rank, lora_alpha=lora_alpha,
             lora_dropout=lora_dropout,
             modules_to_save=modules_to_save)
         model = get_peft_model(model, peft_config)
