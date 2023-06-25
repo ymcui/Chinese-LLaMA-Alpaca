@@ -189,10 +189,8 @@ async def create_chat_completion(request: ChatCompletionRequest):
         num_beams=request.num_beams,
         repetition_penalty=request.repetition_penalty,
     )
-    choices = [ChatCompletionResponseChoice(index = i, message = msg)
-               for i, msg in enumerate(msgs)]
-    choices += [ChatCompletionResponseChoice(index = len(choices),
-                                              message = ChatMessage(role='assistant',content=output))]
+    choices = [ChatCompletionResponseChoice(index = i, message = msg) for i, msg in enumerate(msgs)]
+    choices += [ChatCompletionResponseChoice(index = len(choices), message = ChatMessage(role='assistant',content=output))]
     return ChatCompletionResponse(choices = choices)
 
 @app.post("/v1/completions")
