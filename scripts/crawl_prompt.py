@@ -32,7 +32,7 @@ if __name__ == "__main__":
   if len(sys.argv) != 2:
     print("Usage: python crawl_prompt.py <output_file>")
     exit(1)
-  
+
   output_file = open(sys.argv[1], 'w')
 
   MAX_EPOCHS = 1    # number of data to generate (each prompt contains 20 JSON-formatted data)

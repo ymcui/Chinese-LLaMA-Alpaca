@@ -22,7 +22,7 @@ parser.add_argument('--base_model', default=None, required=True,
                     type=str, help="Please specify a base model")
 parser.add_argument('--lora_model', default=None, required=True,
                     type=str, help="Please specify LoRA models to be merged (ordered); use commas to separate multiple LoRA models")
-parser.add_argument('--output_type', default='pth',choices=['pth','huggingface'], 
+parser.add_argument('--output_type', default='pth',choices=['pth','huggingface'],
                     type=str, help="Save the merged model in pth or huggingface format")
 parser.add_argument('--output_dir', default='./merged_model',
                     type=str, help="The output folder to save the merged model")

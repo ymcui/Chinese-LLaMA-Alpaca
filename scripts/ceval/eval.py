@@ -76,8 +76,6 @@ def main(args, evaluator,take):
     json.dump(summary,open(save_result_dir+'/summary.json','w'),ensure_ascii=False,indent=2)
 
 
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_path", type=str)

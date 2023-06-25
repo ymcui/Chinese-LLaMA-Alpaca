@@ -322,7 +322,7 @@ if __name__=='__main__':
                     transpose(lora_model_sd[lora_b_key].float() @ lora_model_sd[lora_a_key].float(),fan_in_fan_out) * lora_scaling
                 )
                 assert base_model_sd[original_key].dtype == torch.float16
-    
+
         # did we do anything?
         assert not torch.allclose(first_weight_old, first_weight)
 
