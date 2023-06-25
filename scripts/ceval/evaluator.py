@@ -1,6 +1,5 @@
 # This code is modified from C-Eval Project: https://github.com/SJTU-LIT/ceval
 
-import re
 import string
 class Evaluator:
     def __init__(self, choices, model_name, k=-1):
