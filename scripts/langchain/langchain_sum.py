@@ -17,9 +17,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.prompts import PromptTemplate
 from langchain.chains.summarize import load_summarize_chain
 
-prompt_template = """Below is an instruction that describes a task.
-                    Write a response that appropriately completes the request.\n\n
-                    ### Instruction:\n请为以下文字写一段摘要:\n{text}\n\n### Response: """
+prompt_template = ("Below is an instruction that describes a task. "
+                   "Write a response that appropriately completes the request.\n\n"
+                   "### Instruction:\n请为以下文字写一段摘要:\n{text}\n\n### Response: ")
 refine_template = (
     "Below is an instruction that describes a task."
     "Write a response that appropriately completes the request.\n\n"
