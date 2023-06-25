@@ -322,8 +322,8 @@ def main():
             files = [os.path.join(path,file.name) for file in path.glob("*.json")]
             logger.info(f"training files: {' '.join(files)}")
             train_dataset = buid_instruction_dataset(
-                data_path=files, 
-                tokenizer=tokenizer, 
+                data_path=files,
+                tokenizer=tokenizer,
                 max_seq_length=data_args.max_seq_length,
                 data_cache_dir = None, 
                 preprocessing_num_workers = data_args.preprocessing_num_workers)

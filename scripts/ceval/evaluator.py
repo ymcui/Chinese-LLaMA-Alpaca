@@ -26,7 +26,7 @@ class Evaluator:
         for i in range(k):
             prompt += self.format_example(dev_df.iloc[i, :])
         return prompt
-    
+
     def eval_subject(self, subject_name, test_df, dev_df=None, few_shot=False, save_result_dir=None):
         pass
 

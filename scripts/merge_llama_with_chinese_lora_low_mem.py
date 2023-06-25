@@ -210,7 +210,7 @@ def merge_shards(output_dir, num_shards: int):
         shards_merged = {}
         for d in shards_dicts:
             shards_merged |= d
-    
+
         print(f"Saving the merged shard to " + os.path.join(output_dir, f"consolidated.0{i}.pth"))
         torch.save(shards_merged, os.path.join(output_dir, f"consolidated.0{i}.pth"))
 
@@ -305,7 +305,7 @@ if __name__=='__main__':
                         print(f"merging {lora_key_A} and lora_B.weight form {tl_idx}-th LoRA weight to {k}")
                     state_dict[k] += (
                         transpose(
-                            t_and_l['state_dict'][lora_key_B].float() 
+                            t_and_l['state_dict'][lora_key_B].float()
                           @ t_and_l['state_dict'][lora_key_A].float(), t_and_l['fan_in_fan_out']) * t_and_l['scaling']
                     )
             weight_size = state_dict[k].numel() * dtype_byte_size(state_dict[k].dtype)

@@ -182,7 +182,7 @@ async def create_chat_completion(request: ChatCompletionRequest):
     else:
         msgs = [ChatMessage(role=x['role'],content=x['message']) for x in msgs]
     output = predict(
-        input=msgs, 
+        input=msgs,
         max_new_tokens=request.max_tokens,
         top_p=request.top_p,
         top_k=request.top_k,
@@ -200,7 +200,7 @@ async def create_chat_completion(request: ChatCompletionRequest):
 async def create_completion(request: CompletionRequest):
     """Creates a completion"""
     output = predict(
-        input=request.prompt, 
+        input=request.prompt,
         max_new_tokens=request.max_tokens,
         top_p=request.top_p,
         top_k=request.top_k,
