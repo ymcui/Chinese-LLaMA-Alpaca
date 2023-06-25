@@ -14,8 +14,6 @@
 </p>
 
 
-
-
 Large Language Models (LLM), represented by ChatGPT and GPT-4, have sparked a new wave of research in the field of natural language processing, demonstrating capabilities of Artificial General Intelligence (AGI) and attracting widespread attention from the industry. However, the expensive training and deployment of large language models have posed certain obstacles to building transparent and open academic research.
 
 To promote open research of large models in the Chinese NLP community, this project has open-sourced the **Chinese LLaMA model and the Alpaca large model with instruction fine-tuning**. These models expand the Chinese vocabulary based on the original LLaMA and use Chinese data for secondary pre-training, further enhancing Chinese basic semantic understanding. Additionally, the project uses Chinese instruction data for fine-tuning on the basis of the Chinese LLaMA, significantly improving the model's understanding and execution of instructions. Please refer to our technical report for further details [(Cui, Yang, and Yao, 2023)](https://arxiv.org/abs/2304.08177).
@@ -250,6 +248,8 @@ This project also conducted tests on relevant models using the "NLU" objective e
 
 It is important to note that the comprehensive assessment of the capabilities of large models is still an urgent and significant topic to address. It is beneficial to approach the various evaluation results of large models in a rational and balanced manner to promote the healthy development of large-scale model technology. It is recommended for users to conduct tests on their own tasks and choose models that are suitable for the relevant tasks.
 
+For C-Eval inference code, please refer to >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/C-Eval-performance-and-script).
+
 ## Training Details
 
 The entire training process includes three parts: vocabulary expansion, pre-training, and instruction fine-tuning. Please refer to [merge_tokenizers.py](scripts/merge_tokenizer/merge_tokenizers.py) for vocabulary expansion; refer to [run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py) in 🤗transformers and the relevant parts of dataset processing in the [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) project for pre-training and self-instruct fine-tuning.
@@ -278,6 +278,7 @@ Q7: Chinese-LLaMA 13B model cannot be launched with llama.cpp, reporting inconsi
 Q8: Chinese-Alpaca-Plus does not show better performance than the others.
 Q9: The model does not perform well on NLU tasks, such as text classification.
 Q10: Why 33B not 30B?
+Q11: Inconsistent SHA256
 ```
 
 Please refer to our  >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ).
