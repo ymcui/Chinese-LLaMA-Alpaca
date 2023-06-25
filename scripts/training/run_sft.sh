@@ -10,8 +10,7 @@ chinese_tokenizer_path=path/to/chinese/llama/tokenizer/dir
 dataset_dir=path/to/sft/data/dir
 per_device_train_batch_size=1
 per_device_eval_batch_size=1
-training_steps=100
-gradient_accumulation_steps=1
+gradient_accumulation_steps=8
 output_dir=output_dir
 peft_model=path/to/peft/model/dir
 validation_file=validation_file_name
@@ -30,7 +29,7 @@ torchrun --nnodes 1 --nproc_per_node 1 run_clm_sft_with_peft.py \
     --do_eval \
     --seed $RANDOM \
     --fp16 \
-    --max_steps ${training_steps} \
+    --num_train_epochs 3 \
     --lr_scheduler_type cosine \
     --learning_rate ${lr} \
     --warmup_ratio 0.03 \
@@ -40,8 +39,8 @@ torchrun --nnodes 1 --nproc_per_node 1 run_clm_sft_with_peft.py \
     --save_strategy steps \
     --save_total_limit 3 \
     --evaluation_strategy steps \
-    --eval_steps 250 \
-    --save_steps 500 \
+    --eval_steps 100 \
+    --save_steps 200 \
     --gradient_accumulation_steps ${gradient_accumulation_steps} \
     --preprocessing_num_workers 8 \
     --max_seq_length 512 \
