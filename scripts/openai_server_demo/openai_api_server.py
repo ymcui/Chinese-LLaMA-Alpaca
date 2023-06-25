@@ -120,7 +120,7 @@ def predict(
     type(input) == str -> /v1/completions
     type(input) == list -> /v1/chat/completions
     """
-    if type(input) == str:
+    if isinstance(input,str):
         prompt = generate_completion_prompt(input)
     else:
         prompt = generate_chat_prompt(input)
@@ -176,7 +176,7 @@ app = FastAPI()
 async def create_chat_completion(request: ChatCompletionRequest):
     """Creates a completion for the chat message"""
     msgs = request.messages
-    if type(msgs) == str:
+    if isinstance(msgs, str):
         msgs = [ChatMessage(role='user',content=msgs)]
     else:
         msgs = [ChatMessage(role=x['role'],content=x['message']) for x in msgs]
