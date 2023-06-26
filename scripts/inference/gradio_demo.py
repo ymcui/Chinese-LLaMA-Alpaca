@@ -38,6 +38,7 @@ parser.add_argument('--port', default=19324, help='Port of gradio demo')
 parser.add_argument(
     '--max_memory',
     default=256,
+    type=int,
     help='Maximum input prompt length, if exceeded model will receive prompt[-max_memory:]')
 parser.add_argument(
     '--load_in_8bit',
@@ -63,7 +64,8 @@ from peft import PeftModel
 # Set up the required components: model and tokenizer
 
 def setup():
-    global tokenizer, model, device, share, port
+    global tokenizer, model, device, share, port, max_memory
+    max_memory = args.max_memory
     port = args.port
     share = args.share
     load_in_8bit = args.load_in_8bit
@@ -144,8 +146,7 @@ def predict(
     temperature=0.1,
     top_k=40,
     do_sample=True,
-    repetition_penalty=1.0,
-    max_memory=256,
+    repetition_penalty=1.0
 ):
     history[-1][1] = ""
     if len(history) != 0:
