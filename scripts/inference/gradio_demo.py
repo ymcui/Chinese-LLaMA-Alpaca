@@ -43,7 +43,7 @@ if args.tokenizer_path is None:
 tokenizer = LlamaTokenizer.from_pretrained(args.tokenizer_path)
 
 base_model = LlamaForCausalLM.from_pretrained(
-    args.base_model, 
+    args.base_model,
     load_in_8bit=load_in_8bit,
     torch_dtype=load_type,
     low_cpu_mem_usage=True,

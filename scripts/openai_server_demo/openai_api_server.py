@@ -1,4 +1,3 @@
-import pdb
 import argparse
 import os
 from fastapi import FastAPI
@@ -54,7 +53,7 @@ if args.tokenizer_path is None:
 tokenizer = LlamaTokenizer.from_pretrained(args.tokenizer_path)
 
 base_model = LlamaForCausalLM.from_pretrained(
-    args.base_model, 
+    args.base_model,
     load_in_8bit=load_in_8bit,
     torch_dtype=load_type,
     low_cpu_mem_usage=True,
@@ -121,7 +120,7 @@ def predict(
     type(input) == str -> /v1/completions
     type(input) == list -> /v1/chat/completions
     """
-    if type(input) == str:
+    if isinstance(input, str):
         prompt = generate_completion_prompt(input)
     else:
         prompt = generate_chat_prompt(input)
@@ -177,12 +176,12 @@ app = FastAPI()
 async def create_chat_completion(request: ChatCompletionRequest):
     """Creates a completion for the chat message"""
     msgs = request.messages
-    if type(msgs) == str:
+    if isinstance(msgs, str):
         msgs = [ChatMessage(role='user',content=msgs)]
     else:
         msgs = [ChatMessage(role=x['role'],content=x['message']) for x in msgs]
     output = predict(
-        input=msgs, 
+        input=msgs,
         max_new_tokens=request.max_tokens,
         top_p=request.top_p,
         top_k=request.top_k,
@@ -190,17 +189,15 @@ async def create_chat_completion(request: ChatCompletionRequest):
         num_beams=request.num_beams,
         repetition_penalty=request.repetition_penalty,
     )
-    choices = [ChatCompletionResponseChoice(index = i, message = msg) 
-               for i, msg in enumerate(msgs)]
-    choices += [ChatCompletionResponseChoice(index = len(choices),
-                                              message = ChatMessage(role='assistant',content=output))]
+    choices = [ChatCompletionResponseChoice(index = i, message = msg) for i, msg in enumerate(msgs)]
+    choices += [ChatCompletionResponseChoice(index = len(choices), message = ChatMessage(role='assistant',content=output))]
     return ChatCompletionResponse(choices = choices)
 
 @app.post("/v1/completions")
 async def create_completion(request: CompletionRequest):
     """Creates a completion"""
     output = predict(
-        input=request.prompt, 
+        input=request.prompt,
         max_new_tokens=request.max_tokens,
         top_p=request.top_p,
         top_k=request.top_k,
