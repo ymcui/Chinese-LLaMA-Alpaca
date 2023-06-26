@@ -46,13 +46,12 @@ from transformers import (
     HfArgumentParser,
     Trainer,
     TrainingArguments,
-    default_data_collator,
     is_torch_tpu_available,
     set_seed,
 )
 from transformers.testing_utils import CaptureLogger
 from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
+from transformers.utils import send_example_telemetry
 from transformers.utils.versions import require_version
 
 from sklearn.metrics import accuracy_score
@@ -107,8 +106,6 @@ def preprocess_logits_for_metrics(logits, labels):
 
 
 def fault_tolerance_data_collator(features: List) -> Dict[str, Any]:
-    import torch
-
     if not isinstance(features[0], Mapping):
         features = [vars(f) for f in features]
     first = features[0]
@@ -125,7 +122,7 @@ def fault_tolerance_data_collator(features: List) -> Dict[str, Any]:
         if isinstance(first["label_ids"], torch.Tensor):
             batch["labels"] = torch.stack([f["label_ids"] for f in features])
         else:
-            dtype = torch.long if type(first["label_ids"][0]) is int else torch.float
+            dtype = torch.long if isinstance(first["label_ids"][0], int) else torch.float
             batch["labels"] = torch.tensor([f["label_ids"] for f in features], dtype=dtype)
 
     # Handling of all other possible keys.
@@ -483,7 +480,7 @@ def main():
                     remove_columns="text",
                     load_from_cache_file=True,
                     keep_in_memory=False,
-                    cache_file_names = {k: os.path.join(cache_dir, f'tokenized.arrow') for k in raw_dataset},
+                    cache_file_names = {k: os.path.join(cache_dir, 'tokenized.arrow') for k in raw_dataset},
                     desc="Running tokenizer on dataset",
                 )
                 grouped_datasets = tokenized_dataset.map(
@@ -492,7 +489,7 @@ def main():
                     num_proc=data_args.preprocessing_num_workers,
                     load_from_cache_file=True,
                     keep_in_memory=False,
-                    cache_file_names = {k: os.path.join(cache_dir, f'grouped.arrow') for k in tokenized_dataset},
+                    cache_file_names = {k: os.path.join(cache_dir, 'grouped.arrow') for k in tokenized_dataset},
                     desc=f"Grouping texts in chunks of {block_size}",
                 )
                 processed_dataset = grouped_datasets
@@ -578,8 +575,8 @@ def main():
         peft_config = LoraConfig(
             task_type=TaskType.CAUSAL_LM,
             target_modules=target_modules,
-            inference_mode=False, 
-            r=lora_rank, lora_alpha=lora_alpha, 
+            inference_mode=False,
+            r=lora_rank, lora_alpha=lora_alpha,
             lora_dropout=lora_dropout,
             modules_to_save=modules_to_save)
         model = get_peft_model(model, peft_config)

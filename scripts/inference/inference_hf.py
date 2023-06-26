@@ -60,7 +60,7 @@ if __name__ == '__main__':
     tokenizer = LlamaTokenizer.from_pretrained(args.tokenizer_path)
 
     base_model = LlamaForCausalLM.from_pretrained(
-        args.base_model, 
+        args.base_model,
         load_in_8bit=False,
         torch_dtype=load_type,
         low_cpu_mem_usage=True,
@@ -116,7 +116,7 @@ if __name__ == '__main__':
                     input_text = raw_input_text
                 inputs = tokenizer(input_text,return_tensors="pt")  #add_special_tokens=False ?
                 generation_output = model.generate(
-                    input_ids = inputs["input_ids"].to(device), 
+                    input_ids = inputs["input_ids"].to(device),
                     attention_mask = inputs['attention_mask'].to(device),
                     eos_token_id=tokenizer.eos_token_id,
                     pad_token_id=tokenizer.pad_token_id,
@@ -140,7 +140,7 @@ if __name__ == '__main__':
                     input_text = example
                 inputs = tokenizer(input_text,return_tensors="pt")  #add_special_tokens=False ?
                 generation_output = model.generate(
-                    input_ids = inputs["input_ids"].to(device), 
+                    input_ids = inputs["input_ids"].to(device),
                     attention_mask = inputs['attention_mask'].to(device),
                     eos_token_id=tokenizer.eos_token_id,
                     pad_token_id=tokenizer.pad_token_id,

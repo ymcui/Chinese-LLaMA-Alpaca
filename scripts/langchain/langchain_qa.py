@@ -59,7 +59,7 @@ if __name__ == '__main__':
         device = torch.device(0)
     else:
         device = torch.device('cpu')
-    
+
     loader = TextLoader(file_path)
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(
@@ -89,8 +89,8 @@ if __name__ == '__main__':
         chain_type_kwargs = {"prompt": PROMPT}
         qa = RetrievalQA.from_chain_type(
             llm=model,
-            chain_type="stuff", 
-            retriever=docsearch.as_retriever(search_kwargs={"k": 1}), 
+            chain_type="stuff",
+            retriever=docsearch.as_retriever(search_kwargs={"k": 1}),
             chain_type_kwargs=chain_type_kwargs)
 
     elif args.chain_type == "refine":
@@ -104,7 +104,7 @@ if __name__ == '__main__':
         )
         chain_type_kwargs = {"question_prompt": initial_qa_prompt, "refine_prompt": refine_prompt}
         qa = RetrievalQA.from_chain_type(
-            llm=model, chain_type="refine", 
+            llm=model, chain_type="refine",
             retriever=docsearch.as_retriever(search_kwargs={"k": 1}),
             chain_type_kwargs=chain_type_kwargs)
 

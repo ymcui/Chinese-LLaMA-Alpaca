@@ -64,13 +64,25 @@ body:
     attributes:
       label: 详细描述问题
       description: 请尽量具体地描述遇到的问题，**代码类问题务必给出完整运行命令**，这将有助于快速定位问题所在。
+      value: |
+        ```
+        # 请在此处粘贴运行代码（如没有可删除该代码块）
+        ```
   - type: textarea
     id: dependencies
     attributes:
       label: 依赖情况（代码类问题务必提供）
-      description: 请提供transformers, peft, torch等常规依赖库的版本：pip list \| grep
+      description: 请提供transformers, peft, torch等常规依赖库的版本：`pip list | grep -E 'transformers|peft|torch'`
+      value: |
+        ```
+        # 请在此处粘贴依赖情况
+        ```
   - type: textarea
     id: logs
     attributes:
       label: 运行日志或截图
-      description: 请提供文本形式的log（过长内容请上传文件），其次是截图形式的运行记录。
+      description: 请优先提供文本形式的log（过长内容请上传文件），粘贴内容放在markdown代码块。或者提供截图形式的运行记录。
+      value: |
+        ```
+        # 请在此处粘贴运行日志
+        ```

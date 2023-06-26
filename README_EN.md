@@ -10,9 +10,8 @@
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
-    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v4.0-green"></a>
+    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v4.1-green"></a>
 </p>
-
 
 
 
@@ -25,7 +24,7 @@ To promote open research of large models in the Chinese NLP community, this proj
 - 🚀 Extended Chinese vocabulary on top of original LLaMA with significant encode/decode efficiency
 - 🚀 Open-sourced the Chinese LLaMA (general purpose) and Alpaca (instruction-tuned) 
 - 🚀 Open-sourced the pre-training and instruction finetuning (SFT) scripts for further tuning on user's data
-- 🚀 Quickly deploy and experience the quantized version of the large model on CPU/GPU of your laptop (personal PC) 
+- 🚀 Quickly deploy and experience the quantized version of the large model on CPU/GPU of your laptop (personal PC)
 - 🚀 Support [🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), , [privateGPT](https://github.com/imartinez/privateGPT), etc.
 - Released versions: 7B (basic, **Plus**), 13B (basic, **Plus**) , 33B (basic)
 
@@ -208,6 +207,8 @@ We mainly provide the following three ways for inference and local deployment.
 | [**LangChain**](https://github.com/hwchase17/langchain)      | LLM application development framework, suitable for secondary development | General | ✅<sup>†</sup> |  ✅   | ✅<sup>†</sup> |    ❌     | [link](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Integrated-with-LangChain) |
 | [**privateGPT**](https://github.com/imartinez/privateGPT) | LangChain-based multi-document QA framework | General | ✅ | ✅ | ✅ | ❌ | [link](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/Use-privateGPT-for-multi-document-QA) |
 | [**Colab Gradio Demo**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) | Running a Gradio web demo in Colab | General | ✅ | ✅ | ✅ | ❌ | [link](https://colab.research.google.com/github/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) |
+| [**API Calls**](https://platform.openai.com/docs/api-reference) | A server that implements OPENAI API | General | ✅ | ✅ | ✅ | ❌ | [link](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API-Calls) |
+
 
 <sup>†</sup>: Supported by LangChain, but not implemented in the tutorial. Please refer to the official LangChain Documentation for details.
 
@@ -248,6 +249,8 @@ This project also conducted tests on relevant models using the "NLU" objective e
 
 It is important to note that the comprehensive assessment of the capabilities of large models is still an urgent and significant topic to address. It is beneficial to approach the various evaluation results of large models in a rational and balanced manner to promote the healthy development of large-scale model technology. It is recommended for users to conduct tests on their own tasks and choose models that are suitable for the relevant tasks.
 
+For C-Eval inference code, please refer to >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/C-Eval-performance-and-script).
+
 ## Training Details
 
 The entire training process includes three parts: vocabulary expansion, pre-training, and instruction fine-tuning. Please refer to [merge_tokenizers.py](scripts/merge_tokenizer/merge_tokenizers.py) for vocabulary expansion; refer to [run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py) in 🤗transformers and the relevant parts of dataset processing in the [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) project for pre-training and self-instruct fine-tuning.
@@ -276,6 +279,7 @@ Q7: Chinese-LLaMA 13B model cannot be launched with llama.cpp, reporting inconsi
 Q8: Chinese-Alpaca-Plus does not show better performance than the others.
 Q9: The model does not perform well on NLU tasks, such as text classification.
 Q10: Why 33B not 30B?
+Q11: Inconsistent SHA256
 ```
 
 Please refer to our  >>> [📚GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ).

@@ -42,13 +42,13 @@ class Llama_Evaluator(Evaluator):
         self.D_id = self.tokenizer.encode("：D")[-1]
 
 
-    def eval_subject(self, subject_name, 
-            test_df, 
-            dev_df=None, 
-            few_shot=False, 
-            cot=False, 
-            save_result_dir=None, 
-            with_prompt=False, 
+    def eval_subject(self, subject_name,
+            test_df,
+            dev_df=None,
+            few_shot=False,
+            cot=False,
+            save_result_dir=None,
+            with_prompt=False,
             constrained_decoding=False,
             do_test=False):
         all_answers = {}
@@ -81,7 +81,7 @@ class Llama_Evaluator(Evaluator):
 
             inputs = self.tokenizer(instruction, return_tensors="pt")
             generation_output = self.model.generate(
-                    input_ids = inputs["input_ids"].to(self.device), 
+                    input_ids = inputs["input_ids"].to(self.device),
                     attention_mask = inputs['attention_mask'].to(self.device),
                     eos_token_id=self.tokenizer.eos_token_id,
                     pad_token_id=self.tokenizer.pad_token_id,
