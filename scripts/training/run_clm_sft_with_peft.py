@@ -26,7 +26,7 @@ import math
 import os
 import sys
 from dataclasses import dataclass, field
-from typing import Optional, Dict
+from typing import Optional
 from pathlib import Path
 import datasets
 import torch
