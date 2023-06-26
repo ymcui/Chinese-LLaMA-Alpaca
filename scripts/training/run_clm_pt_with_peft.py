@@ -575,7 +575,7 @@ def main():
         peft_config = LoraConfig(
             task_type=TaskType.CAUSAL_LM,
             target_modules=target_modules,
-            inference_mode=False, 
+            inference_mode=False,
             r=lora_rank, lora_alpha=lora_alpha,
             lora_dropout=lora_dropout,
             modules_to_save=modules_to_save)
