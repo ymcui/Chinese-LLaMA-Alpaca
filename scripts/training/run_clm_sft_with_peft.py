@@ -300,7 +300,7 @@ def main():
         raise ValueError(f"The vocab size of the tokenizer must be 49954, but found {len(tokenizer)}.\n"
                          "Please use Chinese Alpaca tokenizer!")
     if tokenizer.pad_token is None:
-        num_new_tokens = smart_tokenizer_and_embedding_resize(
+        smart_tokenizer_and_embedding_resize(
             special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
             tokenizer=tokenizer)
 
