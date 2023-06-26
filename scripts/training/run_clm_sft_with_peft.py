@@ -317,7 +317,7 @@ def main():
                 data_path=files,
                 tokenizer=tokenizer,
                 max_seq_length=data_args.max_seq_length,
-                data_cache_dir = None, 
+                data_cache_dir = None,
                 preprocessing_num_workers = data_args.preprocessing_num_workers)
         logger.info(f"Num train_samples  {len(train_dataset)}")
         logger.info("training example:")
