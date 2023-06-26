@@ -12,7 +12,7 @@ body:
       description: Please check the following items before asking questions. Use the search function to find issues related to your problem.
       options:
         - label: Make sure to pull the latest code, as some issues and bugs have been fixed.
-          required: true         
+          required: true
         - label: Due to frequent dependency updates, please ensure you have followed the steps in our [Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki)
           required: true
         - label: I have read the [FAQ section](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/FAQ) AND searched for similar issues and did not find a similar problem or solution
@@ -34,7 +34,7 @@ body:
         - Model quantization and deployment
         - Performance issue
         - Other issues
-  - type: dropdown    
+  - type: dropdown
     id: model-type
     attributes:
       label: Base Model
@@ -64,13 +64,25 @@ body:
     attributes:
       label: Describe your issue in detail
       description: Please describe your problem as detail as possible. **For code-related issues, please provide the complete command to reproduce the problem.** This will help us locate the issue quickly.
+      value: |
+        ```
+        # Please copy-and-paste your command here.
+        ```
   - type: textarea
     id: dependencies
     attributes:
       label: Dependencies (must be provided for code-related issues)
-      description: Please provide the versions of common dependencies such as transformers, peft, torch, etc. Use `pip list | grep`
+      description: Please provide the versions of common dependencies such as transformers, peft, torch, etc. Use `pip list | grep -E 'transformers|peft|torch'`
+      value: |
+        ```
+        # Please copy-and-paste your dependencies here.
+        ```
   - type: textarea
     id: logs
     attributes:
       label: Execution logs or screenshots
       description: Please provide logs in text format (upload files if content is too long), or alternatively, screenshots of the execution record.
+      value: |
+        ```
+        # Please copy-and-paste your logs here.
+        ```
