@@ -11,8 +11,7 @@ dataset_dir=path/to/pt/data/dir
 data_cache=temp_data_cache_dir
 per_device_train_batch_size=1
 per_device_eval_batch_size=1
-training_steps=100
-gradient_accumulation_steps=1
+gradient_accumulation_steps=8
 output_dir=output_dir
 
 deepspeed_config_file=ds_zero2_no_offload.json
@@ -29,7 +28,7 @@ torchrun --nnodes 1 --nproc_per_node 1 run_clm_pt_with_peft.py \
     --do_train \
     --seed $RANDOM \
     --fp16 \
-    --max_steps ${training_steps} \
+    --num_train_epochs 1 \
     --lr_scheduler_type cosine \
     --learning_rate ${lr} \
     --warmup_ratio 0.05 \
@@ -38,7 +37,7 @@ torchrun --nnodes 1 --nproc_per_node 1 run_clm_pt_with_peft.py \
     --logging_steps 10 \
     --save_strategy steps \
     --save_total_limit 3 \
-    --save_steps 500 \
+    --save_steps 200 \
     --gradient_accumulation_steps ${gradient_accumulation_steps} \
     --preprocessing_num_workers 8 \
     --block_size 512 \
