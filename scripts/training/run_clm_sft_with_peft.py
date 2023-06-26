@@ -300,9 +300,8 @@ def main():
         raise ValueError(f"The vocab size of the tokenizer must be 49954, but found {len(tokenizer)}.\n"
                          "Please use Chinese Alpaca tokenizer!")
     if tokenizer.pad_token is None:
-        smart_tokenizer_and_embedding_resize(
-            special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
-            tokenizer=tokenizer)
+        print(f"Adding pad token {DEFAULT_PAD_TOKEN}")
+        tokenizer.add_special_tokens(dict(pad_token=DEFAULT_PAD_TOKEN))
 
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
     eval_dataset=None
@@ -436,17 +435,6 @@ def main():
 
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
-
-
-def smart_tokenizer_and_embedding_resize(
-    special_tokens_dict: Dict,
-    tokenizer: transformers.PreTrainedTokenizer,
-):
-    """Resize tokenizer and embedding.
-    Note: This is the unoptimized version that may make your embedding size not be divisible by 64.
-    """
-    num_new_tokens = tokenizer.add_special_tokens(special_tokens_dict)
-    return num_new_tokens
 
 
 if __name__ == "__main__":
