@@ -89,7 +89,6 @@ if __name__ == "__main__":
     parser.add_argument("--do_save_csv", choices=["False","True"], default="False")
     parser.add_argument("--output_dir", type=str)
     parser.add_argument("--do_test", choices=["False","True"], default="False")
-    
 
     args = parser.parse_args()
 
