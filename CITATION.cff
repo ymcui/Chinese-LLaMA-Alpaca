@@ -9,7 +9,7 @@ authors:
 - family-names: "Yao"
   given-names: "Xin"  
 title: "Chinese LLaMA and Alpaca"
-version: 2.2
+version: 4.1
 date-released: 2023-03-28
 url: "https://github.com/ymcui/Chinese-LLaMA-Alpaca"
 preferred-citation: 
