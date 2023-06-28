@@ -34,7 +34,7 @@ parser.add_argument(
     type=str,
     help='If None, cuda:0 will be used. Inference using multi-cards: --gpus=0,1,... ')
 parser.add_argument('--share', default=True, help='Share gradio domain name')
-parser.add_argument('--port', default=19324, help='Port of gradio demo')
+parser.add_argument('--port', default=19324, type=int, help='Port of gradio demo')
 parser.add_argument(
     '--max_memory',
     default=256,
@@ -178,9 +178,12 @@ def predict(
             if do_sample else torch.argmax(probs).unsqueeze(0).unsqueeze(0)
         if next_token_id == eos_token_id:
             break
-        next_token = tokenizer.decode(
-            next_token_id[0], skip_special_tokens=True)
-        history[-1][1] += next_token
+        tokens_previous  = tokenizer.decode(
+            input_ids[0], skip_special_tokens=True)
+        input_ids = torch.cat((input_ids, next_token_id), dim=1)
+        tokens = tokenizer.decode(input_ids[0], skip_special_tokens=True)
+        new_tokens = tokens[len(tokens_previous) :]
+        history[-1][1] += new_tokens
         yield history
         input_ids = torch.cat((input_ids, next_token_id), dim=1)
         if len(input_ids[0]) >= original_size + max_new_tokens:
@@ -195,7 +198,7 @@ setup()
 with gr.Blocks() as demo:
     gr.HTML("""<h1 align="center">Chinese LLaMA & Alpaca LLM</h1>""")
     current_file_path = os.path.abspath(os.path.dirname(__file__))
-    local_banner_path = f'{current_file_path}/../../pics/banner.png'
+    local_banner_path = f'{current_file_path}/../../pics/small_banner.png'
     github_banner_path = 'https://raw.githubusercontent.com/ymcui/Chinese-LLaMA-Alpaca/main/pics/small_banner.png'
     banner = ''
     if os.path.exists(local_banner_path):
@@ -224,7 +227,7 @@ with gr.Blocks() as demo:
                 step=1.0,
                 label="Maximum New Token Length",
                 interactive=True)
-            top_p = gr.Slider(0, 1, value=0.8, step=0.01,
+            top_p = gr.Slider(0, 1, value=0.9, step=0.01,
                               label="Top P", interactive=True)
             temperature = gr.Slider(
                 0,
@@ -243,7 +246,7 @@ with gr.Blocks() as demo:
             repetition_penalty = gr.Slider(
                 1.0,
                 3.0,
-                value=1.0,
+                value=1.1,
                 step=0.1,
                 label="Repetition Penalty",
                 interactive=True)
