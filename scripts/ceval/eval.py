@@ -11,7 +11,6 @@ import time
 choices = ["A", "B", "C", "D"]
 
 def main(args, evaluator,take):
-    
     assert os.path.exists("subject_mapping.json"), "subject_mapping.json not found!"
     with open("subject_mapping.json") as f:
         subject_mapping = json.load(f)
@@ -77,8 +76,6 @@ def main(args, evaluator,take):
     json.dump(summary,open(save_result_dir+'/summary.json','w'),ensure_ascii=False,indent=2)
 
 
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_path", type=str)
@@ -92,7 +89,6 @@ if __name__ == "__main__":
     parser.add_argument("--do_save_csv", choices=["False","True"], default="False")
     parser.add_argument("--output_dir", type=str)
     parser.add_argument("--do_test", choices=["False","True"], default="False")
-    
 
     args = parser.parse_args()
 
