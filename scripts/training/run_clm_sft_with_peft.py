@@ -320,7 +320,7 @@ def main():
         with training_args.main_process_first(desc="loading and tokenization"):
             path = Path(data_args.dataset_dir)
             files = [os.path.join(path,file.name) for file in path.glob("*.json")]
-            logger.info(f"training files: {' '.join(files)}")
+            logger.info(f"Training files: {' '.join(files)}")
             train_dataset = buid_instruction_dataset(
                 data_path=files, 
                 tokenizer=tokenizer, 
