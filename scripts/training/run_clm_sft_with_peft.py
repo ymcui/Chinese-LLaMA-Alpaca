@@ -333,7 +333,7 @@ def main():
     if training_args.do_eval:
         with training_args.main_process_first(desc="loading and tokenization"):
             files = [data_args.validation_file]
-            logger.info(f"training files: {' '.join(files)}")
+            logger.info(f"Evaluation files: {' '.join(files)}")
             eval_dataset = buid_instruction_dataset(
                 data_path=files, 
                 tokenizer=tokenizer, 
