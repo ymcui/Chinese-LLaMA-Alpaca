@@ -184,8 +184,8 @@ The following is the size of each original model and 4-bit quantization. When co
 |                    |   7B   |   13B   |   33B   |   65B   |
 | :----------------- | :----: | :-----: | :-----: | :-----: |
 | Original（FP16）   | 13 GB  |  24 GB  |  60 GB  | 120 GB  |
-| Quantized (8-bit)  | 7.8 GB | 14.9 GB |    -    |    -    |
-| Quantized（4-bit） | 3.9 GB | 7.8 GB  | 19.5 GB | 38.5 GB |
+| Quantized (8-bit)  | 7.8 GB | 14.9 GB | 32.4 GB | ~60 GB  |
+| Quantized（4-bit） | 3.9 GB | 7.8 GB  | 17.2 GB | 38.5 GB |
 
 ## Model Reconstruction
 
