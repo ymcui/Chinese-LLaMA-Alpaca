@@ -93,7 +93,7 @@ def generate_chat_prompt(messages: list):
     system_msg = '''Below is an instruction that describes a task. Write a response that appropriately completes the request.'''
     for msg in messages:
         if msg.role == 'system':
-            system_msg = msg.message
+            system_msg = msg.content
     prompt = f"{system_msg}\n\n"
     for msg in messages:
         if msg.role == 'system':
