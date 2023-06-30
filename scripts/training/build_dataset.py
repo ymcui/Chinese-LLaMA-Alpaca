@@ -18,7 +18,7 @@ PROMPT_TEMPLATE = (
         "### Instruction:\n{instruction}\n\n### Response: "
     )
 
-def buid_instruction_dataset(data_path: Union[List[str],str],
+def build_instruction_dataset(data_path: Union[List[str],str],
                 tokenizer: transformers.PreTrainedTokenizer,
                 max_seq_length: int, data_cache_dir = None,
                 preprocessing_num_workers = None,

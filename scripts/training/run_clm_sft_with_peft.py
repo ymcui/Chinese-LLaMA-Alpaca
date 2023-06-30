@@ -30,7 +30,7 @@ from typing import Optional
 from pathlib import Path
 import datasets
 import torch
-from build_dataset import buid_instruction_dataset, DataCollatorForSupervisedDataset
+from build_dataset import build_instruction_dataset, DataCollatorForSupervisedDataset
 import transformers
 from transformers import (
     CONFIG_MAPPING,
@@ -312,7 +312,7 @@ def main():
             path = Path(data_args.dataset_dir)
             files = [os.path.join(path,file.name) for file in path.glob("*.json")]
             logger.info(f"Training files: {' '.join(files)}")
-            train_dataset = buid_instruction_dataset(
+            train_dataset = build_instruction_dataset(
                 data_path=files,
                 tokenizer=tokenizer,
                 max_seq_length=data_args.max_seq_length,
@@ -325,7 +325,7 @@ def main():
         with training_args.main_process_first(desc="loading and tokenization"):
             files = [data_args.validation_file]
             logger.info(f"Evaluation files: {' '.join(files)}")
-            eval_dataset = buid_instruction_dataset(
+            eval_dataset = build_instruction_dataset(
                 data_path=files,
                 tokenizer=tokenizer,
                 max_seq_length=data_args.max_seq_length,
