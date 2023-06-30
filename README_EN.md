@@ -38,7 +38,9 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-**[June 16, 2023] [Release v4.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.1): New technical report, add C-Eval inference script, add low-resource model merging script, etc.**
+**[June 30, 2023] 8K context support with llama.cpp. See [Discussion](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696)**
+
+[June 16, 2023] [Release v4.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.1): New technical report, add C-Eval inference script, add low-resource model merging script, etc.
 
 [June 8, 2023] [Release v4.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.0): LLaMA/Alpaca 33B versions are available. We also add privateGPT demo, C-Eval results, etc.
 
