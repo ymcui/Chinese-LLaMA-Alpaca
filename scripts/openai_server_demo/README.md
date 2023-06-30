@@ -120,6 +120,8 @@ json返回体：
 
 `repetition_penalty`: 重复惩罚，具体细节可以参考这篇文章：<https://arxiv.org/pdf/1909.05858.pdf> 。
 
+`do_sample`: 启用随机采样策略。默认为true。
+
 ### 聊天（chat completion）
 
 聊天接口支持多轮对话
@@ -239,6 +241,8 @@ json返回体：
 `top_p`: 在随机采样（random sampling）时，累积概率超过top_p的token将作为候选token被随机采样，越低随机性越大，举个例子，当top_p设定为0.6时，概率前5的token概率分别为[0.23, 0.20, 0.18, 0.11, 0.10]时，前三个token的累积概率为0.61，那么第4个token将被过滤掉，只有前三的token将作为候选token被随机采样。
 
 `repetition_penalty`: 重复惩罚，具体细节可以参考这篇文章：<https://arxiv.org/pdf/1909.05858.pdf> 。
+
+`do_sample`: 启用随机采样策略。默认为true。
 
 ### 文本嵌入向量（text embedding）
 
