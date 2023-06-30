@@ -32,15 +32,7 @@ from openai_api_protocol import (
     EmbeddingsRequest,
     EmbeddingsResponse,
 )
-generation_config = dict(
-    temperature=0.2,
-    top_k=40,
-    top_p=0.9,
-    do_sample=True,
-    num_beams=1,
-    repetition_penalty=1.1,
-    max_new_tokens=400
-    )
+
 load_type = torch.float16
 if torch.cuda.is_available():
     device = torch.device(0)
@@ -113,6 +105,7 @@ def predict(
     top_k=40,
     num_beams=4,
     repetition_penalty=1.0,
+    do_sample=True,
     **kwargs,
 ):
     """
@@ -131,6 +124,7 @@ def predict(
         top_p=top_p,
         top_k=top_k,
         num_beams=num_beams,
+        do_sample=do_sample,
         **kwargs,
     )
     with torch.no_grad():
@@ -188,6 +182,7 @@ async def create_chat_completion(request: ChatCompletionRequest):
         temperature=request.temperature,
         num_beams=request.num_beams,
         repetition_penalty=request.repetition_penalty,
+        do_sample=request.do_sample,
     )
     choices = [ChatCompletionResponseChoice(index = i, message = msg) for i, msg in enumerate(msgs)]
     choices += [ChatCompletionResponseChoice(index = len(choices), message = ChatMessage(role='assistant',content=output))]
@@ -204,6 +199,7 @@ async def create_completion(request: CompletionRequest):
         temperature=request.temperature,
         num_beams=request.num_beams,
         repetition_penalty=request.repetition_penalty,
+        do_sample=request.do_sample,
     )
     choices = [CompletionResponseChoice(index = 0, text = output)]
     return CompletionResponse(choices = choices)
