@@ -12,6 +12,26 @@ import gradio as gr
 import argparse
 import os
 
+import transformers
+def pi_forward(self, x, seq_len=None):
+    if seq_len > self.max_seq_len_cached: # seq_len > 2048
+        print(f"Perform position interpolation for length {seq_len}")
+        t = torch.arange(seq_len, device=x.device, dtype=self.inv_freq.dtype)
+        scale = self.max_seq_len_cached / seq_len
+        t *= scale
+        freqs = torch.einsum("i,j->ij", t, self.inv_freq)
+        emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
+        cos_cached = emb.cos()[None, None, :, :]
+        sin_cached = emb.sin()[None, None, :, :]
+        return (
+            cos_cached[:, :, :seq_len, ...].to(dtype=x.dtype),
+            sin_cached[:, :, :seq_len, ...].to(dtype=x.dtype)
+        )
+    return (
+        self.cos_cached[:, :, :seq_len, ...].to(dtype=x.dtype),
+        self.sin_cached[:, :, :seq_len, ...].to(dtype=x.dtype)
+    )
+transformers.models.llama.modeling_llama.LlamaRotaryEmbedding.forward = pi_forward
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser()
