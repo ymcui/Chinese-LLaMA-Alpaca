@@ -37,7 +37,7 @@
 
 ## 新闻
 
-**[2023/06/30] llama.cpp下8K context支持（无需对模型做出修改），相关方法和讨论见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696)**
+**[2023/06/30] llama.cpp下8K context支持（无需对模型做出修改），相关方法和讨论见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696)；transformers下支持4K+ context的代码请参考[PR#705](https://github.com/ymcui/Chinese-LLaMA-Alpaca/pull/705)**
 
 [2023/06/16] [v4.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.1): 发布新版技术报告、添加C-Eval解码脚本、添加低资源模型合并脚本等。
 
