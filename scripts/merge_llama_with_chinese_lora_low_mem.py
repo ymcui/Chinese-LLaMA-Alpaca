@@ -336,6 +336,8 @@ if __name__=='__main__':
                 print(f"Saving {config}")
                 with open(os.path.join(base_model_path, config),'r') as f:
                     obj = json.load(f)
+                if config=='config.json':
+                    obj['vocab_size'] = len(tokenizers_and_loras[-1]['tokenizer'])
                 if config=='pytorch_model.bin.index.json':
                     obj['metadata']['total_size'] = total_size
                 with open(os.path.join(output_dir, config), 'w') as f:
