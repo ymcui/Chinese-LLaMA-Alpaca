@@ -172,7 +172,7 @@ class Iteratorize:
                 ret = self.mfunc(callback=_callback, **self.kwargs)
             except ValueError:
                 pass
-            except Exception as e:
+            except Exception:
                 traceback.print_exc()
 
             clear_torch_cache()
