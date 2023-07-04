@@ -172,9 +172,8 @@ class Iteratorize:
                 ret = self.mfunc(callback=_callback, **self.kwargs)
             except ValueError:
                 pass
-            except:
+            except Exception as e:
                 traceback.print_exc()
-                pass
 
             clear_torch_cache()
             self.q.put(self.sentinel)
@@ -235,7 +234,6 @@ def predict(
     prompt = generate_prompt(input)
     inputs = tokenizer(prompt, return_tensors="pt")
     input_ids = inputs["input_ids"].to(device)
-    original_size = len(input_ids[0])
 
     generate_params = {
         'input_ids': input_ids,
@@ -266,7 +264,7 @@ def predict(
                 break
             new_tokens = tokenizer.decode(
                 next_token_ids, skip_special_tokens=True)
-            if type(tokenizer) is LlamaTokenizer and len(next_token_ids) > 0:
+            if isinstance(tokenizer, LlamaTokenizer) and len(next_token_ids) > 0:
                 if tokenizer.convert_ids_to_tokens(int(next_token_ids[0])).startswith('▁'):
                     new_tokens = ' ' + new_tokens
 
