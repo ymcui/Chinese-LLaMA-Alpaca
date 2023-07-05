@@ -13,11 +13,12 @@ class ChatCompletionRequest(BaseModel):
     top_k: Optional[int] = 40
     n: Optional[int] = 1
     max_tokens: Optional[int] = 128
-    num_beams: Optional[int] = 4
+    num_beams: Optional[int] = 1
     stop: Optional[Union[str, List[str]]] = None
     stream: Optional[bool] = False
     repetition_penalty: Optional[float] = 1.0
     user: Optional[str] = None
+    do_sample: Optional[bool] = True
 
 
 class ChatMessage(BaseModel):
@@ -58,11 +59,12 @@ class CompletionRequest(BaseModel):
     stream: Optional[bool] = False
     top_p: Optional[float] = 0.75
     top_k: Optional[int] = 40
-    num_beams: Optional[int] = 4
+    num_beams: Optional[int] = 1
     logprobs: Optional[int] = None
     echo: Optional[bool] = False
     repetition_penalty: Optional[float] = 1.0
     user: Optional[str] = None
+    do_sample: Optional[bool] = True
 
 
 class CompletionResponseChoice(BaseModel):
