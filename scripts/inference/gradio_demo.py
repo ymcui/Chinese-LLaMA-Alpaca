@@ -310,17 +310,9 @@ setup()
 
 # Create the Gradio interface
 with gr.Blocks() as demo:
-    gr.HTML("""<h1 align="center">Chinese LLaMA & Alpaca LLM</h1>""")
-    current_file_path = os.path.abspath(os.path.dirname(__file__))
-    local_banner_path = f'{current_file_path}/../../pics/small_banner.png'
-    github_banner_path = 'https://raw.githubusercontent.com/ymcui/Chinese-LLaMA-Alpaca/main/pics/small_banner.png'
-    banner = ''
-    if os.path.exists(local_banner_path):
-        banner = local_banner_path
-    else:
-        banner = github_banner_path
-    gr.Image(banner, label='Chinese LLaMA & Alpaca LLM')
-    gr.Markdown("> 为了促进大模型在中文NLP社区的开放研究，本项目开源了中文LLaMA模型和指令精调的Alpaca大模型。这些模型在原版LLaMA的基础上扩充了中文词表并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力")
+    github_banner_path = 'https://raw.githubusercontent.com/ymcui/Chinese-LLaMA-Alpaca/main/pics/banner.png'
+    gr.HTML(f'<p align="center"><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca"><img src={github_banner_path} width="700"/></a></p>')
+    gr.Markdown("> 为了促进大模型在中文NLP社区的开放研究，本项目开源了中文LLaMA模型和指令精调的Alpaca大模型。这些模型在原版LLaMA的基础上扩充了中文词表并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力。")
     chatbot = gr.Chatbot()
     with gr.Row():
         with gr.Column(scale=4):
@@ -337,7 +329,7 @@ with gr.Blocks() as demo:
             max_new_token = gr.Slider(
                 0,
                 4096,
-                value=128,
+                value=512,
                 step=1.0,
                 label="Maximum New Token Length",
                 interactive=True)
@@ -346,7 +338,7 @@ with gr.Blocks() as demo:
             temperature = gr.Slider(
                 0,
                 1,
-                value=0.7,
+                value=0.5,
                 step=0.01,
                 label="Temperature",
                 interactive=True)
