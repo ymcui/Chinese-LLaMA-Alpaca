@@ -33,11 +33,14 @@ Large Language Models (LLM), represented by ChatGPT and GPT-4, have sparked a ne
 
 ----
 
-[Multi-modal VLE](https://github.com/iflytek/VLE) | [Chinese MiniRBT](https://github.com/iflytek/MiniRBT) | [Chinese LERT](https://github.com/ymcui/LERT) | [Chinese-English PERT](https://github.com/ymcui/PERT) | [Chinese MacBERT](https://github.com/ymcui/MacBERT) | [Chinese ELECTRA](https://github.com/ymcui/Chinese-ELECTRA) | [Chinese XLNet](https://github.com/ymcui/Chinese-XLNet) | [Chinese BERT](https://github.com/ymcui/Chinese-BERT-wwm) | [Knowledge distillation tool TextBrewer](https://github.com/airaria/TextBrewer) | [Model pruning tool TextPruner](https://github.com/airaria/TextPruner)
+[Visual Chinese-LLaMA-Alpaca](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca) | [Multi-modal VLE](https://github.com/iflytek/VLE) | [Chinese MiniRBT](https://github.com/iflytek/MiniRBT) | [Chinese LERT](https://github.com/ymcui/LERT) | [Chinese-English PERT](https://github.com/ymcui/PERT) | [Chinese MacBERT](https://github.com/ymcui/MacBERT) | [Chinese ELECTRA](https://github.com/ymcui/Chinese-ELECTRA) | [Chinese XLNet](https://github.com/ymcui/Chinese-XLNet) | [Chinese BERT](https://github.com/ymcui/Chinese-BERT-wwm) | [Knowledge distillation tool TextBrewer](https://github.com/airaria/TextBrewer) | [Model pruning tool TextPruner](https://github.com/airaria/TextPruner)
 
 ## News
 
-**[June 30, 2023] 8K context support with llama.cpp. See [Discussion](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696). For 4K+ context support with transformers, see [PR#705](https://github.com/ymcui/Chinese-LLaMA-Alpaca/pull/705).**
+
+**[July 7, 2023] The Chinese-LLaMA-Alpaca family welcomes a new member: [Visual Chinese-LLaMA-Alpaca model](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca) for visual question answering and chat. The 7B test version is available.**
+
+[June 30, 2023] 8K context support with llama.cpp. See [Discussion](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696). For 4K+ context support with transformers, see [PR#705](https://github.com/ymcui/Chinese-LLaMA-Alpaca/pull/705).
 
 [June 16, 2023] [Release v4.1](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.1): New technical report, add C-Eval inference script, add low-resource model merging script, etc.
 

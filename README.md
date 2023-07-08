@@ -33,11 +33,13 @@
 
 ----
 
-[多模态VLE](https://github.com/iflytek/VLE) | [中文MiniRBT](https://github.com/iflytek/MiniRBT) | [中文LERT](https://github.com/ymcui/LERT) | [中英文PERT](https://github.com/ymcui/PERT) | [中文MacBERT](https://github.com/ymcui/MacBERT) | [中文ELECTRA](https://github.com/ymcui/Chinese-ELECTRA) | [中文XLNet](https://github.com/ymcui/Chinese-XLNet) | [中文BERT](https://github.com/ymcui/Chinese-BERT-wwm) | [知识蒸馏工具TextBrewer](https://github.com/airaria/TextBrewer) | [模型裁剪工具TextPruner](https://github.com/airaria/TextPruner)
+[多模态中文LLaMA&Alpaca大模型](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca) | [多模态VLE](https://github.com/iflytek/VLE) | [中文MiniRBT](https://github.com/iflytek/MiniRBT) | [中文LERT](https://github.com/ymcui/LERT) | [中英文PERT](https://github.com/ymcui/PERT) | [中文MacBERT](https://github.com/ymcui/MacBERT) | [中文ELECTRA](https://github.com/ymcui/Chinese-ELECTRA) | [中文XLNet](https://github.com/ymcui/Chinese-XLNet) | [中文BERT](https://github.com/ymcui/Chinese-BERT-wwm) | [知识蒸馏工具TextBrewer](https://github.com/airaria/TextBrewer) | [模型裁剪工具TextPruner](https://github.com/airaria/TextPruner)
 
 ## 新闻
 
-**[2023/06/30] llama.cpp下8K context支持（无需对模型做出修改），相关方法和讨论见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696)；transformers下支持4K+ context的代码请参考[PR#705](https://github.com/ymcui/Chinese-LLaMA-Alpaca/pull/705)**
+**[2023/07/07] Chinese-LLaMA-Alpaca家族再添新成员，推出面向视觉问答与对话的[多模态中文LLaMA&Alpaca大模型](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca)，发布了7B测试版本。**
+
+[2023/06/30] llama.cpp下8K context支持（无需对模型做出修改），相关方法和讨论见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696)；transformers下支持4K+ context的代码请参考[PR#705](https://github.com/ymcui/Chinese-LLaMA-Alpaca/pull/705)
 
 [2023/06/16] [v4.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.1): 发布新版技术报告、添加C-Eval解码脚本、添加低资源模型合并脚本等。
 
