@@ -37,6 +37,7 @@ Large Language Models (LLM), represented by ChatGPT and GPT-4, have sparked a ne
 
 ## News
 
+**[July 10, 2023] Beta channel preview, know coming updates in advance. See [Discussion](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/732)**
 
 **[July 7, 2023] The Chinese-LLaMA-Alpaca family welcomes a new member: [Visual Chinese-LLaMA-Alpaca model](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca) for visual question answering and chat. The 7B test version is available.**
 
