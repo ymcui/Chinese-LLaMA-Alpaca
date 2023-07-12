@@ -318,10 +318,10 @@ If you find the model, data, code in our project useful, please consider citing 
 ## Related Projects
 
 | Project Name                                                 | Description                             |    Type     |
-| ------------------------------------------------------------ | --------------------------------------- | :---------: |
+| :----------------------------------------------------------- | :-------------------------------------- | :---------: |
 | [**Visual-Chinese-LLaMA-Alpaca**](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca) (Official) | Multi-modal Chinese LLaMA & Alpaca LLMs | Multi-modal |
 
-Want to join this list? >>> [Apply Here](#https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/740)
+Want to join this list? >>> [Apply Here](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/740)
 
 
 ## Acknowledgements
