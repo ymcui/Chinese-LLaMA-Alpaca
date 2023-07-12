@@ -87,7 +87,7 @@
 
 ### 用户须知（必读）
 
-Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，目前暂时无法发布完整的模型权重，敬请各位理解（目前国外也是一样）。Facebook完全开放模型权重之后，本项目会及时更新相关策略。**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者进行合并即可获得完整版权重。以下中文LLaMA/Alpaca LoRA模型无法单独使用，需要搭配[原版LLaMA模型](https://github.com/facebookresearch/llama)。请参考本项目给出的[合并模型](#合并模型)步骤重构模型。
+Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者合并即可获得完整版权重。以下中文LLaMA/Alpaca LoRA模型无法单独使用，需要搭配[原版LLaMA模型](https://github.com/facebookresearch/llama)。请参考本项目给出的[合并模型](#合并模型)步骤重构模型。
 
 ### 我应该选什么模型？
 
@@ -111,7 +111,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | 目前版本模型生成的文本长度相对短一些，比较惜字如金。可在指令中要求详细回答。<sup>[2]</sup> |
 
 *[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference/inference_hf.py)/[web-demo代码](./scripts/inference/gradio_demo.py)/[LangChain示例](./scripts/langchain)等已内嵌，无需手动添加模板。*<br/>
-*[2] 如果出现了模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否针对场景使用了正确的模型和正确的启动参数。*<br/>
+*[2] 如果出现模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否使用了正确的模型和启动参数。*<br/>
 *[3] 经过指令精调的Alpaca会比LLaMA多一个pad token，**因此请勿混用LLaMA/Alpaca词表**。*
 
 ### 推荐下载模型
@@ -127,16 +127,6 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-Alpaca-Plus-13B | 指令模型 | 指令4.3M | *原版LLaMA-13B &<br/>Chinese-LLaMA-Plus-13B<sup>[4]</sup>* |        1.3G        | [[百度网盘]](https://pan.baidu.com/s/1Mew4EjBlejWBBB6_WW6vig?pwd=mf5w)<br/> [[Google Drive]](https://drive.google.com/file/d/1CcLJvY7XsFAOjfSIqCpDI7jf3EEPDcEF/view?usp=share_link) |
 | Chinese-Alpaca-Plus-33B   | 指令模型 | 指令4.3M |                                 |                |  |
 
-可以在🤗Model Hub下载以上所有模型，并且使用[transformers](https://github.com/huggingface/transformers)和[PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。以下模型调用名称指的是使用`.from_pretrained()`中指定的模型名称。
-
-| 模型名                  | 模型调用名称                            |                             链接                             |
-| ----------------------- | :-------------------------------------- | :----------------------------------------------------------: |
-| Chinese-LLaMA-Plus-7B   | ziqingyang/chinese-llama-plus-lora-7b   | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-7b) |
-| Chinese-LLaMA-Plus-13B  | ziqingyang/chinese-llama-plus-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-13b) |
-| Chinese-LLaMA-Plus-33B  | ziqingyang/chinese-llama-plus-lora-33b  |                                                              |
-| Chinese-Alpaca-Plus-7B  | ziqingyang/chinese-alpaca-plus-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-7b) |
-| Chinese-Alpaca-Plus-13B | ziqingyang/chinese-alpaca-plus-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-13b) |
-| Chinese-Alpaca-Plus-33B | ziqingyang/chinese-alpaca-plus-lora-33b |                                                              |
 
 ### 其他模型
 
@@ -151,16 +141,18 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-Alpaca-13B        | 指令模型 |  指令3M  |                       原版LLaMA-13B                        |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
 | Chinese-Alpaca-33B | 指令模型 | 指令4.3M | 原版LLaMA-33B<sup>[5]</sup> | 2.8G | [[百度网盘]](https://pan.baidu.com/s/1fey7lGMMw3GT982l8uJYMg?pwd=2f2s)<br/>[[Google Drive]](https://drive.google.com/file/d/1YeSgnZWaRkKdmYa-JHiIlcvqhrDd4-Y4/view?usp=share_link) |
 
-对应的HuggingFace模型库地址：
+### 🤗transformers调用
 
-| 模型名             | 模型调用名称                       |                             链接                             |
-| ------------------ | :--------------------------------- | :----------------------------------------------------------: |
-| Chinese-LLaMA-7B   | ziqingyang/chinese-llama-lora-7b   | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
-| Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
-| Chinese-LLaMA-33B  | ziqingyang/chinese-llama-lora-33b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-33b) |
-| Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
-| Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
-| Chinese-Alpaca-33B | ziqingyang/chinese-alpaca-lora-33b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-33b) |
+可以在🤗Model Hub下载以上所有模型，并且使用[transformers](https://github.com/huggingface/transformers)和[PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。以下模型调用名称指的是使用`.from_pretrained()`中指定的模型名称。
+
+- Plus版命名：`ziqingyang/chinese-${model_name}-plus-lora-${model_size}`
+
+- 基础版命名：`ziqingyang/chinese-${model_name}-lora-${model_size}`
+- `$model_name`：`llama`或者`alpaca`；`$model_size`：`7b`, `13b`, `33b`
+
+- 举例：Chinese-LLaMA-Plus-33B模型对应的调用名称是`ziqingyang/chinese-llama-plus-lora-33b`
+
+模型下载地址：https://huggingface.co/ziqingyang
 
 ### 脚注及其他说明
 
@@ -213,11 +205,11 @@ chinese_llama_lora_7b/
 | [**llama.cpp**](https://github.com/ggerganov/llama.cpp)      | 丰富的量化选项和高效本地推理                 | 通用  |  ✅   |  ✅   |    ✅     |    ❌     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/llama.cpp量化部署) |
 | [**🤗Transformers**](https://github.com/huggingface/transformers) | 原生transformers推理接口                    | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用Transformers推理) |
 | [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | 前端Web UI界面的部署方式                     | 通用  |  ✅   |  ✅   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用text-generation-webui搭建界面) |
-| [**LlamaChat**](https://github.com/alexrozanski/LlamaChat)   | macOS下的图形交互界面（需搭配llama.cpp模型） | MacOS |  ✅   |  ❌   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用LlamaChat图形界面（macOS）) |
+| [**LlamaChat**](https://github.com/alexrozanski/LlamaChat)   | macOS下的图形交互界面 | MacOS |  ✅   |  ❌   |    ✅     |    ✅     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用LlamaChat图形界面（macOS）) |
 | [**LangChain**](https://github.com/hwchase17/langchain)      | LLM应用开发框架，适用于进行二次开发          | 通用  | ✅<sup>†</sup> |  ✅   | ✅<sup>†</sup> |    ❌     | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/与LangChain进行集成) |
 | [**privateGPT**](https://github.com/imartinez/privateGPT) | 基于LangChain的多文档本地问答框架 | 通用 | ✅ | ✅ | ✅ | ❌ | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/使用privateGPT进行多文档问答) |
-| [**Colab Gradio Demo**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) | 在Colab中启动基于Gradio的交互式Web服务，体验模型效果 | 通用 | ✅ | ✅ | ✅ | ❌ | [链接](https://colab.research.google.com/github/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) |
-| [**API调用**](https://platform.openai.com/docs/api-reference) | 仿OPENAI API接口的服务器DEMO | 通用 | ✅ | ✅ | ✅ | ❌ | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API调用) |
+| [**Colab Gradio Demo**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) | 在Colab中启动基于Gradio的交互式Web服务 | 通用 | ✅ | ✅ | ✅ | ❌ | [链接](https://colab.research.google.com/github/ymcui/Chinese-LLaMA-Alpaca/blob/main/notebooks/gradio_web_demo.ipynb) |
+| [**API调用**](https://platform.openai.com/docs/api-reference) | 仿OpenAI API接口的服务器Demo | 通用 | ✅ | ✅ | ✅ | ❌ | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/API调用) |
 
 <sup>†</sup>: LangChain框架支持，但教程中未实现；详细说明请参考LangChain官方文档。
 
@@ -331,8 +323,6 @@ FAQ中给出了常见问题的解答，请在提Issue前务必先查看FAQ。
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | [LLaMA by Facebook](https://github.com/facebookresearch/llama)<br/>[Alpaca by Stanford](https://github.com/tatsu-lab/stanford_alpaca)<br/>[alpaca-lora by @tloen](https://github.com/tloen/alpaca-lora) | [llama.cpp by @ggerganov](https://github.com/ggerganov/llama.cpp)<br/>[LlamaChat by @alexrozanski]( https://github.com/alexrozanski/LlamaChat)<br/>[text-generation-webui by @oobabooga](https://github.com/oobabooga/text-generation-webui) | [pCLUE and MT data by @brightmart](https://github.com/brightmart/nlp_chinese_corpus)<br/>[oasst1 by OpenAssistant](https://huggingface.co/datasets/OpenAssistant/oasst1) |
 
-Episode: The current logo is automatically generated by GPT-4 with the DALL·E plugin (previously generated by midjourney).
-
 ## 免责声明
 
 **本项目相关资源仅供学术研究之用，严禁用于商业用途。** 使用涉及第三方代码的部分时，请严格遵循相应的开源协议。模型生成的内容受模型计算、随机性和量化精度损失等因素影响，本项目不对其准确性作出保证。对于模型输出的任何内容，本项目不承担任何法律责任，亦不对因使用相关资源和输出结果而可能产生的任何损失承担责任。
@@ -341,9 +331,8 @@ Episode: The current logo is automatically generated by GPT-4 with the DALL·E p
 
 
 ## 问题反馈
-如有问题，请在GitHub Issue中提交。
+如有问题，请在GitHub Issue中提交。礼貌地提出问题，构建和谐的讨论社区。
 
 - 在提交问题之前，请先查看FAQ能否解决问题，同时建议查阅以往的issue是否能解决你的问题。
 - 提交问题请使用本项目设置的Issue模板，以帮助快速定位具体问题。
 - 重复以及与本项目无关的issue会被[stable-bot](https://github.com/marketplace/stale)处理，敬请谅解。
-- 礼貌地提出问题，构建和谐的讨论社区。
