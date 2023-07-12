@@ -312,6 +312,15 @@ FAQ中给出了常见问题的解答，请在提Issue前务必先查看FAQ。
 }
 ```
 
+
+## 相关项目
+
+| 项目名称                                                     | 简介                           |  类型  |
+| ------------------------------------------------------------ | ------------------------------ | :----: |
+| [**Visual-Chinese-LLaMA-Alpaca**](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca)（官方项目） | 多模态中文LLaMA & Alpaca大模型 | 多模态 |
+
+想要加入列表？>>> [提交申请](#https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/740)
+
 ## 致谢
 
 本项目基于以下开源项目二次开发，在此对相关项目和研究开发人员表示感谢。
