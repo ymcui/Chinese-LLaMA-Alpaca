@@ -25,7 +25,7 @@
 - 🚀 开源了预训练脚本、指令精调脚本，用户可根据需要进一步训练模型
 - 🚀 快速使用笔记本电脑（个人PC）的CPU/GPU本地量化和部署体验大模型
 - 🚀 支持[🤗transformers](https://github.com/huggingface/transformers), [llama.cpp](https://github.com/ggerganov/llama.cpp), [text-generation-webui](https://github.com/oobabooga/text-generation-webui), [LlamaChat](https://github.com/alexrozanski/LlamaChat), [LangChain](https://github.com/hwchase17/langchain), [privateGPT](https://github.com/imartinez/privateGPT)等生态
-- 目前已开源的模型版本：7B（基础版、**Plus版**）、13B（基础版、**Plus版**）、33B（基础版）
+- 目前已开源的模型版本：7B（基础版、**Plus版**）、13B（基础版、**Plus版**）、33B（基础版、**Plus版**）
 
 💡 下图是中文Alpaca-Plus-7B模型在本地CPU量化部署后的实际体验速度和效果。
 
@@ -47,6 +47,9 @@
 
 [2023/06/08] [v4.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.0): 发布中文LLaMA/Alpaca-33B、添加privateGPT使用示例、添加C-Eval结果等。
 
+<details>
+<summary><b>往期新闻</b></summary>
+
 [2023/06/05] llama.cpp已支持Apple Silicon GPU解码，解码速度大幅提升，详见：[讨论区#开发者公告](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/505)
 
 [2023/05/16] [v3.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): 添加指令精调脚本、LangChain支持、基于Gradio的本地Demo等。
@@ -54,9 +57,6 @@
 [2023/05/10] [v3.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): 发布中文LLaMA/Alpaca Plus-13B，使用了更大语料训练，相比基础版各项能力显著提升。
 
 [2023/04/28] [v3.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): 发布中文LLaMA/Alpaca Plus版本（7B），使用了更大的语料进行训练，相比基础版各项能力显著提升。另外还进一步完善了评测流程、添加了预训练脚本等。
-
-<details>
-<summary><b>往期新闻</b></summary>
 
 [2023/04/18] [v2.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)：添加LlamaChat支持、中文词表、LLaMA Tokenizer词表扩充脚本、添加技术报告等。
 
@@ -122,10 +122,10 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | :------------------------ | :------: | :------: | :--------------------------------------------------------: | :----------------: | :----------------------------------------------------------: |
 | Chinese-LLaMA-Plus-7B  | 基座模型 | 通用120G |        原版LLaMA-7B         |        790M        | [[百度网盘]](https://pan.baidu.com/s/1zvyX9FN-WSRDdrtMARxxfw?pwd=2gtr)</br>[[Google Drive]](https://drive.google.com/file/d/1N97m3rBj-rp-J1X8rgRfluyomEscfAq0/view?usp=sharing) |
 | Chinese-LLaMA-Plus-13B | 基座模型 | 通用120G |        原版LLaMA-13B        |        1.0G        | [[百度网盘]](https://pan.baidu.com/s/1VGpNlrLx5zHuNzLOcTG-xw?pwd=8cvd)<br/>[[Google Drive]](https://drive.google.com/file/d/1q0L5Me_1j_9iiRRNfuEFUt3SOjQo3-g3/view?usp=share_link) |
-| Chinese-LLaMA-33B        | 基座模型 | 通用20G  | 原版LLaMA-33B<sup>[5]</sup> |        2.7G        | [[百度网盘]](https://pan.baidu.com/s/1-ylGyeM70QZ5vbEug5RD-A?pwd=hp6f)<br/>[[Google Drive]](https://drive.google.com/file/d/1NwsLYbuEByUxre5GqTN5EkxiuZSRxUy_/view?usp=share_link) |
+| Chinese-LLaMA-Plus-33B   | 基座模型 | 通用120G |  |                |  |
 | Chinese-Alpaca-Plus-7B  | 指令模型 |  指令4M  |  *原版LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B*<sup>[4]</sup>  |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
 | Chinese-Alpaca-Plus-13B | 指令模型 | 指令4.3M | *原版LLaMA-13B &<br/>Chinese-LLaMA-Plus-13B<sup>[4]</sup>* |        1.3G        | [[百度网盘]](https://pan.baidu.com/s/1Mew4EjBlejWBBB6_WW6vig?pwd=mf5w)<br/> [[Google Drive]](https://drive.google.com/file/d/1CcLJvY7XsFAOjfSIqCpDI7jf3EEPDcEF/view?usp=share_link) |
-| Chinese-Alpaca-33B        | 指令模型 | 指令4.3M |                原版LLaMA-33B<sup>[5]</sup>                 |        2.8G        | [[百度网盘]](https://pan.baidu.com/s/1fey7lGMMw3GT982l8uJYMg?pwd=2f2s)<br/>[Google Drive](https://drive.google.com/file/d/1YeSgnZWaRkKdmYa-JHiIlcvqhrDd4-Y4/view?usp=share_link) |
+| Chinese-Alpaca-Plus-33B   | 指令模型 | 指令4.3M |                                 |                |  |
 
 可以在🤗Model Hub下载以上所有模型，并且使用[transformers](https://github.com/huggingface/transformers)和[PEFT](https://github.com/huggingface/peft)调用中文LLaMA或Alpaca LoRA模型。以下模型调用名称指的是使用`.from_pretrained()`中指定的模型名称。
 
@@ -133,10 +133,10 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | ----------------------- | :-------------------------------------- | :----------------------------------------------------------: |
 | Chinese-LLaMA-Plus-7B   | ziqingyang/chinese-llama-plus-lora-7b   | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-7b) |
 | Chinese-LLaMA-Plus-13B  | ziqingyang/chinese-llama-plus-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-plus-lora-13b) |
-| Chinese-LLaMA-33B       | ziqingyang/chinese-llama-lora-33b       | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-33b) |
+| Chinese-LLaMA-Plus-33B  | ziqingyang/chinese-llama-plus-lora-33b  |                                                              |
 | Chinese-Alpaca-Plus-7B  | ziqingyang/chinese-alpaca-plus-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-7b) |
 | Chinese-Alpaca-Plus-13B | ziqingyang/chinese-alpaca-plus-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-plus-lora-13b) |
-| Chinese-Alpaca-33B      | ziqingyang/chinese-alpaca-lora-33b      | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-33b) |
+| Chinese-Alpaca-Plus-33B | ziqingyang/chinese-alpaca-plus-lora-33b |                                                              |
 
 ### 其他模型
 
@@ -146,8 +146,10 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | :---------------- | :------: | :------: | :--------------------: | :----------------: | :----------------------------------------------------------: |
 | Chinese-LLaMA-7B  | 基座模型 | 通用20G  |      原版LLaMA-7B      |        770M        | [[百度网盘]](https://pan.baidu.com/s/1oORTdpr2TvlkxjpyWtb5Sw?pwd=33hb)</br>[[Google Drive]](https://drive.google.com/file/d/1iQp9T-BHjBjIrFWXq_kIm_cyNmpvv5WN/view?usp=sharing) |
 | Chinese-LLaMA-13B | 基座模型 | 通用20G  |     原版LLaMA-13B      |        1.0G        | [[百度网盘]](https://pan.baidu.com/s/1BxFhYhDMipW7LwI58cGmQQ?pwd=ef3t)<br/>[[Google Drive]](https://drive.google.com/file/d/12q9EH4mfKRnoKlbkkhzv1xDwWnroo9VS/view?usp=sharing) |
+| Chinese-LLaMA-33B | 基座模型 | 通用20G | 原版LLaMA-33B<sup>[5]</sup> | 2.7G | [[百度网盘]](https://pan.baidu.com/s/1-ylGyeM70QZ5vbEug5RD-A?pwd=hp6f)<br/>[[Google Drive]](https://drive.google.com/file/d/1NwsLYbuEByUxre5GqTN5EkxiuZSRxUy_/view?usp=share_link) |
 | Chinese-Alpaca-7B         | 指令模型 |  指令2M  |                        原版LLaMA-7B                        |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |
 | Chinese-Alpaca-13B        | 指令模型 |  指令3M  |                       原版LLaMA-13B                        |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
+| Chinese-Alpaca-33B | 指令模型 | 指令4.3M | 原版LLaMA-33B<sup>[5]</sup> | 2.8G | [[百度网盘]](https://pan.baidu.com/s/1fey7lGMMw3GT982l8uJYMg?pwd=2f2s)<br/>[[Google Drive]](https://drive.google.com/file/d/1YeSgnZWaRkKdmYa-JHiIlcvqhrDd4-Y4/view?usp=share_link) |
 
 对应的HuggingFace模型库地址：
 
@@ -155,8 +157,10 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | ------------------ | :--------------------------------- | :----------------------------------------------------------: |
 | Chinese-LLaMA-7B   | ziqingyang/chinese-llama-lora-7b   | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-7b) |
 | Chinese-LLaMA-13B  | ziqingyang/chinese-llama-lora-13b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-13b) |
+| Chinese-LLaMA-33B  | ziqingyang/chinese-llama-lora-33b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-llama-lora-33b) |
 | Chinese-Alpaca-7B  | ziqingyang/chinese-alpaca-lora-7b  | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-7b) |
 | Chinese-Alpaca-13B | ziqingyang/chinese-alpaca-lora-13b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-13b) |
+| Chinese-Alpaca-33B | ziqingyang/chinese-alpaca-lora-33b | [Model Hub Link](https://huggingface.co/ziqingyang/chinese-alpaca-lora-33b) |
 
 ### 脚注及其他说明
 
@@ -262,9 +266,7 @@ C-Eval推理代码请参考本项目 >>> [📚 GitHub Wiki](https://github.com/y
 
 - 本项目的模型均在原LLaMA词表的基础上扩充了中文单词，代码请参考[merge_tokenizers.py](./scripts/merge_tokenizer/merge_tokenizers.py)
 - 预训练和指令精调代码参考了🤗transformers中的[run_clm.py](https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm.py)和[Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)项目中数据集处理的相关部分
-- 已开源用于预训练和指令精调的训练脚本：
-  - 预训练脚本：[scripts/training/run_clm_pt_with_peft.py](./scripts/training/run_clm_pt_with_peft.py)，相关使用教程请参考[预训练脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/预训练脚本)
-  - 指令精调脚本：[scripts/training/run_clm_sft_with_peft.py](./scripts/training/run_clm_sft_with_peft.py)，相关使用教程请参考[指令精调脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/指令精调脚本)
+- 已开源用于预训练和指令精调的训练脚本：[预训练脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/预训练脚本)、[指令精调脚本Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/指令精调脚本)
 
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/训练细节)
