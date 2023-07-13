@@ -20,7 +20,7 @@ from peft import  PeftModel
 
 from patches import apply_memory_efficient_attnetion, apply_ntk_scaling
 apply_memory_efficient_attnetion()
-apply_ntk_scaling('auto')
+apply_ntk_scaling(1.0)
 
 generation_config = dict(
     temperature=0.2,
