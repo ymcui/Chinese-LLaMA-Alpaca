@@ -21,11 +21,15 @@ def apply_attention_patch(
 
     try:
         from xformers import ops as xops
+        if use_memory_efficient_attention is True:
+            print("Use memory_efficient_attention from xformers")
     except ImportError:
         xops = None
         print(
             "Xformers is not installed correctly. If you want to use memory_efficient_attention to accelerate training use the following command to install Xformers\npip install xformers."
         )
+    if store_kv_before_rope is True:
+        print("Store KV before rope")
 
     def xformers_forward(
         self,
@@ -76,8 +80,9 @@ def apply_attention_patch(
             query_states = query_states.transpose(1, 2)
             key_states = key_states.transpose(1, 2)
             value_states = value_states.transpose(1, 2)
+            attn_bias = None if (query_states.size(1)==1 and key_states.size(1)>1) else xops.LowerTriangularMask()
             attn_output = xops.memory_efficient_attention(
-                query_states, key_states, value_states, attn_bias=xops.LowerTriangularMask(), p=0)
+                query_states, key_states, value_states, attn_bias=attn_bias, p=0)
         else:
             attn_weights = torch.matmul(query_states, key_states.transpose(2, 3)) / math.sqrt(self.head_dim)
 
