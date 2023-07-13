@@ -10,6 +10,7 @@ parser.add_argument('--interactive',action='store_true',help="run in the instruc
 parser.add_argument('--predictions_file', default='./predictions.json', type=str)
 parser.add_argument('--gpus', default="0", type=str)
 parser.add_argument('--only_cpu',action='store_true',help='only use CPU for inference')
+parser.add_argument('--alpha',type=str,default="1.0", help="The scaling factor of NTK method, can be a float or 'auto'. ")
 args = parser.parse_args()
 if args.only_cpu is True:
     args.gpus = ""
@@ -20,7 +21,7 @@ from peft import  PeftModel
 
 from patches import apply_memory_efficient_attnetion, apply_ntk_scaling
 apply_memory_efficient_attnetion()
-apply_ntk_scaling(1.0)
+apply_ntk_scaling(args.alpha)
 
 generation_config = dict(
     temperature=0.2,

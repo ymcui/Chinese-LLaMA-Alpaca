@@ -94,6 +94,14 @@ def apply_memory_efficient_attnetion():
 
 
 def apply_ntk_scaling(alpha: Union[float,str]):
+
+    try:
+        alpha = float(alpha)
+    except ValueError:
+        if alpha!="auto":
+            raise ValueError(f"Alpha can only be a float or 'auto', but given {alpha}")
+    print(f"Apply NTK scaling with alpha={alpha}")
+
     old_init = transformers.models.llama.modeling_llama.LlamaRotaryEmbedding.__init__
 
     def adaptive_ntk_init(self, dim, max_position_embeddings=2048, base=10000, device=None):
@@ -101,21 +109,21 @@ def apply_ntk_scaling(alpha: Union[float,str]):
         self.alpha = alpha
         if isinstance(alpha,(float,int)):
             base = base * alpha ** (dim / (dim-2))
-            max_position_embeddings = 32768
             self.base = base
         elif alpha=='auto':
             self.base = base
         else:
             raise ValueError(alpha)
         old_init(self, dim, max_position_embeddings, base, device)
+        ntk_inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2).float().to(device) / dim))
+        self.register_buffer("ntk_inv_freq", ntk_inv_freq, persistent=False)
 
     def adaptive_ntk_forward(self, x, seq_len=None):
         if seq_len > self.max_seq_len_cached:
             if isinstance(self.alpha,(float,int)):
                 self.max_seq_len_cached = seq_len
-                t = torch.arange(self.max_seq_len_cached, device=x.device, dtype=self.inv_freq.dtype)
-                freqs = torch.einsum("i,j->ij", t, self.inv_freq)
-                # Different from paper, but it uses a different permutation in order to obtain the same calculation
+                t = torch.arange(seq_len, device=x.device, dtype=self.ntk_inv_freq.dtype)
+                freqs = torch.einsum("i,j->ij", t, self.ntk_inv_freq)
                 emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
                 self.register_buffer("cos_cached", emb.cos()[None, None, :, :], persistent=False)
                 self.register_buffer("sin_cached", emb.sin()[None, None, :, :], persistent=False)
@@ -124,14 +132,13 @@ def apply_ntk_scaling(alpha: Union[float,str]):
                     self.sin_cached[:, :, :seq_len, ...].to(dtype=x.dtype),
                 )
             elif self.alpha=='auto':
-                t = torch.arange(seq_len, device=x.device, dtype=self.inv_freq.dtype)
-                inv_freq = self.inv_freq
+                t = torch.arange(seq_len, device=x.device, dtype=self.ntk_inv_freq.dtype)
                 dim = self.dim
                 alpha = seq_len / 1024 - 1
                 base = self.base * alpha ** (dim / (dim-2))
-                inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2).float().to(x.device) / dim ))
+                ntk_inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2).float().to(x.device) / dim ))
 
-                freqs = torch.einsum("i,j->ij", t, inv_freq)
+                freqs = torch.einsum("i,j->ij", t, ntk_inv_freq)
                 emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
                 cos_cached = emb.cos()[None, None, :, :]
                 sin_cached = emb.sin()[None, None, :, :]
