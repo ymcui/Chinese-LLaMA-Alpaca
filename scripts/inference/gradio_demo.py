@@ -56,9 +56,9 @@ args = parser.parse_args()
 if args.only_cpu is True:
     args.gpus = ""
 
-from patches import apply_memory_efficient_attnetion, apply_ntk_scaling
-apply_memory_efficient_attnetion()
-apply_ntk_scaling(args.alpha)
+from patches import apply_attention_patch, apply_ntk_scaling_patch
+#apply_attention_patch()
+apply_ntk_scaling_patch(args.alpha)
 
 # Set CUDA devices if available
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus

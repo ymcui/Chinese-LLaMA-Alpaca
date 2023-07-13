@@ -2,10 +2,22 @@ import torch
 from torch import nn
 from typing import Optional, Tuple, Union
 import transformers
-from transformers.models.llama.modeling_llama import apply_rotary_pos_emb
+from transformers.models.llama.modeling_llama import apply_rotary_pos_emb, rotate_half
 import math
 
-def apply_memory_efficient_attnetion():
+def apply_rotary_pos_emb_single(q, cos, sin, position_ids):
+    # The first two dimensions of cos and sin are always 1, so we can `squeeze` them.
+    cos = cos.squeeze(1).squeeze(0)  # [seq_len, dim]
+    sin = sin.squeeze(1).squeeze(0)  # [seq_len, dim]
+    cos = cos[position_ids].unsqueeze(1)  # [bs, 1, seq_len, dim]
+    sin = sin[position_ids].unsqueeze(1)  # [bs, 1, seq_len, dim]
+    q_embed = (q * cos) + (rotate_half(q) * sin)
+    return q_embed
+
+def apply_attention_patch(
+        use_memory_efficient_attention=False,
+        store_kv_before_rope=False
+        ):
 
     try:
         from xformers import ops as xops
@@ -33,18 +45,33 @@ def apply_memory_efficient_attnetion():
         kv_seq_len = key_states.shape[-2]
         if past_key_value is not None:
             kv_seq_len += past_key_value[0].shape[-2]
-        cos, sin = self.rotary_emb(value_states, seq_len=kv_seq_len)
-        query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin, position_ids)
-        # [bsz, nh, t, hd]
 
-        if past_key_value is not None:
-            # reuse k, v, self_attention
-            key_states = torch.cat([past_key_value[0], key_states], dim=2)
-            value_states = torch.cat([past_key_value[1], value_states], dim=2)
+        if store_kv_before_rope is False:
+            cos, sin = self.rotary_emb(value_states, seq_len=kv_seq_len)
+            query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin, position_ids)
+            # [bsz, nh, t, hd]
 
-        past_key_value = (key_states, value_states) if use_cache else None
+            if past_key_value is not None:
+                # reuse k, v, self_attention
+                key_states = torch.cat([past_key_value[0], key_states], dim=2)
+                value_states = torch.cat([past_key_value[1], value_states], dim=2)
 
-        if xops is not None:
+            past_key_value = (key_states, value_states) if use_cache else None
+        else:
+            if past_key_value is not None:
+                # reuse k, v, self_attention
+                key_states = torch.cat([past_key_value[0], key_states], dim=2)
+                value_states = torch.cat([past_key_value[1], value_states], dim=2)
+            past_key_value = (key_states, value_states) if use_cache else None
+
+            cos, sin = self.rotary_emb(value_states, seq_len=kv_seq_len)
+    
+            query_states = apply_rotary_pos_emb_single(query_states, cos, sin, position_ids)
+            position_ids = torch.arange(kv_seq_len, dtype=torch.long, device=cos.device)
+            position_ids = position_ids.unsqueeze(0).view(-1, kv_seq_len)
+            key_states = apply_rotary_pos_emb_single(key_states, cos, sin, position_ids)
+
+        if xops is not None and use_memory_efficient_attention:
             attn_weights = None
             query_states = query_states.transpose(1, 2)
             key_states = key_states.transpose(1, 2)
@@ -93,7 +120,7 @@ def apply_memory_efficient_attnetion():
     transformers.models.llama.modeling_llama.LlamaAttention.forward = xformers_forward
 
 
-def apply_ntk_scaling(alpha: Union[float,str]):
+def apply_ntk_scaling_patch(alpha: Union[float,str]):
 
     try:
         alpha = float(alpha)

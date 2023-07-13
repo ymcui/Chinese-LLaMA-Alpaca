@@ -22,9 +22,9 @@ import torch.nn.functional as F
 from transformers import LlamaForCausalLM, LlamaTokenizer, GenerationConfig
 from peft import PeftModel
 
-from patches import apply_memory_efficient_attnetion, apply_ntk_scaling
-apply_memory_efficient_attnetion()
-apply_ntk_scaling(args.alpha)
+from patches import apply_attention_patch, apply_ntk_scaling_patch
+apply_attention_patch()
+apply_ntk_scaling_patch(args.alpha)
 
 from openai_api_protocol import (
     ChatCompletionRequest,
