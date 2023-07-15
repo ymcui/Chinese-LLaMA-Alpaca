@@ -166,7 +166,7 @@ def apply_ntk_scaling_patch(alpha: Union[float,str]):
             elif self.alpha=='auto':
                 t = torch.arange(seq_len, device=x.device, dtype=self.ntk_inv_freq.dtype)
                 dim = self.dim
-                alpha = seq_len / 1024 - 1
+                alpha = (seq_len / 1024 - 1) * 1.1
                 base = self.base * alpha ** (dim / (dim-2))
                 ntk_inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2).float().to(x.device) / dim ))
 

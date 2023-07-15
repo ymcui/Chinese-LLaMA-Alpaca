@@ -57,7 +57,7 @@ if args.only_cpu is True:
     args.gpus = ""
 
 from patches import apply_attention_patch, apply_ntk_scaling_patch
-#apply_attention_patch()
+apply_attention_patch(use_memory_efficient_attention=True)
 apply_ntk_scaling_patch(args.alpha)
 
 # Set CUDA devices if available

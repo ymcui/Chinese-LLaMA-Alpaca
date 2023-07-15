@@ -23,7 +23,7 @@ from transformers import LlamaForCausalLM, LlamaTokenizer, GenerationConfig
 from peft import PeftModel
 
 from patches import apply_attention_patch, apply_ntk_scaling_patch
-apply_attention_patch()
+apply_attention_patch(use_memory_efficient_attention=True)
 apply_ntk_scaling_patch(args.alpha)
 
 from openai_api_protocol import (
