@@ -50,7 +50,7 @@ parser.add_argument(
 parser.add_argument(
     '--alpha',
     type=str,
-    default="1.0", 
+    default="1.0",
     help="The scaling factor of NTK method, can be a float or 'auto'. ")
 args = parser.parse_args()
 if args.only_cpu is True:

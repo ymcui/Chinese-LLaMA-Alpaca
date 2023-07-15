@@ -69,7 +69,7 @@ def apply_attention_patch(
             past_key_value = (key_states, value_states) if use_cache else None
 
             cos, sin = self.rotary_emb(value_states, seq_len=kv_seq_len)
-    
+
             query_states = apply_rotary_pos_emb_single(query_states, cos, sin, position_ids)
             position_ids = torch.arange(kv_seq_len, dtype=torch.long, device=cos.device)
             position_ids = position_ids.unsqueeze(0).view(-1, kv_seq_len)
