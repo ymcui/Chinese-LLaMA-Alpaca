@@ -10,6 +10,8 @@ parser.add_argument('--interactive',action='store_true',help="run in the instruc
 parser.add_argument('--predictions_file', default='./predictions.json', type=str)
 parser.add_argument('--gpus', default="0", type=str)
 parser.add_argument('--only_cpu',action='store_true',help='only use CPU for inference')
+parser.add_argument('--load_in_8bit',action='store_true', help="Load the LLM in the 8bit mode")
+
 args = parser.parse_args()
 if args.only_cpu is True:
     args.gpus = ""
@@ -91,7 +93,7 @@ if __name__ == '__main__':
 
     base_model = LlamaForCausalLM.from_pretrained(
         args.base_model,
-        load_in_8bit=False,
+        load_in_8bit=args.load_in_8bit,
         torch_dtype=load_type,
         low_cpu_mem_usage=True,
         device_map='auto',
