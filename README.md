@@ -10,8 +10,9 @@
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ymcui/Chinese-LLaMA-Alpaca">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ymcui/Chinese-LLaMA-Alpaca">
-    <a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki"><img alt="GitHub wiki" src="https://img.shields.io/badge/Github%20Wiki-v4.2-green"></a>
+    <a href="https://app.codacy.com/gh/ymcui/Chinese-LLaMA-Alpaca/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/1710faac5e634acaabfc26b0a778cdde"/></a>
 </p>
+
 
 
 本项目开源了**中文LLaMA模型和指令精调的Alpaca大模型**，以进一步促进大模型在中文NLP社区的开放研究。这些模型**在原版LLaMA的基础上扩充了中文词表**并使用了中文数据进行二次预训练，进一步提升了中文基础语义理解能力。同时，中文Alpaca模型进一步使用了中文指令数据进行精调，显著提升了模型对指令的理解和执行能力。
@@ -37,39 +38,17 @@
 
 ## 新闻
 
-**[2023/07/10] Beta测试预览，提前了解即将到来的更新：详见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/732)**
+**[2023/07/??] [v5.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v5.0): RELEASE NOTE BEING ADDED**
 
-**[2023/07/07] Chinese-LLaMA-Alpaca家族再添新成员，推出面向视觉问答与对话的[多模态中文LLaMA&Alpaca大模型](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca)，发布了7B测试版本。**
+[2023/07/10] Beta测试预览，提前了解即将到来的更新：详见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/732)
+
+[2023/07/07] Chinese-LLaMA-Alpaca家族再添新成员，推出面向视觉问答与对话的[多模态中文LLaMA&Alpaca大模型](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca)，发布了7B测试版本。
 
 [2023/06/30] llama.cpp下8K context支持（无需对模型做出修改），相关方法和讨论见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696)；transformers下支持4K+ context的代码请参考[PR#705](https://github.com/ymcui/Chinese-LLaMA-Alpaca/pull/705)
 
 [2023/06/16] [v4.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.1): 发布新版技术报告、添加C-Eval解码脚本、添加低资源模型合并脚本等。
 
 [2023/06/08] [v4.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v4.0): 发布中文LLaMA/Alpaca-33B、添加privateGPT使用示例、添加C-Eval结果等。
-
-<details>
-<summary><b>往期新闻</b></summary>
-
-[2023/06/05] llama.cpp已支持Apple Silicon GPU解码，解码速度大幅提升，详见：[讨论区#开发者公告](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/505)
-
-[2023/05/16] [v3.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.2): 添加指令精调脚本、LangChain支持、基于Gradio的本地Demo等。
-
-[2023/05/10] [v3.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.1): 发布中文LLaMA/Alpaca Plus-13B，使用了更大语料训练，相比基础版各项能力显著提升。
-
-[2023/04/28] [v3.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v3.0): 发布中文LLaMA/Alpaca Plus版本（7B），使用了更大的语料进行训练，相比基础版各项能力显著提升。另外还进一步完善了评测流程、添加了预训练脚本等。
-
-[2023/04/18] [v2.2版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.2)：添加LlamaChat支持、中文词表、LLaMA Tokenizer词表扩充脚本、添加技术报告等。
-
-[2023/04/13] [v2.1版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.1)：添加HuggingFace推理接口、text-generation-webui接口。
-
-[2023/04/07] [v2.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v2.0)：发布13B版本中文LLaMA、Alpaca大模型，主要升级：更强的事实性、文本问答、翻译、伦理拒答等能力全面提升。
-
-[2023/04/03] 添加了模型合并和量化的notebook，Colab Pro(+)用户可在线合并和下载模型。请参考：[合并模型](#合并模型)
-
-[2023/03/31] Release v1.1：简化模型合并步骤、添加指令数据爬取脚本、关于新版本llama.cpp的重要提示。请参考：[Release Note](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v1.1)
-
-[2023/03/28] 正式开源中文LLaMA、Alpaca大模型，目前提供7B版本下载体验
-</details>
 
 ## 内容导引
 | 章节                                  | 描述                                                         |
@@ -89,7 +68,7 @@
 
 Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者合并即可获得完整版权重。以下中文LLaMA/Alpaca LoRA模型无法单独使用，需要搭配[原版LLaMA模型](https://github.com/facebookresearch/llama)。请参考本项目给出的[合并模型](#合并模型)步骤重构模型。
 
-### 我应该选什么模型？
+### 模型选择指引
 
 下面是中文LLaMA和Alpaca模型的基本对比以及建议使用场景（包括但不限于），更多内容见[训练细节](#训练细节)。
 
@@ -100,21 +79,23 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | 训练语料 | 无标注通用语料 | 有标注指令数据 |
 | 词表大小<sup>[3]</sup> | 4995**3** | 4995**4**=49953+1（pad token） |
 | 输入模板              | 不需要                                                 | 需要符合模板要求<sup>[1]</sup> |
-| 适用场景 ✔️            | 文本续写：给定上文内容，让模型继续写下去，生成下文            | 1、指令理解（问答、写作、建议等）<br/>2、多轮上下文理解（聊天等） |
+| 适用场景 ✔️            | 文本续写：给定上文内容，让模型生成下文            | 指令理解（问答、写作、建议等）；多轮上下文理解（聊天等） |
 | 不适用场景 ❌          | 指令理解 、多轮聊天等                                  |  文本无限制自由生成                                                       |
 | llama.cpp             | 使用`-p`参数指定上文                                   | 使用`-ins`参数启动指令理解+聊天模式                          |
-| text-generation-webui |  不适合chat模式                              |    使用`--cpu`可在无显卡形式下运行，若生成内容不满意，建议修改prompt                                                          |
+| text-generation-webui |  不适合chat模式                              |    使用`--cpu`可在无显卡形式下运行                                                          |
 | LlamaChat             | 加载模型时选择"LLaMA"                                  | 加载模型时选择"Alpaca"                                       |
 | [HF推理代码](./scripts/inference/inference_hf.py) | 无需添加额外启动参数 | 启动时添加参数 `--with_prompt`        |
 | [web-demo代码](./scripts/inference/gradio_demo.py) | 不适用 | 直接提供Alpaca模型位置即可；支持多轮对话 |
 | [LangChain示例](./scripts/langchain) / privateGPT | 不适用 | 直接提供Alpaca模型位置即可 |
-| 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | 目前版本模型生成的文本长度相对短一些，比较惜字如金。可在指令中要求详细回答。<sup>[2]</sup> |
+| 已知问题              | 如果不控制终止，则会一直写下去，直到达到输出长度上限。<sup>[2]</sup> | - |
 
 *[1] llama.cpp/LlamaChat/[HF推理代码](./scripts/inference/inference_hf.py)/[web-demo代码](./scripts/inference/gradio_demo.py)/[LangChain示例](./scripts/langchain)等已内嵌，无需手动添加模板。*<br/>
 *[2] 如果出现模型回答质量特别低、胡言乱语、不理解问题等情况，请检查是否使用了正确的模型和启动参数。*<br/>
 *[3] 经过指令精调的Alpaca会比LLaMA多一个pad token，**因此请勿混用LLaMA/Alpaca词表**。*
 
-### 推荐下载模型
+### 下载地址
+
+#### 推荐模型
 
 以下为本项目推荐使用的模型列表，通常使用了更多的训练数据和优化的模型训练方法和参数，请优先使用这些模型（其余模型请查看[其他模型](#其他模型)）。**如希望体验类ChatGPT对话交互，请使用Alpaca模型，而不是LLaMA模型。**
 
@@ -122,13 +103,30 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | :------------------------ | :------: | :------: | :--------------------------------------------------------: | :----------------: | :----------------------------------------------------------: |
 | Chinese-LLaMA-Plus-7B  | 基座模型 | 通用120G |        原版LLaMA-7B         |        790M        | [[百度网盘]](https://pan.baidu.com/s/1zvyX9FN-WSRDdrtMARxxfw?pwd=2gtr)</br>[[Google Drive]](https://drive.google.com/file/d/1N97m3rBj-rp-J1X8rgRfluyomEscfAq0/view?usp=sharing) |
 | Chinese-LLaMA-Plus-13B | 基座模型 | 通用120G |        原版LLaMA-13B        |        1.0G        | [[百度网盘]](https://pan.baidu.com/s/1VGpNlrLx5zHuNzLOcTG-xw?pwd=8cvd)<br/>[[Google Drive]](https://drive.google.com/file/d/1q0L5Me_1j_9iiRRNfuEFUt3SOjQo3-g3/view?usp=share_link) |
-| Chinese-LLaMA-Plus-33B   | 基座模型 | 通用120G |  |                |  |
+| Chinese-LLaMA-Plus-33B 🆕 | 基座模型 | 通用120G | 原版LLaMA-33B | 1.3G<sup>[6]</sup> |  |
 | Chinese-Alpaca-Plus-7B  | 指令模型 |  指令4M  |  *原版LLaMA-7B &<br/>Chinese-LLaMA-Plus-7B*<sup>[4]</sup>  |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/12tjjxmDWwLBM8Tj_7FAjHg?pwd=32hc)</br>[[Google Drive]](https://drive.google.com/file/d/1EDcTmq6tDmRxqarpapdyDGBE9opY0zrB/view?usp=share_link) |
 | Chinese-Alpaca-Plus-13B | 指令模型 | 指令4.3M | *原版LLaMA-13B &<br/>Chinese-LLaMA-Plus-13B<sup>[4]</sup>* |        1.3G        | [[百度网盘]](https://pan.baidu.com/s/1Mew4EjBlejWBBB6_WW6vig?pwd=mf5w)<br/> [[Google Drive]](https://drive.google.com/file/d/1CcLJvY7XsFAOjfSIqCpDI7jf3EEPDcEF/view?usp=share_link) |
-| Chinese-Alpaca-Plus-33B   | 指令模型 | 指令4.3M |                                 |                |  |
+| Chinese-Alpaca-Plus-33B 🆕 | 指令模型 | 指令4.3M | *原版LLaMA-33B &<br/>Chinese-LLaMA-Plus-33B<sup>[4]</sup>* | 2.1G<sup>[6]</sup> |  |
+
+*[1] 重构需要原版LLaMA模型，[去LLaMA项目申请使用](https://github.com/facebookresearch/llama)或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。因版权问题本项目无法提供下载链接。*<br/>
+*[2] 经过重构后的模型大小比同等量级的原版LLaMA大一些（主要因为扩充了词表）。*<br/>
+*[3] 下载后务必检查压缩包中模型文件的SHA256是否一致，请查看[SHA256.md](./SHA256.md)。*<br/>
+*[4] Alpaca-Plus模型需要同时下载对应的LLaMA-Plus模型，请参考[合并教程](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/手动模型合并与转换#多lora权重合并适用于chinese-alpaca-plus)。*<br/>
+*[5] 有些地方称为30B，实际上是Facebook在发布模型时写错了，论文里仍然写的是33B。*<br/>*[6] 采用FP16存储，故模型体积较小。*
+
+压缩包内文件目录如下（以Chinese-LLaMA-7B为例）：
+
+```
+chinese_llama_lora_7b/
+  - adapter_config.json		# LoRA权重配置文件
+  - adapter_model.bin		# LoRA权重文件
+  - special_tokens_map.json	# special_tokens_map文件
+  - tokenizer_config.json	# tokenizer配置文件
+  - tokenizer.model		# tokenizer文件 
+```
 
 
-### 其他模型
+#### 其他模型
 
 由于训练方式和训练数据等因素影响，**以下模型已不再推荐使用（特定场景下可能仍然有用）**，请优先使用上一节中的[推荐模型](#推荐下载模型)。
 
@@ -140,6 +138,7 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 | Chinese-Alpaca-7B         | 指令模型 |  指令2M  |                        原版LLaMA-7B                        |        790M        | [[百度网盘]](https://pan.baidu.com/s/1xV1UXjh1EPrPtXg6WyG7XQ?pwd=923e)</br>[[Google Drive]](https://drive.google.com/file/d/1JvFhBpekYiueWiUL3AF1TtaWDb3clY5D/view?usp=sharing) |
 | Chinese-Alpaca-13B        | 指令模型 |  指令3M  |                       原版LLaMA-13B                        |        1.1G        | [[百度网盘]](https://pan.baidu.com/s/1wYoSF58SnU9k0Lndd5VEYg?pwd=mm8i)<br/>[[Google Drive]](https://drive.google.com/file/d/1gzMc0xMCpXsXmU1uxFlgQ8VRnWNtDjD8/view?usp=share_link) |
 | Chinese-Alpaca-33B | 指令模型 | 指令4.3M | 原版LLaMA-33B<sup>[5]</sup> | 2.8G | [[百度网盘]](https://pan.baidu.com/s/1fey7lGMMw3GT982l8uJYMg?pwd=2f2s)<br/>[[Google Drive]](https://drive.google.com/file/d/1YeSgnZWaRkKdmYa-JHiIlcvqhrDd4-Y4/view?usp=share_link) |
+
 
 ### 🤗transformers调用
 
@@ -154,37 +153,6 @@ Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookrese
 
 模型下载地址：https://huggingface.co/ziqingyang
 
-### 脚注及其他说明
-
-**[1]** 重构需要原版LLaMA模型，[去LLaMA项目申请使用](https://github.com/facebookresearch/llama)或参考这个[PR](https://github.com/facebookresearch/llama/pull/73/files)。因版权问题本项目无法提供下载链接。
-
-**[2]** 经过重构后的模型大小比同等量级的原版LLaMA大一些（主要因为扩充了词表）。
-
-**[3]** 下载后务必检查压缩包中模型文件的SHA256是否一致，请查看[SHA256.md](./SHA256.md)。
-
-**[4]** Alpaca-Plus模型的合并方法略有不同，请参考[合并教程](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/手动模型合并与转换#多lora权重合并适用于chinese-alpaca-plus)。
-
-**[5]** 有些地方称为30B，实际上是Facebook在发布模型时写错了，论文里仍然写的是33B。
-
-压缩包内文件目录如下（以Chinese-LLaMA-7B为例）：
-
-```
-chinese_llama_lora_7b/
-  - adapter_config.json		# LoRA权重配置文件
-  - adapter_model.bin		# LoRA权重文件
-  - special_tokens_map.json	# special_tokens_map文件
-  - tokenizer_config.json	# tokenizer配置文件
-  - tokenizer.model		# tokenizer文件 
-```
-
-以下是各原模型和4-bit量化后的大小，转换相应模型时确保本机有足够的内存和磁盘空间（最低要求）：
-
-| 模型版本            |   7B   |   13B   |   33B   |   65B   |
-| :------------------ | :----: | :-----: | :-----: | :-----: |
-| 原模型大小（FP16）  | 13 GB  |  24 GB  |  60 GB  | 120 GB  |
-| 量化后大小（8-bit） | 7.8 GB | 14.9 GB | 32.4 GB | ~60 GB  |
-| 量化后大小（4-bit） | 3.9 GB | 7.8 GB  | 17.2 GB | 38.5 GB |
-
 ## 合并模型
 
 前面提到LoRA模型无法单独使用，必须与原版LLaMA进行合并才能转为完整模型，以便进行模型推理、量化或者进一步训练。请选择以下方法对模型进行转换合并。
@@ -193,6 +161,14 @@ chinese_llama_lora_7b/
 | :----------- | :--------------------------------------------------------- | :----------------------------------------------------------: |
 | **在线转换** | Colab用户可利用本项目提供的notebook进行在线转换并量化模型  | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/在线模型合并与转换) |
 | **手动转换** | 离线方式转换，生成不同格式的模型，以便进行量化或进一步精调 | [链接](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/手动模型合并与转换) |
+
+以下是合并模型后，原模型（FP16）和4-bit量化后的大小，转换相应模型时确保本机有足够的内存和磁盘空间（最低要求）：
+
+| 模型版本            |   7B   |   13B   |   33B   |   65B   |
+| :------------------ | :----: | :-----: | :-----: | :-----: |
+| 原模型大小（FP16）  | 13 GB  |  24 GB  |  60 GB  | 120 GB  |
+| 量化后大小（8-bit） | 7.8 GB | 14.9 GB | 32.4 GB | ~60 GB  |
+| 量化后大小（4-bit） | 3.9 GB | 7.8 GB  | 17.2 GB | 38.5 GB |
 
 具体内容请参考本项目 >>> [📚 GitHub Wiki](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/模型合并与转换)
 
@@ -221,19 +197,19 @@ chinese_llama_lora_7b/
 
 为了快速评测相关模型的实际文本生成表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-33B、中文Alpaca-Plus-7B、中文Alpaca-Plus-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。详细评测结果请查看[examples目录](./examples)。
 
-| 测试任务         | 样例数 | Alpaca-Plus-7B | Alpaca-Plus-13B | Alpaca-33B |
-| ---------------- | :----: | :------------: | :-------------: | :--------: |
-| **💯总平均分**    |  200   |      75.3      |      79.4       | 👍🏻**82.0** |
-| 知识问答         |   20   |      70.5      |      79.5       | 👍🏻**82.3** |
-| 开放式问答       |   20   |   👍🏻**80.5**   |    👍🏻**80**     |    78.5    |
-| 数值计算、推理   |   20   |       51       |      61.5       | 👍🏻**84.5** |
-| 诗词、文学、哲学 |   20   |      78.5      |   **👍🏻81.3**    |     76     |
-| 音乐、体育、娱乐 |   20   |      72.3      |   👍🏻**76.8**    |    72.5    |
-| 写信、写文章     |   20   |       81       |   👍🏻**86.5**    |     79     |
-| 文本翻译         |   20   |      86.8      |      89.3       | 👍🏻**92.3** |
-| 多轮交互         |   20   |      80.3      |   👍🏻**81.3**    |     78     |
-| 代码编程         |   20   |      62.5      |      67.5       | 👍🏻**84.0** |
-| 伦理、拒答       |   20   |      89.8      |      90.5       | 👍🏻**92.5** |
+| 测试任务         | 样例数 | Alpaca-Plus-7B | Alpaca-Plus-13B | Alpaca-Plus-33B |
+| ---------------- | :----: | :------------: | :-------------: | :-------------: |
+| **💯总平均分**    |  200   |                |                 |                 |
+| 知识问答         |   20   |                |                 |                 |
+| 开放式问答       |   20   |                |                 |                 |
+| 数值计算、推理   |   20   |                |                 |                 |
+| 诗词、文学、哲学 |   20   |                |                 |                 |
+| 音乐、体育、娱乐 |   20   |                |                 |                 |
+| 写信、写文章     |   20   |                |                 |                 |
+| 文本翻译         |   20   |                |                 |                 |
+| 多轮交互         |   20   |                |                 |                 |
+| 代码编程         |   20   |                |                 |                 |
+| 伦理、拒答       |   20   |                |                 |                 |
 
 ### 客观效果评测
 
@@ -241,11 +217,13 @@ chinese_llama_lora_7b/
 
 | 模型                    | Valid (zero-shot) | Valid (5-shot) | Test (zero-shot) | Test (5-shot) |
 | ----------------------- | :---------------: | :------------: | :--------------: | :-----------: |
+| Chinese-Alpaca-Plus-33B |                   |                |                  |               |
 | Chinese-Alpaca-33B      |       43.3        |      42.6      |       41.6       |     40.4      |
-| Chinese-LLaMA-33B       |       34.9        |      38.4      |       34.6       |     39.5      |
 | Chinese-Alpaca-Plus-13B |       43.3        |      42.4      |       41.5       |     39.9      |
-| Chinese-LLaMA-Plus-13B  |       27.3        |      34.0      |       27.8       |     33.3      |
 | Chinese-Alpaca-Plus-7B  |       36.7        |      32.9      |       36.4       |     32.3      |
+| Chinese-LLaMA-Plus-33B  |                   |                |                  |               |
+| Chinese-LLaMA-33B       |       34.9        |      38.4      |       34.6       |     39.5      |
+| Chinese-LLaMA-Plus-13B  |       27.3        |      34.0      |       27.8       |     33.3      |
 | Chinese-LLaMA-Plus-7B   |       27.3        |      28.3      |       26.9       |     28.4      |
 
 需要注意的是，综合评估大模型能力仍然是亟待解决的重要课题，合理辩证地看待大模型相关各种评测结果有助于大模型技术的良性发展。推荐用户在自己关注的任务上进行测试，选择适配相关任务的模型。
