@@ -31,7 +31,7 @@ generation_config = dict(
     top_p=0.9,
     do_sample=True,
     num_beams=1,
-    repetition_penalty=1.3,
+    repetition_penalty=1.1,
     max_new_tokens=400
     )
 
