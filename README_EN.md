@@ -211,7 +211,8 @@ Related documentation has been moved to the project's >>> [📚GitHub Wiki](http
 
 In order to quickly evaluate the actual performance of related models, this project compared the effects of Chinese Alpaca-7B, Alpaca-13B, Alpaca-Plus-7B, Alpaca-Plus-13B, and Alpaca-33B on some common tasks given the same prompt. Reply generation is random and is affected by factors such as decoding hyperparameters and random seeds. The following related evaluations are not absolutely rigorous, and the test results are for reference only. Welcome to experience it yourself. 
 
-For detailed evaluation results, please see [examples](./examples).
+- For detailed evaluation results, please see [examples](./examples)
+- 📊 Alpaca ChatBot Arena: [http://chinese-alpaca-arena.ymcui.com](http://chinese-alpaca-arena.ymcui.com/)
 
 ### NLU Performance Test
 

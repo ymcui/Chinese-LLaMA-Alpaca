@@ -201,7 +201,8 @@ chinese_llama_lora_7b/
 
 为了快速评测相关模型的实际文本生成表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-33B、中文Alpaca-Plus-7B、中文Alpaca-Plus-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。
 
-详细评测结果及生成样例请查看[examples目录](./examples)。
+- 详细评测结果及生成样例请查看[examples目录](./examples)
+- 📊 Alpaca模型在线对战：[http://chinese-alpaca-arena.ymcui.com](http://chinese-alpaca-arena.ymcui.com/)
 
 ### 客观效果评测
 
