@@ -37,9 +37,11 @@
 
 ## 新闻
 
-**[2023/07/10] Beta测试预览，提前了解即将到来的更新：详见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/732)**
+**[2023/07/19] 🚀启动[中文LLaMA-2、Alpaca-2开源大模型项目](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2)，欢迎关注了解最新信息。**
 
-**[2023/07/07] Chinese-LLaMA-Alpaca家族再添新成员，推出面向视觉问答与对话的[多模态中文LLaMA&Alpaca大模型](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca)，发布了7B测试版本。**
+[2023/07/10] Beta测试预览，提前了解即将到来的更新：详见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/732)
+
+[2023/07/07] Chinese-LLaMA-Alpaca家族再添新成员，推出面向视觉问答与对话的[多模态中文LLaMA&Alpaca大模型](https://github.com/airaria/Visual-Chinese-LLaMA-Alpaca)，发布了7B测试版本。
 
 [2023/06/30] llama.cpp下8K context支持（无需对模型做出修改），相关方法和讨论见[讨论区](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/696)；transformers下支持4K+ context的代码请参考[PR#705](https://github.com/ymcui/Chinese-LLaMA-Alpaca/pull/705)
 
