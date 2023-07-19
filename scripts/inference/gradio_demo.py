@@ -12,37 +12,6 @@ from threading import Thread
 import traceback
 import gc
 
-import transformers
-old_init = transformers.models.llama.modeling_llama.LlamaRotaryEmbedding.__init__
-def adaptive_ntk_init(self, dim, max_position_embeddings=2048, base=10000, device=None):
-    self.dim = dim
-    self.base = base
-    old_init(self, dim, max_position_embeddings, base, device)
-
-def adaptive_ntk_forward(self, x, seq_len=None):
-    if seq_len > self.max_seq_len_cached:
-        t = torch.arange(seq_len, device=x.device, dtype=self.inv_freq.dtype)
-        inv_freq = self.inv_freq
-        dim = self.dim
-        alpha = seq_len / 1024 - 1
-        base = self.base * alpha ** (dim / (dim-2))
-        inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2).float().to(x.device) / dim ))
-
-        freqs = torch.einsum("i,j->ij", t, inv_freq)
-        emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
-        cos_cached = emb.cos()[None, None, :, :]
-        sin_cached = emb.sin()[None, None, :, :]
-        return (
-            cos_cached[:, :, :seq_len, ...].to(dtype=x.dtype),
-            sin_cached[:, :, :seq_len, ...].to(dtype=x.dtype)
-        )
-    return (
-        self.cos_cached[:, :, :seq_len, ...].to(dtype=x.dtype),
-        self.sin_cached[:, :, :seq_len, ...].to(dtype=x.dtype)
-    )
-transformers.models.llama.modeling_llama.LlamaRotaryEmbedding.forward = adaptive_ntk_forward
-transformers.models.llama.modeling_llama.LlamaRotaryEmbedding.__init__ = adaptive_ntk_init
-
 # Parse command-line arguments
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -78,10 +47,18 @@ parser.add_argument(
     '--only_cpu',
     action='store_true',
     help='Only use CPU for inference')
+parser.add_argument(
+    '--alpha',
+    type=str,
+    default="1.0",
+    help="The scaling factor of NTK method, can be a float or 'auto'. ")
 args = parser.parse_args()
 if args.only_cpu is True:
     args.gpus = ""
 
+from patches import apply_attention_patch, apply_ntk_scaling_patch
+apply_attention_patch(use_memory_efficient_attention=True)
+apply_ntk_scaling_patch(args.alpha)
 
 # Set CUDA devices if available
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
