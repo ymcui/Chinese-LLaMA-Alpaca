@@ -1,4 +1,4 @@
-# [Chinese-LLaMA-Alpaca-2 v1.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2) has been released!
+# [Chinese-LLaMA-Alpaca-2 v2.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2) released 13B model series. All users are recommended to upgrade.
 
 [**🇨🇳中文**](./README.md) | [**🌐English**](./README_EN.md) | [**📖文档/Docs**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki) | [**❓提问/Issues**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues) | [**💬讨论/Discussions**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions) | [**⚔️竞技场/Arena**](http://chinese-alpaca-arena.ymcui.com/)
 
@@ -40,9 +40,11 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
-**[July 19, 2023] [Release v5.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v5.0): Release Alpaca-Pro models, significantly improve generation quality. Along with Plus-33B models.**
+**[Aug 14, 2023] Chinese-LLaMA-Alpaca-2 v2.0 released. We open-source Chinese-LLaMA-2-13B and Chinese-Alpaca-2-13B. See https://github.com/ymcui/Chinese-LLaMA-Alpaca-2**
 
-**[July 19, 2023] We are launching [Chinese-LLaMA-Alpaca-2 project](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2).**
+[July 19, 2023] [Release v5.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v5.0): Release Alpaca-Pro models, significantly improve generation quality. Along with Plus-33B models.
+
+[July 19, 2023] We are launching [Chinese-LLaMA-Alpaca-2 project](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2).
 
 [July 10, 2023] Beta channel preview, know coming updates in advance. See [Discussion](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions/732)
 
