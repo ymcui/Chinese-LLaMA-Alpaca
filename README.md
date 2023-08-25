@@ -1,4 +1,4 @@
-# [Chinese-LLaMA-Alpaca-2 v2.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2)推出13B版本模型，推荐所有用户升级至二代模型
+# [Chinese-LLaMA-Alpaca-2 v3.0版本](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2)推出长上下文版（16K）模型
 
 [**🇨🇳中文**](./README.md) | [**🌐English**](./README_EN.md) | [**📖文档/Docs**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki) | [**❓提问/Issues**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues) | [**💬讨论/Discussions**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions) | [**⚔️竞技场/Arena**](http://chinese-alpaca-arena.ymcui.com/)
 
