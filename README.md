@@ -76,6 +76,12 @@
 
 Facebook官方发布的[LLaMA模型禁止商用](https://github.com/facebookresearch/llama)，并且官方没有正式开源模型权重（虽然网上已经有很多第三方的下载地址）。为了遵循相应的许可，**这里发布的是LoRA权重**，可以理解为原LLaMA模型上的一个“补丁”，两者合并即可获得完整版权重。以下中文LLaMA/Alpaca LoRA模型无法单独使用，需要搭配[原版LLaMA模型](https://github.com/facebookresearch/llama)。请参考本项目给出的[合并模型](#合并模型)步骤重构模型。
 
+### 模型列表
+
+下图展示了本项目以及[二期项目](https://github.com/ymcui/Chinese-LLaMA-Alpaca-2)推出的所有大模型之间的关系。
+
+![](./pics/models.png)
+
 ### 模型选择指引
 
 下面是中文LLaMA和Alpaca模型的基本对比以及建议使用场景（包括但不限于），更多内容见[训练细节](#训练细节)。
