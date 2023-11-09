@@ -27,5 +27,5 @@ jobs:
         stale-pr-label: 'stale'
         operations-per-run: 500
         close-issue-message: 'Closing the issue, since no updates observed. Feel free to re-open if you need any further assistance.'
-        days-before-stale: 7
-        days-before-close: 3
+        days-before-stale: 14
+        days-before-close: 7
