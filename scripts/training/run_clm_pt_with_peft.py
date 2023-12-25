@@ -499,7 +499,9 @@ def main():
             else:
                 assert lm_datasets.features.type == processed_dataset["train"].features.type
                 lm_datasets = concatenate_datasets([lm_datasets, processed_dataset["train"]])
-
+        
+        logger.info(f"Num lm_datasets  {type(lm_datasets)}")
+        logger.info(f"Num lm_datasets  {lm_datasets}")
         lm_datasets = lm_datasets.train_test_split(test_size = data_args.validation_split_percentage)
 
     if training_args.do_train:
