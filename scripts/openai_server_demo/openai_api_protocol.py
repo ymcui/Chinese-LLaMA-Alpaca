@@ -1,9 +1,10 @@
-from typing import Optional, List, Dict, Any, Union
+from typing import Optional, List, Dict, Any, Union, Literal
 
 import time
 
 import shortuuid
 from pydantic import BaseModel, Field
+
 
 class ChatCompletionRequest(BaseModel):
     model: str = "chinese-llama-alpaca"
@@ -26,9 +27,20 @@ class ChatMessage(BaseModel):
     content: str
 
 
+class DeltaMessage(BaseModel):
+    role: Optional[Literal["user", "assistant", "system"]] = None
+    content: Optional[str] = None
+
+
 class ChatCompletionResponseChoice(BaseModel):
     index: int
     message: ChatMessage
+
+
+class ChatCompletionResponseStreamChoice(BaseModel):
+    index: int
+    delta: DeltaMessage
+    finish_reason: Optional[Literal["stop", "length"]]
 
 
 class ChatCompletionResponse(BaseModel):
@@ -36,7 +48,9 @@ class ChatCompletionResponse(BaseModel):
     object: str = "chat.completion"
     created: int = Field(default_factory=lambda: int(time.time()))
     model: str = "chinese-llama-alpaca"
-    choices: List[ChatCompletionResponseChoice]
+    choices: List[
+        Union[ChatCompletionResponseChoice, ChatCompletionResponseStreamChoice]
+    ]
 
 
 class EmbeddingsRequest(BaseModel):
@@ -76,6 +90,5 @@ class CompletionResponse(BaseModel):
     id: Optional[str] = Field(default_factory=lambda: f"cmpl-{shortuuid.random()}")
     object: Optional[str] = "text_completion"
     created: Optional[int] = Field(default_factory=lambda: int(time.time()))
-    model: Optional[str] = 'chinese-llama-alpaca'
+    model: Optional[str] = "chinese-llama-alpaca"
     choices: List[CompletionResponseChoice]
-
