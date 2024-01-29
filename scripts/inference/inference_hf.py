@@ -74,13 +74,13 @@ if __name__ == '__main__':
         )
 
     model_vocab_size = base_model.get_input_embeddings().weight.size(0)
-    tokenzier_vocab_size = len(tokenizer)
+    tokenizer_vocab_size = len(tokenizer)
     print(f"Vocab of the base model: {model_vocab_size}")
-    print(f"Vocab of the tokenizer: {tokenzier_vocab_size}")
-    if model_vocab_size!=tokenzier_vocab_size:
-        assert tokenzier_vocab_size > model_vocab_size
+    print(f"Vocab of the tokenizer: {tokenizer_vocab_size}")
+    if model_vocab_size!=tokenizer_vocab_size:
+        assert tokenizer_vocab_size > model_vocab_size
         print("Resize model embeddings to fit tokenizer")
-        base_model.resize_token_embeddings(tokenzier_vocab_size)
+        base_model.resize_token_embeddings(tokenizer_vocab_size)
     if args.lora_model is not None:
         print("loading peft model")
         model = PeftModel.from_pretrained(base_model, args.lora_model,torch_dtype=load_type,device_map='auto',)
