@@ -40,6 +40,8 @@ To promote open research of large models in the Chinese NLP community, this proj
 
 ## News
 
+[Mar 27, 2024] This project is now online at the SOTA! model platform of Synced, see: https://sota.jiqizhixin.com/project/chinese-llama-alpaca
+
 **[Aug 14, 2023] Chinese-LLaMA-Alpaca-2 v2.0 released. We open-source Chinese-LLaMA-2-13B and Chinese-Alpaca-2-13B. See https://github.com/ymcui/Chinese-LLaMA-Alpaca-2**
 
 [July 19, 2023] [Release v5.0](https://github.com/ymcui/Chinese-LLaMA-Alpaca/releases/tag/v5.0): Release Alpaca-Pro models, significantly improve generation quality. Along with Plus-33B models.

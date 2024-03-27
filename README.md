@@ -40,6 +40,8 @@
 
 ## 新闻
 
+[2024/03/27] 本项目已入驻机器之心SOTA!模型平台，欢迎关注：https://sota.jiqizhixin.com/project/chinese-llama-alpaca
+
 **[2023/08/14] Chinese-LLaMA-Alpaca-2 v2.0版本已正式发布，开源Chinese-LLaMA-2-13B和Chinese-Alpaca-2-13B，推荐所有一期用户升级至二代模型，请参阅：https://github.com/ymcui/Chinese-LLaMA-Alpaca-2**
 
 [2023/07/31] Chinese-LLaMA-Alpaca-2 v1.0版本已正式发布，请参阅：https://github.com/ymcui/Chinese-LLaMA-Alpaca-2
