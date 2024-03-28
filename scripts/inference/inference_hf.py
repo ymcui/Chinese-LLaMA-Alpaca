@@ -83,7 +83,12 @@ if __name__ == '__main__':
         base_model.resize_token_embeddings(tokenzier_vocab_size)
     if args.lora_model is not None:
         print("loading peft model")
-        model = PeftModel.from_pretrained(base_model, args.lora_model,torch_dtype=load_type,device_map='auto',)
+        model = PeftModel.from_pretrained(base_model, args.lora_model, torch_dtype=load_type, device_map='auto',)
+        # It seems a peft bug, the code will report error: "RuntimeError: expected scalar type Half but found Float"
+        # while using lora model with the base model. The following code fix it by convert dtype forcely.
+        for param in model.parameters():
+            if param.dtype != load_type:
+                param.data = param.data.to(load_type)
     else:
         model = base_model
 
