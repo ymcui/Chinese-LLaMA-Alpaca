@@ -1,6 +1,6 @@
 # [Chinese-LLaMA-Alpaca-3](https://github.com/ymcui/Chinese-LLaMA-Alpaca-3)项目启动！
 
-[**🇨🇳中文**](./README.md) | [**🌐English**](./README_EN.md) | [**📖文档/Docs**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki) | [**❓提问/Issues**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues) | [**💬讨论/Discussions**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions) | [**⚔️竞技场/Arena**](http://chinese-alpaca-arena.ymcui.com/)
+[**🇨🇳中文**](./README.md) | [**🌐English**](./README_EN.md) | [**📖文档/Docs**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki) | [**❓提问/Issues**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/issues) | [**💬讨论/Discussions**](https://github.com/ymcui/Chinese-LLaMA-Alpaca/discussions) | [**⚔️竞技场/Arena**](http://llm-arena.ymcui.com/)
 
 <p align="center">
     <br>
@@ -40,9 +40,11 @@
 
 ## 新闻
 
+**[2024/04/30] Chinese-LLaMA-Alpaca-3 已正式发布，开源基于Llama-3的Llama-3-Chinese-8B和Llama-3-Chinese-8B-Instruct，推荐所有一期、二期项目用户升级至三代模型，请参阅：https://github.com/ymcui/Chinese-LLaMA-Alpaca-3**
+
 [2024/03/27] 本项目已入驻机器之心SOTA!模型平台，欢迎关注：https://sota.jiqizhixin.com/project/chinese-llama-alpaca
 
-**[2023/08/14] Chinese-LLaMA-Alpaca-2 v2.0版本已正式发布，开源Chinese-LLaMA-2-13B和Chinese-Alpaca-2-13B，推荐所有一期用户升级至二代模型，请参阅：https://github.com/ymcui/Chinese-LLaMA-Alpaca-2**
+[2023/08/14] Chinese-LLaMA-Alpaca-2 v2.0版本已正式发布，开源Chinese-LLaMA-2-13B和Chinese-Alpaca-2-13B，推荐所有一期用户升级至二代模型，请参阅：https://github.com/ymcui/Chinese-LLaMA-Alpaca-2
 
 [2023/07/31] Chinese-LLaMA-Alpaca-2 v1.0版本已正式发布，请参阅：https://github.com/ymcui/Chinese-LLaMA-Alpaca-2
 
@@ -207,7 +209,7 @@ chinese_llama_lora_7b/
 为了快速评测相关模型的实际文本生成表现，本项目在给定相同的prompt的情况下，在一些常见任务上对比测试了本项目的中文Alpaca-7B、中文Alpaca-13B、中文Alpaca-33B、中文Alpaca-Plus-7B、中文Alpaca-Plus-13B的效果。生成回复具有随机性，受解码超参、随机种子等因素影响。以下相关评测并非绝对严谨，测试结果仅供晾晒参考，欢迎自行体验。
 
 - 详细评测结果及生成样例请查看[examples目录](./examples)
-- 📊 Alpaca模型在线对战：[http://chinese-alpaca-arena.ymcui.com](http://chinese-alpaca-arena.ymcui.com/)
+- 📊 Alpaca模型在线对战：[http://llm-arena.ymcui.com](http://llm-arena.ymcui.com/)
 
 ### 客观效果评测
 
