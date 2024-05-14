@@ -8,7 +8,7 @@
 
 安装依赖
 ``` shell
-pip install fastapi uvicorn shortuuid
+pip install fastapi uvicorn shortuuid sse_starlette
 ```
 
 启动脚本
