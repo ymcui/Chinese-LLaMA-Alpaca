@@ -296,12 +296,13 @@ def main():
             "You can do it from another script, save it, and load it from here, using --tokenizer_name."
         )
 
-    if (len(tokenizer))!=49954:
-        raise ValueError(f"The vocab size of the tokenizer must be 49954, but found {len(tokenizer)}.\n"
-                         "Please use Chinese Alpaca tokenizer!")
     if tokenizer.pad_token is None:
         print(f"Adding pad token {DEFAULT_PAD_TOKEN}")
         tokenizer.add_special_tokens(dict(pad_token=DEFAULT_PAD_TOKEN))
+
+    if (len(tokenizer))!=49954:
+        raise ValueError(f"The vocab size of the tokenizer must be 49954, but found {len(tokenizer)}.\n"
+                         "Please use Chinese Alpaca tokenizer!")
 
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
     eval_dataset=None
