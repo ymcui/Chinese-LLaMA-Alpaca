@@ -318,3 +318,15 @@ FAQ中给出了常见问题的解答，请在提Issue前务必先查看FAQ。
 欢迎关注微信公众号"**涌现志**"，了解最新的技术动态。
 
 ![qrcode.png](https://ymcui.com/images/qrcode.jpg)
+
+
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on
+how to report bugs, suggest features, and submit pull requests.
+
+By participating, you agree to our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+---
+
+*[Mukller](https://github.com/Mukller)*
